@@ -1,1 +1,77 @@
-<p>registration-page works!</p>
+<mat-card class="authentication" xmlns="http://www.w3.org/1999/html">
+  <mat-card-title class="title">Register</mat-card-title>
+  <mat-card-content class="align-column">
+
+    <div>
+
+      <mat-form-field appearance="fill" class="form-group">
+        <mat-label>User Type</mat-label>
+        <mat-select>
+          <mat-option value="option1">Shipment Company</mat-option>
+          <mat-option value="option3">Goods Company</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+
+      <div class="container-fluid">
+        <form [formGroup]="userEmail">
+          <div class="form-group">
+            <mat-form-field appearance="fill" class="form-group">
+            <mat-label>Email:</mat-label>
+            <input matInput type="email" class="form-control"
+                   formControlName="email"/>
+            <div *ngIf="(email.invalid && email.touched) || email.dirty">
+              <small *ngIf="email.errors?.['required']" class="text-danger">Email is required</small>
+              <small *ngIf="email.errors?.['pattern']" class="text-danger">Please provide a valid email address</small>
+            </div>
+            </mat-form-field>
+          </div>
+        </form>
+      </div>
+
+
+      <!--      <div class="form-group">-->
+      <!--        <mat-form-field class="example-full-width" appearance="fill">-->
+      <!--          <mat-label>Email</mat-label>-->
+      <!--          <input class="input" matInput placeholder="enter email" value="">-->
+      <!--        </mat-form-field>-->
+      <!--      </div>-->
+
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Company name</mat-label>
+        <input class="input" matInput placeholder="enter company name" value="">
+      </mat-form-field>
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>User name</mat-label>
+        <input class="input" matInput placeholder="enter user name" value="">
+      </mat-form-field>
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Telephone number</mat-label>
+        <input class="input" matInput placeholder="enter telephone number" value="">
+      </mat-form-field>
+
+      <div class="form-group">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Password</mat-label>
+          <input matInput placeholder="enter your password" value="">
+        </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Confirmation of password</mat-label>
+          <input class="input" matInput placeholder="confirmation of password" value="">
+        </mat-form-field>
+      </div>
+
+      <div class="icons">
+
+      </div>
+      <!--    <div class="btn-group">-->
+      <form>
+        <div class="example-button-row">
+          <button mat-raised-button color="primary" (click)="onSubmit()">Submit</button>
+          <button mat-raised-button (click)="onReset()">Reset</button>
+        </div>
+      </form>
+
+    </div>
+  </mat-card-content>
+</mat-card>
