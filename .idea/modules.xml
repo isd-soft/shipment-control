@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/ShipmentControlbackend/ShipmentControlbackend.iml" filepath="$PROJECT_DIR$/ShipmentControlbackend/ShipmentControlbackend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/shipment-control.iml" filepath="$PROJECT_DIR$/.idea/shipment-control.iml" />
+    </modules>
+  </component>
+</project>
