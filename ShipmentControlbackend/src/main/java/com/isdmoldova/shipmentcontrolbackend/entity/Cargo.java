@@ -26,11 +26,7 @@ import javax.persistence.Table;
 @Table(name = "cargo")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Cargo {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Cargo extends BaseEntity{
 
     @Column(name = "tracking_number")
     private String trackingNumber;

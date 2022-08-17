@@ -2,6 +2,7 @@ package com.isdmoldova.shipmentcontrolbackend.entity;
 
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.AvailableDaysRent;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.CargoType;
+import com.isdmoldova.shipmentcontrolbackend.entity.enums.Legs;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.TransportationType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -33,19 +34,7 @@ import java.util.List;
 @Table(name = "route")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Route {
-
-    @OneToMany(cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
-            mappedBy = "route",orphanRemoval = true)
-    private List<Cargo> cargo;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Route extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "transportation_type")
@@ -58,12 +47,20 @@ public class Route {
     @Column(name = "detail_route")
     private String detailedRouteDescription;
 
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "route",orphanRemoval = true)
+    private List<Cargo> cargo;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
     @Column(name = "estimated_route_days")
     private String estimatedDays;
 
-    private String origin;
+    private Legs origin;
 
-    private String destination;
+    private Legs destination;
 
     @ElementCollection(targetClass = AvailableDaysRent.class)
     @JoinTable(name = "route_available_days", joinColumns = @JoinColumn(name = "route_id"))

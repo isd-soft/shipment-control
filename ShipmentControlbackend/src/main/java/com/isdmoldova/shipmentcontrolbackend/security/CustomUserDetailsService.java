@@ -1,6 +1,4 @@
 package com.isdmoldova.shipmentcontrolbackend.security;
-
-
 import com.isdmoldova.shipmentcontrolbackend.entity.User;
 import com.isdmoldova.shipmentcontrolbackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +18,7 @@ public class CustomUserDetailsService implements UserDetailsService {
        User user = userRepository.findUserByUsername(username)
                 .orElseThrow(() ->
                         new UsernameNotFoundException("Username not found with username:" + username));
-        return new UserCustomDetail(user);
+        return UserCustomDetail.from(user);
     }
 
 
