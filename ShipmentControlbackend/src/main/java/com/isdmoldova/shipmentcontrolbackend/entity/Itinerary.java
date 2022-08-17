@@ -34,13 +34,6 @@ public class Itinerary {
     @Column(name = "execution_time")
     private LocalDateTime executionTime;
 
-    @Column(name = "max_volume")
-    private BigDecimal maxVolume;
-
-    @Column(name = "initial_point")
-    private String initialPoint;
-
-    private String destination;
 
 
 }

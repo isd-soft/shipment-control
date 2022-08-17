@@ -35,6 +35,14 @@ import java.util.List;
 @AllArgsConstructor
 public class Route {
 
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "route",orphanRemoval = true)
+    private List<Cargo> cargo;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -47,16 +55,15 @@ public class Route {
     @Column(name = "cargo_type")
     private CargoType cargoType;
 
-    @OneToMany(cascade = CascadeType.ALL,
-    fetch = FetchType.LAZY,
-    mappedBy = "route",orphanRemoval = true)
-    private List<Cargo> cargo;
-
     @Column(name = "detail_route")
     private String detailedRouteDescription;
 
     @Column(name = "estimated_route_days")
     private String estimatedDays;
+
+    private String origin;
+
+    private String destination;
 
     @ElementCollection(targetClass = AvailableDaysRent.class)
     @JoinTable(name = "route_available_days", joinColumns = @JoinColumn(name = "route_id"))
@@ -69,9 +76,6 @@ public class Route {
 
     @Column(name = "max_weight")
     private Double maximalLoadValue;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
 
 
 }
