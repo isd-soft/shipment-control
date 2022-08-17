@@ -49,10 +49,7 @@ public class User extends BaseEntity  {
     @Column(name = "password", length = 3000)
     private String password;
 
-    @OneToMany(cascade = CascadeType.ALL,
-            mappedBy = "user",
-            orphanRemoval = true)
-
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
     private final List<Route> routes = new ArrayList<>();
 
     @Column(name = "role")
