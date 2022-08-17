@@ -59,9 +59,9 @@ public class Route extends BaseEntity {
     @Column(name = "estimated_route_days")
     private String estimatedDays;
 
-    private Legs origin;
+    private String origin;
 
-    private Legs destination;
+    private String destination;
 
     @ElementCollection(targetClass = AvailableDaysRent.class)
     @JoinTable(name = "route_available_days", joinColumns = @JoinColumn(name = "route_id"))

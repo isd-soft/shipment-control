@@ -25,6 +25,10 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     public static final String HEADER_STRING = "Authorization";
     public static final String TOKEN_PREFIX = "Bearer ";
 
+    public static final String CONTENT_TYPE = "application/json";
+
+
+
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,

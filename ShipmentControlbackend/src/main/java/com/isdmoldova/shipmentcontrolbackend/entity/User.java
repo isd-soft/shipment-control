@@ -13,7 +13,7 @@ import java.util.*;
 @Getter
 @Setter
 @Table(name = "users")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @AllArgsConstructor
 public class User extends BaseEntity  {
 
@@ -53,4 +53,6 @@ public class User extends BaseEntity  {
         roles.add(role);
         role.addUser(this);
     }
+
+
 }
