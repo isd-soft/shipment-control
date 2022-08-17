@@ -3,7 +3,8 @@
 }
 
 body {
-  background: url('./img/container.jpg') no-repeat center / cover;
+  /*background: linear-gradient(#fff, #eee);*/
+  background: #red;
 }
 
 .authentication {
