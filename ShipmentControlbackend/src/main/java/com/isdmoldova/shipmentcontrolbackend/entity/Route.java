@@ -43,6 +43,9 @@ public class Route {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
+    @OneToMany(fetch = FetchType.LAZY)
+    private Itinerary itinerary;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
