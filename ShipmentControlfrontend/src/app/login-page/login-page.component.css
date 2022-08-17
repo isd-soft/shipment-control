@@ -59,6 +59,6 @@ body {
   justify-content: space-around;
 }
 
-.btn {
-  background-color: #ccc;
+.btn-reset {
+  background-color: #ffc107;
 }
