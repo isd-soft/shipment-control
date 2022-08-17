@@ -40,6 +40,9 @@ public class Route extends BaseEntity {
     @Column(name = "transportation_type")
     private TransportationType transportationType;
 
+    @OneToMany(fetch = FetchType.LAZY)
+    private Itinerary itinerary;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "cargo_type")
     private CargoType cargoType;

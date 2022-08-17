@@ -9,6 +9,11 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
 
@@ -19,7 +24,14 @@ import java.time.LocalDateTime;
 @Table(name = "itinerary")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Itinerary extends BaseEntity {
+public class Itinerary {
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Route route;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private Legs legs;
 
