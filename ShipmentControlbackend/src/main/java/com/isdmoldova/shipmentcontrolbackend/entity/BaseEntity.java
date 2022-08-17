@@ -13,12 +13,10 @@ public abstract class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
-
     @Column(name = "created_at")
     private LocalDateTime createdAt;
     @Column(name = "modified_at")
     private LocalDateTime modifiedAt;
-
 
     @PrePersist
     protected void onCreate() {

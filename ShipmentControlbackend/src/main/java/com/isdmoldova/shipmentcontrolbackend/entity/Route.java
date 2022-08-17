@@ -3,7 +3,6 @@ package com.isdmoldova.shipmentcontrolbackend.entity;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.AvailableDaysRent;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.CargoType;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.Legs;
-import com.isdmoldova.shipmentcontrolbackend.entity.enums.TransportationType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,9 +16,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
@@ -36,11 +33,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Route extends BaseEntity {
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "transportation_type")
-    private TransportationType transportationType;
-
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Itinerary itinerary;
 
     @Enumerated(EnumType.STRING)
@@ -49,6 +42,11 @@ public class Route extends BaseEntity {
 
     @Column(name = "detail_route")
     private String detailedRouteDescription;
+
+    @ManyToOne(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
+    @JoinColumn(name = "transport_type_id")
+    private TransportType transportType;
 
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,

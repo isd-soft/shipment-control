@@ -14,8 +14,6 @@ import java.util.List;
 @Getter
 public class Role extends BaseEntity {
     private String name;
-
-
     @ManyToMany(mappedBy = "roles")
     private List<User> users = new ArrayList<>();
 

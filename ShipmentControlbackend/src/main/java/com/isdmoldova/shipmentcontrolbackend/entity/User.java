@@ -16,9 +16,6 @@ import java.util.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class User extends BaseEntity  {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @Column(name = "company_name", unique = true)
     private String companyName;
@@ -35,7 +32,9 @@ public class User extends BaseEntity  {
     @Column(name = "password", length = 3000)
     private String password;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL,
+            mappedBy = "user",
+            orphanRemoval = true)
     private final List<Route> routes = new ArrayList<>();
 
     @ManyToMany
