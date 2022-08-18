@@ -20,10 +20,9 @@ import { MatSelectModule} from "@angular/material/select";
 import { ReactiveFormsModule } from "@angular/forms";
 import { MatIconModule } from "@angular/material/icon";
 
-
 import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength';
 
-
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -46,7 +45,10 @@ import { MatPasswordStrengthModule } from '@angular-material-extensions/password
     FormsModule,
     ReactiveFormsModule,
     MatIconModule,
-    MatPasswordStrengthModule
+    MatPasswordStrengthModule,
+
+    BrowserModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
@@ -106,3 +108,4 @@ import {FormGroup, FormControl, FormsModule} from '@angular/forms';
 })
 export class AppModule { }
 */
+

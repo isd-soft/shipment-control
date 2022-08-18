@@ -44,7 +44,8 @@
         <div class="form-group">
           <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>Password</mat-label>
-            <input matInput class="form-control" [type]="hide ? 'password' : 'text'" formControlName="password"
+            <input matInput  class="form-control" [type]="hide ? 'password' : 'text'"
+                   formControlName="password"
                    required>
             <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
           </mat-form-field>
@@ -67,10 +68,15 @@
     <form>
       <div class="example-button-row">
         <button mat-raised-button type="submit" color="primary" (click)="onSubmit()"
-                [disabled]="!registrationForm.valid">Submit
+        >Submit
         </button>
         <button mat-raised-button (click)="onReset()">Reset</button>
       </div>
     </form>
   </mat-card-content>
 </mat-card>
+
+
+<ul *ngFor="let user of users">
+  <li>{{user.name}}</li>
+</ul>

@@ -1,4 +1,4 @@
-public interface LoginCommand {
+interface LoginCommand {
   username: string,
   password: string
 }

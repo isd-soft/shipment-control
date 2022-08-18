@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Injectable, OnInit, ViewChild} from '@angular/core';
+import {RegistrationService} from "../services/registration.service";
+import {RegisterCommand} from "../services/RegisterCommand";
 
 import {
   FormGroup,
@@ -18,19 +20,46 @@ export class RegistrationPageComponent implements OnInit {
   registrationForm: FormGroup;
   hide: boolean = true;
 
+  users : any
   ngOnInit(): void {
-
+    // this.registrationService.getUsers().subscribe(data =>{
+    //   this.users = data;
+    // })
   }
 
+  @ViewChild('resetBtn') resetBtn;
   onReset(): void {
-    console.log("resetting")
+    this.registrationForm.reset();
   }
 
   onSubmit() {
+    const registerCommand: RegisterCommand = new RegisterCommand();
+    registerCommand.userType = this.registrationForm.controls['userType'].value;
+    registerCommand.email = this.registrationForm.controls['email'].value;
+    registerCommand.companyName = this.registrationForm.controls['companyName'].value;
+    registerCommand.userName = this.registrationForm.controls['userName'].value;
+    registerCommand.telephoneNumber = this.registrationForm.controls['telephoneNumber'].value;
+    registerCommand.password = this.registrationForm.controls['password'].value;
+    registerCommand.confirmPassword = this.registrationForm.controls['confirmPassword'].value;
+
+    const registrationObserver = {
+      next() {
+        console.log('Successfully registered');
+      },
+      error(error) {
+        // We actually could just remove this method,
+        // since we do not really care about errors right now.
+      }
+    };
+
+
+    this.registrationService.register(registerCommand).subscribe(registrationObserver);
+
     console.warn(this.registrationForm.value);
   }
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,
+              private registrationService: RegistrationService) {
     this.registrationForm = fb.group({
       userType: fb.control('', [Validators.required]),
       email: fb.control('', [Validators.email]),
