@@ -1,6 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import {FormGroup, FormControl, Validators} from '@angular/forms';
+import {
+  FormGroup,
+  Validators,
+  FormBuilder,
+} from '@angular/forms';
+
 
 @Component({
   selector: 'app-registration-page',
@@ -9,20 +14,12 @@ import {FormGroup, FormControl, Validators} from '@angular/forms';
 })
 
 export class RegistrationPageComponent implements OnInit {
-  userEmail = new FormGroup({
-    email: new FormControl('', [
-      Validators.required,
-      Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]),
-  });
 
-  get email() {
-    return this.userEmail.get('email')
-  }
-
-  constructor() {
-  }
+  registrationForm: FormGroup;
+  hide: boolean = true;
 
   ngOnInit(): void {
+
   }
 
   onReset(): void {
@@ -30,10 +27,33 @@ export class RegistrationPageComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log("submitting")
+    console.warn(this.registrationForm.value);
   }
 
+  constructor(private fb: FormBuilder) {
+    this.registrationForm = fb.group({
+      userType: fb.control('', [Validators.required]),
+      email: fb.control('', [Validators.email]),
+      userName: fb.control('', [Validators.required]),
+      companyName: fb.control('', [Validators.required]),
+      telephoneNumber: fb.control('', [Validators.required]),
+      password: fb.control('', [Validators.required]),
+      confirmPassword: fb.control('', [Validators.required]),
+      }, {validator: ConfirmedValidator('password', 'confirmPassword')});
+    }
 }
 
-
-
+export function ConfirmedValidator(controlName: string, matchingControlName: string){
+  return (formGroup: FormGroup) => {
+    const control = formGroup.controls[controlName];
+    const matchingControl = formGroup.controls[matchingControlName];
+    if (matchingControl.errors && !matchingControl.errors['confirmedValidator']) {
+      return;
+    }
+    if (control.value !== matchingControl.value) {
+      matchingControl.setErrors({ confirmedValidator: true });
+    } else {
+      matchingControl.setErrors(null);
+    }
+  }
+}
