@@ -1,13 +1,15 @@
 package com.isdmoldova.shipmentcontrolbackend.dto;
 
 import com.isdmoldova.shipmentcontrolbackend.entity.Itinerary;
-import com.isdmoldova.shipmentcontrolbackend.entity.TransportType;
+import com.isdmoldova.shipmentcontrolbackend.entity.Transport;
 import com.isdmoldova.shipmentcontrolbackend.entity.User;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.AvailableDaysRent;
-import com.isdmoldova.shipmentcontrolbackend.entity.enums.CargoType;
 
+import com.isdmoldova.shipmentcontrolbackend.entity.enums.CargoType;
+import com.isdmoldova.shipmentcontrolbackend.entity.enums.TransportType;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.boot.rsocket.server.RSocketServer;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -20,7 +22,7 @@ public class RouteDTO {
 
     private Itinerary itinerary;
 
-    private TransportType transportationType;
+    private List<Transport> transports;
 
     private CargoType cargoType;
 

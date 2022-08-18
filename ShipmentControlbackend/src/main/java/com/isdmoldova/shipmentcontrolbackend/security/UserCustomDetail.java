@@ -1,7 +1,6 @@
 package com.isdmoldova.shipmentcontrolbackend.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.isdmoldova.shipmentcontrolbackend.entity.Role;
 import com.isdmoldova.shipmentcontrolbackend.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -34,9 +33,7 @@ public class UserCustomDetail implements UserDetails {
         UserCustomDetail userCustomDetail = new UserCustomDetail(user.getUsername(),
                 user.getPassword());
         final List<GrantedAuthority> authorities = new ArrayList<>();
-        for (Role role : user.getRoles()) {
-            authorities.add(new SimpleGrantedAuthority(ROLE_PREFIX + role.getName()));
-        }
+        authorities.add(new SimpleGrantedAuthority(ROLE_PREFIX + user.getRole().name()));
         userCustomDetail.setAuthorities(authorities);
         return userCustomDetail;
     }
