@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -26,19 +27,12 @@ public class Cargo extends BaseEntity{
     @Column(name = "total_volume")
     private Double totalVolume;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "cargo_type")
-    private CargoType cargoType;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "transport_type_id")
-    private TransportType transportationType;
-
     private String destination;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "cargo_status")
     private CargoStatus cargoStatus;
+
 
 
 }

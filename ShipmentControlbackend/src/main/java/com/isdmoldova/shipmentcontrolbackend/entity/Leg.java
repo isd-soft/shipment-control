@@ -10,11 +10,7 @@ import javax.persistence.*;
 @Table(name = "leg")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Leg extends BaseEntity{
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Leg extends BaseEntity {
 
     @Column
     private String name;

@@ -4,6 +4,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -27,6 +28,7 @@ public abstract class BaseEntity {
     protected void onModified() {
         this.modifiedAt = LocalDateTime.now();
     }
+
 
 
 }

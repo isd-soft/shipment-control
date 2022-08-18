@@ -14,8 +14,6 @@ public class CargoDtoMapper {
         cargoDTO.setDestination(cargo.getDestination());
         cargoDTO.setTrackingNumber(cargo.getTrackingNumber());
         cargoDTO.setTotalVolume(cargo.getTotalVolume());
-        cargoDTO.setTransportationType(cargo.getTransportationType());
-
         return cargoDTO;
     }
 }

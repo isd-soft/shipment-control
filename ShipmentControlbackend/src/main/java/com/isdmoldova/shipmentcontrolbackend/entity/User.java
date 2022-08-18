@@ -1,6 +1,6 @@
 package com.isdmoldova.shipmentcontrolbackend.entity;
 
-import lombok.AccessLevel;
+import com.isdmoldova.shipmentcontrolbackend.entity.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,22 +37,9 @@ public class User extends BaseEntity  {
             orphanRemoval = true)
     private final List<Route> routes = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(
-            name = "users_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private List<Role> roles = new ArrayList<>();
-
-
-    public List<Role> getRoles() {
-        return Collections.unmodifiableList(roles);
-    }
-    public void addRole(Role role) {
-        roles.add(role);
-        role.addUser(this);
-    }
+    @Enumerated(EnumType.STRING)
+    @Column(name = "user_role")
+    private UserRole role;
 
 
 }

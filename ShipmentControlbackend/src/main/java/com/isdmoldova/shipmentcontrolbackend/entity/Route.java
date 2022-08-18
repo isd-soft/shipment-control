@@ -19,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.time.LocalTime;
 import java.util.List;
@@ -31,25 +32,14 @@ import java.util.List;
 @AllArgsConstructor
 public class Route extends BaseEntity {
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "route")
     private Itinerary itinerary;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "cargo_type")
-    private CargoType cargoType;
 
     @Column(name = "detail_route")
     private String detailedRouteDescription;
 
-    @ManyToOne(cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY)
-    @JoinColumn(name = "transport_type_id")
-    private TransportType transportType;
-
-    @OneToMany(cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
-            mappedBy = "route",orphanRemoval = true)
-    private List<Cargo> cargo;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "route")
+    private List<Transport> transports;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
