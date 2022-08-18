@@ -15,7 +15,7 @@ export class AuthService {
   constructor(private http: HttpClient) {}
   login(loginCommand: LoginCommand): Observable<TokenResponse> {
     return this.http.post<TokenResponse>(
-      AUTH_API + '/singin',
+      AUTH_API + 'signin',
       loginCommand,
       httpOptions
     );

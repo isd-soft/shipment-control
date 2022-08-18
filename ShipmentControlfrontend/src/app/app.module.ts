@@ -23,6 +23,7 @@ import { MatIconModule } from "@angular/material/icon";
 
 import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength';
 import {HttpClientModule} from "@angular/common/http";
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 
 
@@ -31,6 +32,7 @@ import {HttpClientModule} from "@angular/common/http";
     AppComponent,
     LoginPageComponent,
     RegistrationPageComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,
