@@ -17,7 +17,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCheckboxModule} from "@angular/material/checkbox";
 import { MatSelectModule} from "@angular/material/select";
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from "@angular/forms";
+import { MatIconModule } from "@angular/material/icon";
+
+
+import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength';
 
 
 
@@ -26,7 +30,6 @@ import { ReactiveFormsModule } from '@angular/forms';
     AppComponent,
     LoginPageComponent,
     RegistrationPageComponent,
-    LoginPageComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +43,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatCheckboxModule,
     MatSelectModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatIconModule,
+    MatPasswordStrengthModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -4,7 +4,6 @@
 
 body {
   background: url('img\transports.jpeg') no-repeat center / cover;
-  background: #red;
 }
 
 .authentication {
@@ -48,7 +47,7 @@ body {
 }
 
 .label {
-  color: red;
+  color: green;
 }
 
 .example-full-width {
