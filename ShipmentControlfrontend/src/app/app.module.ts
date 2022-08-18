@@ -20,16 +20,19 @@ import { MatSelectModule} from "@angular/material/select";
 import { ReactiveFormsModule } from "@angular/forms";
 import { MatIconModule } from "@angular/material/icon";
 
-import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength';
 
-import { HttpClientModule } from '@angular/common/http';
+import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength';
+import {HttpClientModule} from "@angular/common/http";
+import { DashboardComponent } from './dashboard/dashboard.component';
+
+
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginPageComponent,
     RegistrationPageComponent,
-    LoginPageComponent
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,7 +49,6 @@ import { HttpClientModule } from '@angular/common/http';
     ReactiveFormsModule,
     MatIconModule,
     MatPasswordStrengthModule,
-
     BrowserModule,
     HttpClientModule,
   ],
