@@ -22,6 +22,7 @@ import { MatIconModule } from "@angular/material/icon";
 
 
 import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength';
+import {HttpClientModule} from "@angular/common/http";
 
 
 
@@ -45,7 +46,8 @@ import { MatPasswordStrengthModule } from '@angular-material-extensions/password
     FormsModule,
     ReactiveFormsModule,
     MatIconModule,
-    MatPasswordStrengthModule
+    MatPasswordStrengthModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
