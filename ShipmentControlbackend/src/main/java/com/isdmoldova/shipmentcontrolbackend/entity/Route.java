@@ -1,8 +1,6 @@
 package com.isdmoldova.shipmentcontrolbackend.entity;
 
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.AvailableDaysRent;
-import com.isdmoldova.shipmentcontrolbackend.entity.enums.CargoType;
-import com.isdmoldova.shipmentcontrolbackend.entity.enums.Legs;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,9 +34,6 @@ public class Route extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Itinerary itinerary;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "cargo_type")
-    private CargoType cargoType;
 
     @Column(name = "detail_route")
     private String detailedRouteDescription;
