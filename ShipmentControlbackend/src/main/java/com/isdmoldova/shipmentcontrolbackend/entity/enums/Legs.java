@@ -1,6 +1,6 @@
 package com.isdmoldova.shipmentcontrolbackend.entity.enums;
 
-public enum AvailableDaysRent {
+public enum Legs {
 
-    MONDAY , THURSDAY
+    AVAILABLE , NOT_AVAILABLE
 }

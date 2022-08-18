@@ -1,16 +1,35 @@
 package com.isdmoldova.shipmentcontrolbackend.service;
 
-import com.isdmoldova.shipmentcontrolbackend.entity.CargoType;
 import com.isdmoldova.shipmentcontrolbackend.entity.Route;
-
+import com.isdmoldova.shipmentcontrolbackend.entity.enums.CargoType;
+import com.isdmoldova.shipmentcontrolbackend.mapper.RouteDtoMapper;
+import com.isdmoldova.shipmentcontrolbackend.repository.RouteRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-public interface RouteService {
+@Service
+@RequiredArgsConstructor
+public class RouteService implements RouteServieImpl{
 
-    List<Route> findByOrigin(String origin);
+    private final RouteRepository routeRepository;
+    private final RouteDtoMapper dtoMapper;
 
-    List<Route> findByDestination(String destination);
+    @Override
+    public List<Route> findByOrigin(String origin){
 
-    Optional<Route> findRouteByCargoType(CargoType cargoType);
+        return routeRepository.findByOrigin(origin);
+    }
+
+    @Override
+    public List<Route> findByDestination(String destination){
+        return routeRepository.findByDestination(destination);
+    }
+
+    @Override
+    public Optional<Route> findRouteByCargoType(CargoType cargoType){
+        return routeRepository.findRouteByCargoType(cargoType);
+    }
+
 }

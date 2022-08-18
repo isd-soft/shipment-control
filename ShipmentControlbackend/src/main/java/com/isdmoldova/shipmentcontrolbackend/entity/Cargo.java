@@ -1,6 +1,7 @@
 package com.isdmoldova.shipmentcontrolbackend.entity;
 
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.CargoStatus;
+import com.isdmoldova.shipmentcontrolbackend.entity.enums.CargoType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,9 +27,8 @@ public class Cargo extends BaseEntity{
     @Column(name = "total_volume")
     private Double totalVolume;
 
-
-    @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn(name = "cargo_type_id")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "cargo_type")
     private CargoType cargoType;
 
     @ManyToOne(fetch = FetchType.LAZY)

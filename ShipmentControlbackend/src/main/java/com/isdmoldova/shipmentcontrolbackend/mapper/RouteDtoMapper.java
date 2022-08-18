@@ -10,6 +10,7 @@ public class RouteDtoMapper {
     public RouteDTO map(Route route) {
         final RouteDTO routeDTO = new RouteDTO();
         routeDTO.setDetailedRouteDescription(route.getDetailedRouteDescription());
+        routeDTO.setCargoType(route.getCargoType());
         routeDTO.setDestination(route.getDestination());
         routeDTO.setEstimatedDays(route.getEstimatedDays());
         routeDTO.setItinerary(route.getItinerary());
