@@ -1,6 +1,6 @@
 package com.isdmoldova.shipmentcontrolbackend.payload.request;
 
-import com.isdmoldova.shipmentcontrolbackend.entity.enums.UserType;
+import com.isdmoldova.shipmentcontrolbackend.entity.enums.UserRole;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 
 public class SignupCommand {
 
-    private UserType userType;
+    private UserRole userRole;
 
     @Email(message = "It should have email format")
     @NotBlank(message = "User email is required")

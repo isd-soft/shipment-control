@@ -5,10 +5,6 @@ import com.isdmoldova.shipmentcontrolbackend.entity.User;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.SignupCommand;
 
 public interface UserService {
-
-        UserDTO findUserByUsername(String username);
-         User createUser(SignupCommand userIn);
-
-
-    }
+    UserDTO findUserByUsername(String username);
+}
 

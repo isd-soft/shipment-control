@@ -29,7 +29,7 @@ export class LoginPageComponent implements OnInit {
 
   onSubmit(): void {
     const loginCommand = new LoginCommand(this.loginForm.controls['username'].value,
-                                    this.loginForm.controls['password'].value);
+      this.loginForm.controls['password'].value);
     console.log(this.loginForm.value);
 
     this.authService.login(loginCommand).subscribe(
@@ -37,8 +37,16 @@ export class LoginPageComponent implements OnInit {
         this.router.navigateByUrl('/dashboard');
       },
       error => {
-
+        const div = document.querySelector('.message');
+        // @ts-ignore
+        div.textContent = 'The login or password are wrong!';
       }
     );
+
+    // @ts-ignore
+    document.querySelector('.btn-reset').addEventListener('click', () => {
+      // @ts-ignore
+      const div = document.querySelector('.message').textContent = '';
+    });
   }
 }

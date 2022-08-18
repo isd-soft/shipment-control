@@ -1,9 +1,9 @@
 package com.isdmoldova.shipmentcontrolbackend.dto;
 
 import com.isdmoldova.shipmentcontrolbackend.entity.Route;
-import com.isdmoldova.shipmentcontrolbackend.entity.TransportType;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.CargoStatus;
 
+import com.isdmoldova.shipmentcontrolbackend.entity.enums.TransportType;
 import lombok.Getter;
 import lombok.Setter;
 
