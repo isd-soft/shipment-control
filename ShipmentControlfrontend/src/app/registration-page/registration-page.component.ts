@@ -1,6 +1,7 @@
-import {Component, Injectable, OnInit, ViewChild} from '@angular/core';
-import {RegistrationService} from "../services/registration.service";
-import {RegisterCommand} from "../services/RegisterCommand";
+import { Component, OnInit } from '@angular/core';
+import { RegistrationService } from "../services/registration.service";
+import { RegisterCommand } from "../services/RegisterCommand";
+import { Router } from "@angular/router";
 
 import {
   FormGroup,
@@ -27,52 +28,48 @@ export class RegistrationPageComponent implements OnInit {
     // })
   }
 
-  @ViewChild('resetBtn') resetBtn;
   onReset(): void {
     this.registrationForm.reset();
   }
 
   onSubmit() {
-    const registerCommand: RegisterCommand = new RegisterCommand();
-    registerCommand.userType = this.registrationForm.controls['userType'].value;
-    registerCommand.email = this.registrationForm.controls['email'].value;
-    registerCommand.companyName = this.registrationForm.controls['companyName'].value;
-    registerCommand.userName = this.registrationForm.controls['userName'].value;
-    registerCommand.telephoneNumber = this.registrationForm.controls['telephoneNumber'].value;
-    registerCommand.password = this.registrationForm.controls['password'].value;
-    registerCommand.confirmPassword = this.registrationForm.controls['confirmPassword'].value;
+    const registerCommand: RegisterCommand = {
+      userRole: this.registrationForm.controls['userType'].value,
+      email: this.registrationForm.controls['email'].value,
+      companyName: this.registrationForm.controls['companyName'].value,
+      userName: this.registrationForm.controls['userName'].value,
+      telephoneNumber: this.registrationForm.controls['telephoneNumber'].value,
+      password: this.registrationForm.controls['password'].value,
+      confirmPassword: this.registrationForm.controls['confirmPassword'].value
+    }
+    console.log(registerCommand);
 
-    const registrationObserver = {
-      next() {
-        console.log('Successfully registered');
+    this.registrationService.register(registerCommand).subscribe(
+      response => {
+        this.router.navigateByUrl("/login");
       },
-      error(error) {
-        // We actually could just remove this method,
-        // since we do not really care about errors right now.
+      error => {
+
       }
-    };
-
-
-    this.registrationService.register(registerCommand).subscribe(registrationObserver);
-
-    console.warn(this.registrationForm.value);
+    );
   }
 
   constructor(private fb: FormBuilder,
-              private registrationService: RegistrationService) {
+              private registrationService: RegistrationService,
+              private router: Router) {
     this.registrationForm = fb.group({
       userType: fb.control('', [Validators.required]),
       email: fb.control('', [Validators.email]),
       userName: fb.control('', [Validators.required]),
       companyName: fb.control('', [Validators.required]),
-      telephoneNumber: fb.control('', [Validators.required]),
+      telephoneNumber: fb.control('', [Validators.required, Validators.pattern("^[0-9]*$"),  Validators.maxLength(10)]),
       password: fb.control('', [Validators.required]),
       confirmPassword: fb.control('', [Validators.required]),
       }, {validator: ConfirmedValidator('password', 'confirmPassword')});
     }
 }
 
-export function ConfirmedValidator(controlName: string, matchingControlName: string){
+export function ConfirmedValidator(controlName: string, matchingControlName: string) {
   return (formGroup: FormGroup) => {
     const control = formGroup.controls[controlName];
     const matchingControl = formGroup.controls[matchingControlName];
@@ -80,7 +77,7 @@ export function ConfirmedValidator(controlName: string, matchingControlName: str
       return;
     }
     if (control.value !== matchingControl.value) {
-      matchingControl.setErrors({ confirmedValidator: true });
+      matchingControl.setErrors({confirmedValidator: true});
     } else {
       matchingControl.setErrors(null);
     }
