@@ -2,7 +2,7 @@ package com.isdmoldova.shipmentcontrolbackend.entity;
 
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.AvailableDaysRent;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.CargoType;
-import com.isdmoldova.shipmentcontrolbackend.entity.enums.TransportationType;
+import com.isdmoldova.shipmentcontrolbackend.entity.enums.Legs;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,9 +16,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
@@ -33,30 +31,37 @@ import java.util.List;
 @Table(name = "route")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Route {
+public class Route extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "transportation_type")
-    private TransportationType transportationType;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Itinerary itinerary;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "cargo_type")
     private CargoType cargoType;
 
-    @OneToMany(cascade = CascadeType.ALL,
-    fetch = FetchType.LAZY,
-    mappedBy = "route",orphanRemoval = true)
-    private List<Cargo> cargo;
-
     @Column(name = "detail_route")
     private String detailedRouteDescription;
 
+    @ManyToOne(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
+    @JoinColumn(name = "transport_type_id")
+    private TransportType transportType;
+
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "route",orphanRemoval = true)
+    private List<Cargo> cargo;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
     @Column(name = "estimated_route_days")
     private String estimatedDays;
+
+    private String origin;
+
+    private String destination;
 
     @ElementCollection(targetClass = AvailableDaysRent.class)
     @JoinTable(name = "route_available_days", joinColumns = @JoinColumn(name = "route_id"))
@@ -69,9 +74,6 @@ public class Route {
 
     @Column(name = "max_weight")
     private Double maximalLoadValue;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
 
 
 }
