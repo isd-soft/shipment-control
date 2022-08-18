@@ -5,7 +5,6 @@ import com.isdmoldova.shipmentcontrolbackend.security.jwt.JWTAuthenticationFilte
 import com.isdmoldova.shipmentcontrolbackend.security.jwt.JWTTokenProvider;
 import com.isdmoldova.shipmentcontrolbackend.security.jwt.JwtAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,11 +26,7 @@ import javax.servlet.Filter;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
 public class SecurityConfig {
-
-    private final JWTAuthenticationFilter jwtAuthenticationFilter;
-    private final CustomUserDetailsService customUserDetailsService;
     private final JwtAuthenticationEntryPoint authenticationEntryPoint;
-
 
     @Bean
     protected SecurityFilterChain filterChain (HttpSecurity http) throws Exception {
@@ -44,15 +39,8 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/api/auth/**").permitAll()
                 .anyRequest().authenticated();
-        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
-    }
-
-    @Bean
-    protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder,
-                             PasswordEncoder bCryptPasswordEncoder) throws Exception {
-        authenticationManagerBuilder.userDetailsService(customUserDetailsService)
-                .passwordEncoder(bCryptPasswordEncoder);
     }
 
     @Bean
@@ -64,6 +52,13 @@ public class SecurityConfig {
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+    @Bean
+    public JWTAuthenticationFilter jwtAuthenticationFilter() {
+        return new JWTAuthenticationFilter();
+    }
+
+
 
 
 

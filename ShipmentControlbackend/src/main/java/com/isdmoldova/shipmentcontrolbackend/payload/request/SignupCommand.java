@@ -19,7 +19,7 @@ public class SignupCommand {
     private String companyName;
 
     @NotEmpty(message = "Please enter your username")
-    private String username;
+    private String userName;
 
     @NotEmpty(message = "Telephone number is required")
     private String telephoneNumber;
