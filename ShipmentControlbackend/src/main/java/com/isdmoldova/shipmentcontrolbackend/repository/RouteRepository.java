@@ -1,7 +1,7 @@
 package com.isdmoldova.shipmentcontrolbackend.repository;
 
+import com.isdmoldova.shipmentcontrolbackend.entity.CargoType;
 import com.isdmoldova.shipmentcontrolbackend.entity.Route;
-import com.isdmoldova.shipmentcontrolbackend.entity.enums.CargoType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

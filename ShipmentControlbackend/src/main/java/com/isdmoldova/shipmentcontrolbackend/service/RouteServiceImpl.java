@@ -1,15 +1,13 @@
 package com.isdmoldova.shipmentcontrolbackend.service;
 
-import com.isdmoldova.shipmentcontrolbackend.entity.Route;
-import com.isdmoldova.shipmentcontrolbackend.entity.enums.CargoType;
-import java.util.List;
-import java.util.Optional;
+import com.isdmoldova.shipmentcontrolbackend.dto.RouteDTO;
+import com.isdmoldova.shipmentcontrolbackend.entity.CargoType;
 
-public interface RouteServieImpl {
+public interface RouteServiceImpl {
 
-    List<Route> findByOrigin(String origin);
+    RouteDTO findByOrigin(String origin);
 
-    List<Route> findByDestination(String destination);
+    RouteDTO findByDestination(String destination);
 
-    Optional<Route> findRouteByCargoType(CargoType cargoType);
+    RouteDTO findRouteByCargoType(CargoType cargoType);
 }

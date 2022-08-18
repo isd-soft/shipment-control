@@ -1,6 +1,5 @@
 package com.isdmoldova.shipmentcontrolbackend.entity;
 
-import com.isdmoldova.shipmentcontrolbackend.entity.enums.Legs;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,10 +32,16 @@ public class Itinerary {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Legs legs;
+    private Leg leg;
 
     @Column(name = "execution_time")
     private LocalDateTime executionTime;
+
+
+    private String destination;
+
+    private String origin;
+
 
 
 

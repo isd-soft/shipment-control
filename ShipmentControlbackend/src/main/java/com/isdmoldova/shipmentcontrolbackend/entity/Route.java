@@ -1,8 +1,6 @@
 package com.isdmoldova.shipmentcontrolbackend.entity;
 
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.AvailableDaysRent;
-import com.isdmoldova.shipmentcontrolbackend.entity.enums.CargoType;
-import com.isdmoldova.shipmentcontrolbackend.entity.enums.Legs;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

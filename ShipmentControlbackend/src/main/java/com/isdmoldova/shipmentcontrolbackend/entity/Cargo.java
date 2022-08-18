@@ -1,7 +1,6 @@
 package com.isdmoldova.shipmentcontrolbackend.entity;
 
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.CargoStatus;
-import com.isdmoldova.shipmentcontrolbackend.entity.enums.CargoType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

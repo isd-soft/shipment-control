@@ -1,14 +1,18 @@
 package com.isdmoldova.shipmentcontrolbackend.security.jwt;
 
-import com.isdmoldova.shipmentcontrolbackend.entity.User;
-import com.isdmoldova.shipmentcontrolbackend.repository.UserRepository;
 import com.isdmoldova.shipmentcontrolbackend.security.UserCustomDetail;
-import com.sun.security.auth.UserPrincipal;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+
 
 import java.sql.Date;
 import java.util.HashMap;
@@ -46,9 +50,9 @@ public class JWTTokenProvider {
                     .parseClaimsJws(token);
             return true;
         } catch (SignatureException |
-                 MalformedJwtException |
-                 ExpiredJwtException |
-                 UnsupportedJwtException |
+                MalformedJwtException |
+                ExpiredJwtException |
+                UnsupportedJwtException |
                  IllegalArgumentException ex) {
             return false;
         }

@@ -1,9 +1,7 @@
 package com.isdmoldova.shipmentcontrolbackend.mapper;
 
 import com.isdmoldova.shipmentcontrolbackend.dto.CargoDTO;
-import com.isdmoldova.shipmentcontrolbackend.dto.ItineraryDTO;
 import com.isdmoldova.shipmentcontrolbackend.entity.Cargo;
-import com.isdmoldova.shipmentcontrolbackend.entity.Itinerary;
 import org.springframework.stereotype.Component;
 
 @Component

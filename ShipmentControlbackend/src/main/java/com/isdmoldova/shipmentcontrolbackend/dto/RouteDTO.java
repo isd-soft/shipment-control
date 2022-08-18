@@ -1,10 +1,10 @@
 package com.isdmoldova.shipmentcontrolbackend.dto;
 
+import com.isdmoldova.shipmentcontrolbackend.entity.CargoType;
 import com.isdmoldova.shipmentcontrolbackend.entity.Itinerary;
 import com.isdmoldova.shipmentcontrolbackend.entity.TransportType;
 import com.isdmoldova.shipmentcontrolbackend.entity.User;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.AvailableDaysRent;
-import com.isdmoldova.shipmentcontrolbackend.entity.enums.CargoType;
 
 import lombok.Getter;
 import lombok.Setter;
