@@ -1,5 +1,6 @@
 <body>
 <app-login-register-nav-bar></app-login-register-nav-bar>
+<div class="page">
 <form class="form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
   <mat-card class="authentication">
     <mat-card-title class="title">Log In</mat-card-title>
@@ -36,5 +37,7 @@
           </div>
       </mat-card-content>
     </mat-card>
+
   </form>
+</div>
 </body>
