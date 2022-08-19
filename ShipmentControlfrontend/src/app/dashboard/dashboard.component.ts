@@ -26,6 +26,7 @@ import { Menu } from './menu.model';
 export class DashboardComponent implements OnInit {
 
   myMenu: Menu;
+  user: string | null;
 
   constructor() {
     this.myMenu = [
@@ -55,6 +56,8 @@ export class DashboardComponent implements OnInit {
         ],
       },
     ];
+
+    this.user = localStorage.getItem('username');
   }
   ngOnInit(): void {
   }
@@ -65,7 +68,6 @@ export class DashboardComponent implements OnInit {
 
   // headerComponent
   @Output() menuToggled = new EventEmitter<boolean>();
-  user: string = 'Test';
   // constructor(private authService: AuthService) { }
   logout(): void {
     console.log('Logged out');
