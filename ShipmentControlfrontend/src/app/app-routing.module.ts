@@ -8,7 +8,9 @@ import {TransportsComponent} from "./transports/transports.component";
 const routes: Routes = [
   {path: 'register', component: RegistrationPageComponent},
   {path: 'login', component: LoginPageComponent},
-  {path: 'dashboard', component: DashboardComponent},
+  {path: 'dashboard', component: DashboardComponent, children: [
+      {path: 'transports', component: TransportsComponent}
+    ]},
   {path: '', component: LoginPageComponent},
   {path:'transports', component:TransportsComponent}
 ];

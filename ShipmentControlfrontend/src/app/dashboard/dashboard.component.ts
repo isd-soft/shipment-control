@@ -45,7 +45,7 @@ export class DashboardComponent implements OnInit {
           {
             title: 'Transports Type',
             icon: 'money',
-            link: '/transports',
+            link: './transports',
             color: '#ff7f0e',
           },
           {
