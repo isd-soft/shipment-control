@@ -35,7 +35,6 @@ export class DashboardComponent implements OnInit {
         color: '#ff7f0e',
       },
       {
-        title: 'Transports',
         title: 'Transport',
         icon: 'bar_chart',
         color: '#ff7f0e',
