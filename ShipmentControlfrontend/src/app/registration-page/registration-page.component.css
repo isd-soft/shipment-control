@@ -19,7 +19,7 @@ html, body {
   content: "";
   background-image: url('src/app/login-page/img/container.jpg');
   background-size: cover;
-  position: fixed;
+  position: absolute;
   min-width: 100%;
   min-height: 100%;
   /*top: 0px;*/
@@ -34,7 +34,7 @@ html, body {
   display: revert;
   max-width: 40%;
   width: 100%;
-  height: auto;
+  height: 100%;
   margin: 30px auto;
   box-shadow: 0 0 10px #ccc;
   border-radius: 10px;
@@ -51,6 +51,7 @@ html, body {
   height:100%;
   margin-bottom: 15px;
   position: relative;
+  float: none;
 }
 
 .form-group-text {
@@ -76,8 +77,9 @@ html, body {
   margin: 8px 8px 8px 0;
 }
 
-
-
-
-
+.mat-card{
+  /*color: aquamarine;*/
+  /*position: -webkit-sticky;*/
+  /*float: ;*/
+}
 

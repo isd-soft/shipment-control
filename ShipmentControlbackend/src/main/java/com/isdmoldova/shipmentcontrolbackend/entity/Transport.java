@@ -13,6 +13,7 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
@@ -25,6 +26,9 @@ import java.util.List;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Transport extends BaseEntity{
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
 
     @ManyToOne
     private Route route;
