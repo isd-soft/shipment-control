@@ -50,21 +50,21 @@ export class LoginPageComponent implements OnInit {
           const login = document.querySelector('.login');
           const password = document.querySelector('.password');
           const out = document.querySelector('.out');
-
+          let message;
           // @ts-ignore
           if (login.value == '' && password.value == '') {
-            const message = "You must enter the login and password!";
+            message = "You must enter the login and password!";
             showMessage(out, message);
             // @ts-ignore
           } else if (login.value == '') {
-              const message = "You must enter the login!";
+              message = "You must enter the login!";
               showMessage(out, message);
             // @ts-ignore
           } else if (password.value == '') {
-              const message = "You must enter the password!";
+              message = "You must enter the password!";
               showMessage(out, message);
           } else {
-              const message = "The login or password are wrong!";
+              message = "The login or password are wrong!";
               showMessage(out, message);
           }
         }
