@@ -24,7 +24,7 @@ import java.util.List;
 @Table(name = "transport")
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class Transport extends BaseEntity{
 
     @ManyToOne(fetch = FetchType.LAZY)
