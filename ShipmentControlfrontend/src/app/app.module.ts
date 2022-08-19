@@ -22,7 +22,7 @@ import { MatIconModule } from "@angular/material/icon";
 
 
 import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength';
-import {HttpClientModule} from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { DashboardComponent } from './dashboard/dashboard.component';
 
 
@@ -50,64 +50,11 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     MatIconModule,
     MatPasswordStrengthModule,
     BrowserModule,
-    HttpClientModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
 
-
-/*
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
-import { AppRoutingModule } from './app-routing.module';
-import { RegistrationPageComponent } from './registration-page/registration-page.component';
-import { httpInterceptorProviders } from './_helpers/http.interceptor';
-
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatInputModule } from '@angular/material/input';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatCheckboxModule} from "@angular/material/checkbox";
-import { MatSelectModule} from "@angular/material/select";
-import { ReactiveFormsModule } from '@angular/forms';
-
-import { AppComponent } from './app.component';
-import { LoginPageComponent } from './login-page/login-page.component';
-import { RegistrationPageComponent } from './registration-page/registration-page.component';
-
-import { Input, Component, Output, EventEmitter, OnInit } from '@angular/core';
-import {FormGroup, FormControl, FormsModule} from '@angular/forms';
-
-@NgModule({
-  declarations: [
-    AppComponent,
-    LoginComponent,
-    RegisterComponent,
-    HomeComponent,
-
-  ],
-  imports: [
-    BrowserModule,
-        AppRoutingModule,
-        MatCardModule,
-        MatButtonModule,
-        MatFormFieldModule,
-        MatInputModule,
-        BrowserAnimationsModule,
-        MatToolbarModule,
-        MatCheckboxModule,
-        MatSelectModule,
-        FormsModule,
-        ReactiveFormsModule
-  ],
-  providers: [httpInterceptorProviders],
-  bootstrap: [AppComponent]
-})
-export class AppModule { }
-*/
 
