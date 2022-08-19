@@ -13,10 +13,12 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.util.List;
 
 @Entity
 @Table(name = "transport")
@@ -25,21 +27,20 @@ import javax.persistence.Table;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Transport extends BaseEntity{
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
     @ManyToOne
     private Route route;
 
-/*    @ElementCollection(targetClass = TransportType.class)
-    @JoinTable(name = "transport_type", joinColumns = @JoinColumn(name = "transport_id"))
-    @Column(name = "transport_type", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private TransportType transportType;*/
+    private TransportType transportType;
 
 
-    /*@ElementCollection(targetClass = TransportType.class)
-    @JoinTable(name = "cargo_type", joinColumns = @JoinColumn(name = "transport_id"))
+    @ElementCollection(targetClass = TransportType.class)
+    @JoinTable(name = "transport_cargo_type", joinColumns = @JoinColumn(name = "transport_id"))
     @Column(name = "cargo_type", nullable = false)
     @Enumerated(EnumType.STRING)
-    private CargoType cargoType;*/
+    private List<CargoType> cargoTypes;
 
 
 
