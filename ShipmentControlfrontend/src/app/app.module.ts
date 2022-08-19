@@ -31,6 +31,7 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import {MenuItemComponent} from "./dashboard/menu-item/menu-item.component";
 import { LoginRegisterNavBarComponent } from './login-register-nav-bar/login-register-nav-bar.component';
 
+// import RouteIcon from '@mui/icons-material/Route';
 
 @NgModule({
   declarations: [

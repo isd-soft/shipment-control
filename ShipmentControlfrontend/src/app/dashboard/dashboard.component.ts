@@ -29,20 +29,20 @@ export class DashboardComponent implements OnInit {
   constructor() {
     this.myMenu = [
       {
-        title: 'Home',
+        title: 'Routes',
         icon: 'home',
-        link: '/home',
+        link: '/routes',
         color: '#ff7f0e',
       },
       {
-        title: 'Statistics',
+        title: 'Transports',
         icon: 'bar_chart',
         color: '#ff7f0e',
         subMenu: [
           {
-            title: 'Sales',
+            title: 'CargoType',
             icon: 'money',
-            link: '/sales',
+            link: '/cargotype',
             color: '#ff7f0e',
           },
           {
