@@ -7,8 +7,8 @@ span a {
   text-decoration: none;
 }
 
-.mat-toolbar{
-  position: sticky;
+.mat-toolbar {
+  position: relative;
   top: 0;
   padding: 5px;
 }
