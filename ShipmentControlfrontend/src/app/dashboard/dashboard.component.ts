@@ -11,6 +11,7 @@ import {
 
 
 import { Menu } from './menu.model';
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -27,7 +28,7 @@ export class DashboardComponent implements OnInit {
   myMenu: Menu;
   user: string | null;
 
-  constructor() {
+  constructor(private router: Router) {
     this.myMenu = [
       {
         title: 'Routes',
@@ -37,7 +38,7 @@ export class DashboardComponent implements OnInit {
       },
       {
         title: 'Transport',
-        icon: 'bar_chart',
+        icon: 'router',
         color: '#ff7f0e',
 
         subMenu: [
@@ -70,7 +71,8 @@ export class DashboardComponent implements OnInit {
   @Output() menuToggled = new EventEmitter<boolean>();
   // constructor(private authService: AuthService) { }
   logout(): void {
-    console.log('Logged out');
+    localStorage.clear();
+    this.router.navigateByUrl('/login');
   }
 
   // layout
