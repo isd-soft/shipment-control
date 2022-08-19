@@ -24,7 +24,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     private CustomUserDetailsService customUserDetailsService;
 
     public static final String HEADER_STRING = "Authorization";
-    public static final String TOKEN_PREFIX = "Bearer ";
+
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -52,8 +52,8 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
     private String getJWTFromRequest(HttpServletRequest request) {
         String bearToken = request.getHeader(HEADER_STRING);
-        if (StringUtils.hasText(bearToken) && bearToken.startsWith(TOKEN_PREFIX)) {
-            return bearToken.split(" ")[1];
+        if (StringUtils.hasText(bearToken)) {
+            return bearToken;
         }
         return null;
     }

@@ -1,7 +1,5 @@
 package com.isdmoldova.shipmentcontrolbackend.service;
-
 import com.isdmoldova.shipmentcontrolbackend.entity.User;
-import com.isdmoldova.shipmentcontrolbackend.entity.enums.UserRole;
 import com.isdmoldova.shipmentcontrolbackend.exception.UserExistException;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.LoginCommand;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.SignupCommand;
@@ -11,7 +9,6 @@ import com.isdmoldova.shipmentcontrolbackend.security.jwt.JWTAuthenticationFilte
 import com.isdmoldova.shipmentcontrolbackend.security.jwt.JWTTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.usertype.UserType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -51,14 +48,14 @@ public class AuthServiceImpl implements AuthService{
     }
 
     @Override
-    public JWTTokenSuccessResponse authenticateUser(LoginCommand loginRequest) {
+    public JWTTokenSuccessResponse authenticateUser(LoginCommand loginRequest)  {
+
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 loginRequest.getUsername(),
                 loginRequest.getPassword()
         ));
-
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = JWTAuthenticationFilter.TOKEN_PREFIX + jwtTokenProvider.generateToken(authentication);
+        String jwt =  jwtTokenProvider.generateToken(authentication);
 
         return new JWTTokenSuccessResponse(true, jwt);
     }
