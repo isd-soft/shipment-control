@@ -22,8 +22,9 @@
           <div class="form-group">
             <mat-form-field class="example-full-width" appearance="fill">
               <mat-label>Password</mat-label>
-              <input class="password" type="password" matInput placeholder="enter your password" required
+              <input type="password" matInput placeholder="enter your password" required
                      minlength="4" formControlName="password">
+              <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
             </mat-form-field>
           </div>
         </div>

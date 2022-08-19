@@ -14,6 +14,7 @@ import {error} from "@angular/compiler-cli/src/transformers/util";
 export class LoginPageComponent implements OnInit {
 
   loginForm: FormGroup;
+  hide: boolean = true;
 
   constructor(private fb: FormBuilder,
               private authService: AuthService,
