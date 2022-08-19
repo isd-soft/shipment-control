@@ -8,7 +8,7 @@ import { RegistrationPageComponent } from './registration-page/registration-page
 
 import { Input, Component, Output, EventEmitter, OnInit } from '@angular/core';
 import {FormGroup, FormControl, FormsModule} from '@angular/forms';
-
+//
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -23,8 +23,13 @@ import { MatIconModule } from "@angular/material/icon";
 
 import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength';
 import {HttpClientModule} from "@angular/common/http";
-import { DashboardComponent } from './dashboard/dashboard.component';
-
+import {DashboardComponent } from './dashboard/dashboard.component';
+import {MatListModule} from "@angular/material/list";
+import {MatExpansionModule} from "@angular/material/expansion";
+import {MatMenuModule} from "@angular/material/menu";
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {MenuItemComponent} from "./dashboard/menu-item/menu-item.component";
+import { LoginRegisterNavBarComponent } from './login-register-nav-bar/login-register-nav-bar.component';
 
 
 @NgModule({
@@ -33,6 +38,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     LoginPageComponent,
     RegistrationPageComponent,
     DashboardComponent,
+    MenuItemComponent,
+    LoginRegisterNavBarComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -51,6 +59,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     MatPasswordStrengthModule,
     BrowserModule,
     HttpClientModule,
+    MatListModule,
+    MatExpansionModule,
+    MatMenuModule,
+    MatSidenavModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
