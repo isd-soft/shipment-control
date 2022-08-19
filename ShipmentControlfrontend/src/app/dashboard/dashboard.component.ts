@@ -18,6 +18,7 @@ import { Menu } from './menu.model';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 
+
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
