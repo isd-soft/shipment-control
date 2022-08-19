@@ -17,7 +17,6 @@ public class RouteDtoMapper {
         routeDTO.setEstimatedAmountTimeShipment(route.getEstimatedAmountTimeShipment());
         routeDTO.setOrigin(route.getOrigin());
         routeDTO.setMaximalLoadValue(route.getMaximalLoadValue());
-        routeDTO.setTransports(route.getTransports());
         routeDTO.setUser(route.getUser());
         routeDTO.setAvailableDaysRent(route.getAvailableDaysRent());
 

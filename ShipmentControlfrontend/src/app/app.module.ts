@@ -49,7 +49,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     ReactiveFormsModule,
     MatIconModule,
     MatPasswordStrengthModule,
-    HttpClientModule
+    BrowserModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
@@ -109,3 +110,4 @@ import {FormGroup, FormControl, FormsModule} from '@angular/forms';
 })
 export class AppModule { }
 */
+

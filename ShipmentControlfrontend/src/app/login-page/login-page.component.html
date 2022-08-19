@@ -4,32 +4,37 @@
       <mat-card-title class="title">Log In</mat-card-title>
       <mat-card-content class="align-column">
 
-        <div class="form-group">
-          <div class="div">
+        <div class="form-groups">
+          <div class="form-group">
+            <div class="div">
+              <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>User name</mat-label>
+
+                <input class="input" matInput placeholder="enter user name" required
+                       minlength="4" formControlName="username">
+
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="form-group">
             <mat-form-field class="example-full-width" appearance="fill">
-              <mat-label>User name</mat-label>
-
-              <input class="input" matInput placeholder="enter user name" required
-                     minlength="4" formControlName="username">
-
+              <mat-label>Password</mat-label>
+              <input type="password" matInput placeholder="enter your password" required
+                     minlength="4" formControlName="password">
             </mat-form-field>
           </div>
         </div>
 
-        <div class="form-group">
-          <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Password</mat-label>
-            <input type="password" matInput placeholder="enter your password" required
-                   minlength="4" formControlName="password">
-          </mat-form-field>
-        </div>
+          <div class="message"></div>
 
-        <div class="btn-group">
-          <button class="btn-reset" type="reset"  mat-button ng-click="reset()">Reset</button>
-          <button type="submit" mat-raised-button color="primary">Submit</button>
-        </div>
+          <div class="btn-group">
+            <button class="btn-reset" type="reset"  mat-button ng-click="reset()">Reset</button>
+            <button type="submit" mat-raised-button color="primary">Submit</button>
+          </div>
 
-        <div formControlName="message"></div>
+
+
 
       </mat-card-content>
     </mat-card>
