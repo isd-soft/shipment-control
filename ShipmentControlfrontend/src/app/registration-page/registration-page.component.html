@@ -1,76 +1,84 @@
-<mat-card class="authentication" xmlns="http://www.w3.org/1999/html">
-  <mat-card-title class="title">Register</mat-card-title>
-  <mat-card-content class="align-column">
-
-    <div>
-      <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-          <mat-form-field appearance="fill" class="form-group">
-            <mat-label>User Type</mat-label>
-            <mat-select formControlName="userType">
-              <mat-option value="option1">Shipment Company</mat-option>
-              <mat-option value="option2">Goods Company</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field appearance="fill" class="form-group">
-            <mat-label>Email:</mat-label>
-            <input matInput type="email" class="form-control" formControlName="email"
-                   placeholder="Ex. pat@example.com" required/>
-            <mat-error>Please provide a valid email</mat-error>
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field appearance="fill" class="form-group">
-            <mat-label>Company Name:</mat-label>
-            <input matInput type="" class="form-control" formControlName="companyName"
-                   placeholder="Company Name"/>
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field appearance="fill" class="form-group">
-            <mat-label>User Name:</mat-label>
-            <input matInput type="" class="form-control" formControlName="userName"
-                   placeholder="123456"/>
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field appearance="fill" class="form-group">
-            <mat-label>Telephone number:</mat-label>
-            <input matInput type="" class="form-control" formControlName="telephoneNumber"/>
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Password</mat-label>
-            <input matInput class="form-control" [type]="hide ? 'password' : 'text'" formControlName="password"
-                   required>
-            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Confirm password</mat-label>
-            <input matInput class="form-control" formControlName="confirmPassword"
-                   [type]="hide ? 'password' : 'text'" required>
-            <!--                   [errorStateMatcher]="matcher">-->
-            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-            <mat-error
-              *ngIf="registrationForm.controls['confirmPassword'].errors?.['confirmedValidator']">
-              Password does not match
-            </mat-error>
-          </mat-form-field>
+<html>
+<body>
+<div class="background">
+  <mat-card class="authentication" xmlns="http://www.w3.org/1999/html">
+    <mat-card-title class="title">Register</mat-card-title>
+    <mat-card-content class="align-column">
+      <div>
+        <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <mat-form-field appearance="fill" class="form-group">
+              <mat-label>User Type</mat-label>
+              <mat-select formControlName="userType">
+                <mat-option value="SHIPMENT_COMPANY">Shipment Company</mat-option>
+                <mat-option value="GOODS_COMPANY">Goods Company</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field appearance="fill" class="form-group">
+              <mat-label>Email:</mat-label>
+              <input matInput type="email" class="form-control" formControlName="email"
+                     placeholder="Ex. pat@example.com" required/>
+              <mat-error>Please provide a valid email</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field appearance="fill" class="form-group">
+              <mat-label>Company Name:</mat-label>
+              <input matInput type="" class="form-control" formControlName="companyName"
+                     placeholder="Company Name"/>
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field appearance="fill" class="form-group">
+              <mat-label>User Name:</mat-label>
+              <input matInput type="" class="form-control" formControlName="userName"
+                     placeholder="123456"/>
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field appearance="fill" class="form-group">
+              <mat-label>Telephone number:</mat-label>
+              <input matInput type="" class="form-control" formControlName="telephoneNumber"/>
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field appearance="fill" class="form-group">
+<!--            <mat-form-field class="form-group" appearance="fill">-->
+              <mat-label>Password</mat-label>
+              <input matInput class="form-control" [type]="hide ? 'password' : 'text'"
+                     formControlName="password"
+                     required>
+              <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field appearance="fill" class="form-group">
+<!--            <mat-form-field class="example-full-width" appearance="fill">-->
+              <mat-label>Confirm password</mat-label>
+              <input matInput class="form-control" formControlName="confirmPassword"
+                     [type]="hide ? 'password' : 'text'" required>
+              <!--                   [errorStateMatcher]="matcher">-->
+              <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+              <mat-error
+                *ngIf="registrationForm.controls['confirmPassword'].errors?.['confirmedValidator']">
+                Password does not match
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </form>
+      </div>
+      <form>
+        <div class="example-button-row">
+          <button mat-raised-button type="submit" color="primary" (click)="onSubmit()"
+          >Submit
+          </button>
+          <button mat-raised-button (click)="onReset()">Reset</button>
         </div>
       </form>
-    </div>
-    <form>
-      <div class="example-button-row">
-        <button mat-raised-button type="submit" color="primary" (click)="onSubmit()"
-                [disabled]="!registrationForm.valid">Submit
-        </button>
-        <button mat-raised-button (click)="onReset()">Reset</button>
-      </div>
-    </form>
-  </mat-card-content>
-</mat-card>
+    </mat-card-content>
+  </mat-card>
+</div>
+</body>
+</html>

@@ -1,7 +1,6 @@
 package com.isdmoldova.shipmentcontrolbackend.dto;
 
 import com.isdmoldova.shipmentcontrolbackend.entity.Itinerary;
-import com.isdmoldova.shipmentcontrolbackend.entity.Transport;
 import com.isdmoldova.shipmentcontrolbackend.entity.User;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.AvailableDaysRent;
 
@@ -21,8 +20,6 @@ public class RouteDTO {
     private User user;
 
     private Itinerary itinerary;
-
-    private List<Transport> transports;
 
     private CargoType cargoType;
 
