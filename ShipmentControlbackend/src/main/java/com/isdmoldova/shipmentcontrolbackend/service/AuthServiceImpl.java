@@ -49,7 +49,6 @@ public class AuthServiceImpl implements AuthService{
 
     @Override
     public JWTTokenSuccessResponse authenticateUser(LoginCommand loginRequest)  {
-
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 loginRequest.getUsername(),
                 loginRequest.getPassword()
@@ -57,7 +56,7 @@ public class AuthServiceImpl implements AuthService{
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt =  jwtTokenProvider.generateToken(authentication);
 
-        return new JWTTokenSuccessResponse(true, jwt);
+        return new JWTTokenSuccessResponse(true, jwt, authentication.getName());
     }
 
 
