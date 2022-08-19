@@ -34,19 +34,46 @@ export class LoginPageComponent implements OnInit {
 
     this.authService.login(loginCommand).subscribe(
       (result) => {
+        localStorage.setItem('token', result.token);
         this.router.navigateByUrl('/dashboard');
+
       },
       error => {
-        const div = document.querySelector('.message');
-        // @ts-ignore
-        div.textContent = 'The login or password are wrong!';
-      }
-    );
 
-    // @ts-ignore
-    document.querySelector('.btn-reset').addEventListener('click', () => {
-      // @ts-ignore
-      const div = document.querySelector('.message').textContent = '';
-    });
+        checkLoginAndPassword();
+        function showMessage(block, message) {
+          block.textContent = message;
+        }
+
+        function checkLoginAndPassword() {
+          const login = document.querySelector('.login');
+          const password = document.querySelector('.password');
+          const out = document.querySelector('.out');
+
+          // @ts-ignore
+          if (login.value == '' && password.value == '') {
+            const message = "You must enter the login and password!";
+            showMessage(out, message);
+            // @ts-ignore
+          } else if (login.value == '') {
+              const message = "You must enter the login!";
+              showMessage(out, message);
+            // @ts-ignore
+          } else if (password.value == '') {
+              const message = "You must enter the password!";
+              showMessage(out, message);
+          } else {
+              const message = "The login or password are wrong!";
+              showMessage(out, message);
+          }
+        }
+
+        // @ts-ignore
+        document.querySelector('.btn-reset').addEventListener('click', () => {
+          // @ts-ignore
+          document.querySelector('.out').textContent = '';
+        });
+      }
+    )
   }
 }
