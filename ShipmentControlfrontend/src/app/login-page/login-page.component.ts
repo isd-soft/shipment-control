@@ -14,6 +14,7 @@ import {error} from "@angular/compiler-cli/src/transformers/util";
 export class LoginPageComponent implements OnInit {
 
   loginForm: FormGroup;
+  hide: boolean = true;
 
   constructor(private fb: FormBuilder,
               private authService: AuthService,
@@ -36,7 +37,6 @@ export class LoginPageComponent implements OnInit {
       (result) => {
         localStorage.setItem('token', result.token);
         this.router.navigateByUrl('/dashboard');
-
       },
       error => {
 

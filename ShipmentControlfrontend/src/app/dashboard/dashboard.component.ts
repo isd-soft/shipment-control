@@ -36,17 +36,19 @@ export class DashboardComponent implements OnInit {
       },
       {
         title: 'Transports',
+        title: 'Transport',
         icon: 'bar_chart',
         color: '#ff7f0e',
+
         subMenu: [
           {
-            title: 'CargoType',
+            title: 'Transports Type',
             icon: 'money',
-            link: '/cargotype',
+            link: '/transports',
             color: '#ff7f0e',
           },
           {
-            title: 'Customers',
+            title: 'Category',
             icon: 'people',
             color: '#ff7f0e',
             link: '/customers',

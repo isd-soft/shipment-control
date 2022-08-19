@@ -4,6 +4,7 @@
 
 body {
   background: url('img\transports.jpeg') no-repeat center / cover;
+  opacity: 0.9;
 }
 
 .authentication {
@@ -16,6 +17,7 @@ body {
   margin: 30px auto;
   box-shadow: 0 0 10px #ccc;
   border-radius: 10px;
+  opacity: 1;
 }
 
 .title {

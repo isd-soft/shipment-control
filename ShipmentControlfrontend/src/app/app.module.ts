@@ -30,6 +30,9 @@ import {MatMenuModule} from "@angular/material/menu";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MenuItemComponent} from "./dashboard/menu-item/menu-item.component";
 import { LoginRegisterNavBarComponent } from './login-register-nav-bar/login-register-nav-bar.component';
+import { TransportsComponent } from './transports/transports.component';
+import {MatTableModule} from "@angular/material/table";
+
 
 // import RouteIcon from '@mui/icons-material/Route';
 
@@ -41,6 +44,7 @@ import { LoginRegisterNavBarComponent } from './login-register-nav-bar/login-reg
     DashboardComponent,
     MenuItemComponent,
     LoginRegisterNavBarComponent,
+    TransportsComponent,
 
   ],
   imports: [
@@ -64,6 +68,7 @@ import { LoginRegisterNavBarComponent } from './login-register-nav-bar/login-reg
     MatExpansionModule,
     MatMenuModule,
     MatSidenavModule,
+    MatTableModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
