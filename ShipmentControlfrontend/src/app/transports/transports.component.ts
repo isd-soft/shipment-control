@@ -1,19 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import {DataSource} from "@angular/cdk/collections";
-import {Observable, ReplaySubject} from "rxjs";
+import {Component, OnInit} from '@angular/core';
+import {TransportDto} from "../model/transport.dto";
+import {TransportsService} from "../services/transports.service";
+import {MatTableDataSource} from "@angular/material/table";
+import {SelectionModel} from "@angular/cdk/collections";
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'}
-
-];
 @Component({
   selector: 'app-transports',
   templateUrl: './transports.component.html',
@@ -21,43 +11,36 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class TransportsComponent implements OnInit {
 
-  constructor() { }
+  displayedColumns: string[] = ['select', 'transportId', 'transportName', 'transportType', 'routeId', 'cargoTypes'];
+  dataSource: MatTableDataSource<TransportDto>;
+  selection = new SelectionModel<TransportDto>(true, []);
+
+  constructor(private transportService: TransportsService) {
+    this.dataSource = new MatTableDataSource();
+  }
 
   ngOnInit(): void {
-  }
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataToDisplay = [...ELEMENT_DATA];
-
-  dataSource = new ExampleDataSource(this.dataToDisplay);
-
-  addData() {
-    const randomElementIndex = Math.floor(Math.random() * ELEMENT_DATA.length);
-    this.dataToDisplay = [...this.dataToDisplay, ELEMENT_DATA[randomElementIndex]];
-    this.dataSource.setData(this.dataToDisplay);
+    this.transportService.getTransports().subscribe(data => {
+      this.dataSource.data = data;
+    });
   }
 
-  removeData() {
-    this.dataToDisplay = this.dataToDisplay.slice(0, -1);
-    this.dataSource.setData(this.dataToDisplay);
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  masterToggle() {
+    this.isAllSelected() ?
+      this.selection.clear() :
+      this.dataSource.data.forEach(row => this.selection.select(row));
   }
 }
 
-class ExampleDataSource extends DataSource<PeriodicElement> {
-  private _dataStream = new ReplaySubject<PeriodicElement[]>();
 
-  constructor(initialData: PeriodicElement[]) {
-    super();
-    this.setData(initialData);
-  }
-
-  connect(): Observable<PeriodicElement[]> {
-    return this._dataStream;
-  }
-
-  disconnect() {}
-
-  setData(data: PeriodicElement[]) {
-    this._dataStream.next(data);
-  }
-
-}

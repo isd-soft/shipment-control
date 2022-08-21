@@ -1,9 +1,7 @@
 package com.isdmoldova.shipmentcontrolbackend.entity;
 
-import com.isdmoldova.shipmentcontrolbackend.entity.enums.AvailableDaysRent;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.CargoType;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.TransportType;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,7 +23,9 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Transport extends BaseEntity{
+public class Transport extends BaseEntity {
+
+    private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
@@ -33,16 +33,12 @@ public class Transport extends BaseEntity{
     @ManyToOne
     private Route route;
 
+    @Enumerated(EnumType.STRING)
     private TransportType transportType;
 
-
-    @ElementCollection(targetClass = TransportType.class)
+    @ElementCollection(targetClass = CargoType.class)
     @JoinTable(name = "transport_cargo_type", joinColumns = @JoinColumn(name = "transport_id"))
     @Column(name = "cargo_type", nullable = false)
     @Enumerated(EnumType.STRING)
     private List<CargoType> cargoTypes;
-
-
-
-
 }
