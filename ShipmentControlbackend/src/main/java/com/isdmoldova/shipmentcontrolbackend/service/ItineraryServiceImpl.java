@@ -15,7 +15,6 @@ public class ItineraryServiceImpl implements ItineraryService{
             this.itineraryRepository  = itineraryRepository;
         }
 
-
         public Optional<Itinerary> findItineraryById(Long id){
             return itineraryRepository.findItineraryById(id);
         }

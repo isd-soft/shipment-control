@@ -15,9 +15,9 @@ public abstract class BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    protected LocalDateTime createdAt;
     @Column(name = "modified_at")
-    private LocalDateTime modifiedAt;
+    protected LocalDateTime modifiedAt;
 
     @PrePersist
     protected void onCreate() {
