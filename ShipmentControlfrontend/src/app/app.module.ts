@@ -39,6 +39,7 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 
+import { MatSortModule } from '@angular/material/sort';
 
 // import RouteIcon from '@mui/icons-material/Route';
 
@@ -78,10 +79,15 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatSidenavModule,
     MatTableModule,
     HttpClientModule,
+    MatSortModule,
     MatDialogModule,
     MatPaginatorModule,
     MatSnackBarModule
   ],
+  exports: [
+    MatSortModule,
+    MatPaginatorModule,
+],
   providers: [
     {
       provide : HTTP_INTERCEPTORS,
