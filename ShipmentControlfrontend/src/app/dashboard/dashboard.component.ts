@@ -48,6 +48,12 @@ export class DashboardComponent implements OnInit {
           },
         ],
       },
+      {
+        title: 'Cargo Type',
+        icon: 'line_weight',
+        link: './cargo',
+        color: '#ff7f0e',
+      },
     ];
 
     this.user = localStorage.getItem('username');
