@@ -6,12 +6,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class TransportDtoMapper {
-
     public TransportDTO map(Transport transport) {
-        final TransportDTO transportDTO = new TransportDTO() ;
-        transportDTO.setRoute(transport.getRoute());
-
+        final TransportDTO transportDTO = new TransportDTO();
+        transportDTO.setTransportId(transport.getId());
+        transportDTO.setTransportName(transport.getName());
+        transportDTO.setTransportType(transport.getTransportType());
+        transportDTO.setCargoTypes(transport.getCargoTypes());
+        transportDTO.setRouteId(transportDTO.getRouteId());
         return transportDTO;
-
-}
+    }
 }

@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-
-import { Input } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {Input} from '@angular/core';
 
 
 import {
@@ -10,7 +9,7 @@ import {
 } from '@angular/core';
 
 
-import { Menu } from './menu.model';
+import {Menu} from './menu.model';
 import {Router} from "@angular/router";
 
 
@@ -21,7 +20,6 @@ import {Router} from "@angular/router";
 
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-
 
 export class DashboardComponent implements OnInit {
 
@@ -43,16 +41,10 @@ export class DashboardComponent implements OnInit {
 
         subMenu: [
           {
-            title: 'Transports Type',
+            title: 'Transports List',
             icon: 'money',
             link: './transports',
             color: '#ff7f0e',
-          },
-          {
-            title: 'Category',
-            icon: 'people',
-            color: '#ff7f0e',
-            link: '/customers',
           },
         ],
       },
@@ -60,6 +52,7 @@ export class DashboardComponent implements OnInit {
 
     this.user = localStorage.getItem('username');
   }
+
   ngOnInit(): void {
   }
 
@@ -69,6 +62,7 @@ export class DashboardComponent implements OnInit {
 
   // headerComponent
   @Output() menuToggled = new EventEmitter<boolean>();
+
   // constructor(private authService: AuthService) { }
   logout(): void {
     localStorage.clear();
@@ -77,6 +71,7 @@ export class DashboardComponent implements OnInit {
 
   // layout
   opened = true;
+
   toggle(): void {
     this.opened = !this.opened;
   }
