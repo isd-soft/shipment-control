@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { RegistrationPageComponent } from './registration-page/registration-page.component';
-
+import { TokenInterceptor } from './services/token.interceptor';
 import { Input, Component, Output, EventEmitter, OnInit } from '@angular/core';
 import {FormGroup, FormControl, FormsModule} from '@angular/forms';
 
@@ -21,8 +21,9 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { MatIconModule } from "@angular/material/icon";
 
 
+
 import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {DashboardComponent } from './dashboard/dashboard.component';
 import {MatListModule} from "@angular/material/list";
 import {MatExpansionModule} from "@angular/material/expansion";
@@ -69,8 +70,15 @@ import {MatTableModule} from "@angular/material/table";
     MatMenuModule,
     MatSidenavModule,
     MatTableModule,
+    HttpClientModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide : HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi   : true,
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

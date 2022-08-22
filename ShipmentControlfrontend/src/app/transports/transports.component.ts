@@ -11,7 +11,7 @@ import {SelectionModel} from "@angular/cdk/collections";
 })
 export class TransportsComponent implements OnInit {
 
-  displayedColumns: string[] = ['select', 'transportId', 'transportName', 'transportType', 'routeId', 'cargoTypes'];
+  displayedColumns: string[] = ['select', 'transportName', 'transportType', 'routeId', 'cargoTypes'];
   dataSource: MatTableDataSource<TransportDto>;
   selection = new SelectionModel<TransportDto>(true, []);
 
