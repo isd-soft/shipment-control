@@ -1,0 +1,26 @@
+{
+  "cargoTypeList": [
+    {
+      "name": "CARGO_TYPE",
+      "id": 1
+    },
+    {
+      "name": "4545",
+      "id": 2
+    },
+    {
+      "name": "ccscsc",
+      "id": 3
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}
