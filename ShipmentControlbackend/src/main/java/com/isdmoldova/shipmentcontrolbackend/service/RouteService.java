@@ -1,7 +1,7 @@
 package com.isdmoldova.shipmentcontrolbackend.service;
 
 import com.isdmoldova.shipmentcontrolbackend.dto.RouteDTO;
-import com.isdmoldova.shipmentcontrolbackend.entity.enums.CargoType;
+import com.isdmoldova.shipmentcontrolbackend.entity.CargoType;
 
 public interface RouteService {
 

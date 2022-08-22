@@ -32,7 +32,4 @@ public class Cargo extends BaseEntity{
     @Enumerated(EnumType.STRING)
     @Column(name = "cargo_status")
     private CargoStatus cargoStatus;
-
-
-
 }
