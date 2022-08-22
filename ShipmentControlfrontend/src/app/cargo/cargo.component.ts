@@ -5,6 +5,7 @@ import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {CargoTypeService} from "../services/cargoType.service";
+import {CargoTypeDto} from "../model/cargoType.dto";
 
 @Component({
   selector: 'app-cargo',
@@ -40,7 +41,7 @@ export class CargoComponent implements OnInit {
     this.api.getCargoType()
       .subscribe({
         next:(res)=>{
-          this.dataSource =new MatTableDataSource<any>(res);
+          this.dataSource =new MatTableDataSource<CargoTypeDto>(res);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
         },

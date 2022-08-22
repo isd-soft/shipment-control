@@ -2,6 +2,7 @@ import {CargoTypeService} from "../../services/cargoType.service";
 import {Component, Inject, OnInit} from '@angular/core';
 import {FormGroup, FormBuilder, Validators, FormControl} from "@angular/forms";
 import {MatDialogRef,MAT_DIALOG_DATA} from '@angular/material/dialog'
+import {CargoTypeDto} from "../../model/cargoType.dto";
 
 
 @Component({
@@ -36,7 +37,10 @@ export class DialogComponent implements OnInit {
   addCargoType() {
     if (!this.editData) {
       if (this.cargoTypeForm.valid) {
-        this.api.addCargoType(this.cargoTypeForm.value)
+        const data: CargoTypeDto = {
+          name: this.cargoTypeForm.controls['name'].value
+        }
+        this.api.addCargoType(data)
           .subscribe({
             next: () => {
               alert("CargoType added successfully")
