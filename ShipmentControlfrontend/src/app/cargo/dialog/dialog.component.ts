@@ -3,6 +3,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {FormGroup, FormBuilder, Validators, FormControl} from "@angular/forms";
 import {MatDialogRef,MAT_DIALOG_DATA} from '@angular/material/dialog'
 import {CargoTypeDto} from "../../model/cargoType.dto";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 
 @Component({
@@ -19,7 +20,8 @@ export class DialogComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private api: CargoTypeService,
               @Inject(MAT_DIALOG_DATA) public editData: any,
-              private dialogRef: MatDialogRef<DialogComponent>) {
+              private dialogRef: MatDialogRef<DialogComponent>,
+              private snackBar:MatSnackBar) {
   }
 
   ngOnInit(): void {
@@ -43,12 +45,12 @@ export class DialogComponent implements OnInit {
         this.api.addCargoType(data)
           .subscribe({
             next: () => {
-              alert("CargoType added successfully")
+              this.snackBar.open("Created Successfully",'Dismiss');
               this.cargoTypeForm.reset();
               this.dialogRef.close('save');
             },
             error: () => {
-              alert("Error while adding the product")
+              this.snackBar.open("Error while adding the product",'Dismiss');
             }
           })
       }
@@ -60,12 +62,12 @@ export class DialogComponent implements OnInit {
     this.api.putCargoType(this.cargoTypeForm.value, this.editData.id)
       .subscribe({
         next: () => {
-          alert("CargoType updated Successfully");
+          this.snackBar.open("Updated Successfully",'Dismiss');
           this.cargoTypeForm.reset();
           this.dialogRef.close('update');
         },
         error: () => {
-          alert("Error while updating ");
+          this.snackBar.open("Error while updating",'Dismiss');
         }
       })
   }

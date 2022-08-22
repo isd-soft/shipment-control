@@ -6,6 +6,8 @@ import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {CargoTypeService} from "../services/cargoType.service";
 import {CargoTypeDto} from "../model/cargoType.dto";
+import {MatSnackBar} from "@angular/material/snack-bar";
+
 
 @Component({
   selector: 'app-cargo',
@@ -20,7 +22,9 @@ export class CargoComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog :MatDialog , private api : CargoTypeService) { }
+  constructor(private dialog :MatDialog ,
+              private api : CargoTypeService,
+              private snackbar:MatSnackBar) { }
 
 
   ngOnInit(): void {
@@ -46,7 +50,7 @@ export class CargoComponent implements OnInit {
           this.dataSource.sort = this.sort;
         },
         error : ()=>{
-          alert("Error while fetching the the record!!")
+          this.snackbar.open("Error while fetching the the record!!",'Dismiss');
         }
       })
   }
@@ -66,11 +70,11 @@ export class CargoComponent implements OnInit {
     this.api.deleteCargoType(id)
       .subscribe({
         next:()=>{
-          alert("Deleted Successfully");
+          this.snackbar.open("Deleted Successfully",'Dismiss')
           this.getAllCargoType();
         },
         error : ()=>{
-          alert("Error while deleting the route");
+          this.snackbar.open("Error while deleting the CargoType",'Dismiss');
         }
       })
 
