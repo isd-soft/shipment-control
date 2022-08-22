@@ -33,7 +33,8 @@ import {MenuItemComponent} from "./dashboard/menu-item/menu-item.component";
 import { LoginRegisterNavBarComponent } from './login-register-nav-bar/login-register-nav-bar.component';
 import { TransportsComponent } from './transports/transports.component';
 import {MatTableModule} from "@angular/material/table";
-
+import { MatSortModule } from '@angular/material/sort';
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 // import RouteIcon from '@mui/icons-material/Route';
 
@@ -71,7 +72,13 @@ import {MatTableModule} from "@angular/material/table";
     MatSidenavModule,
     MatTableModule,
     HttpClientModule,
+    MatSortModule,
+    MatPaginatorModule,
   ],
+  exports: [
+    MatSortModule,
+    MatPaginatorModule,
+],
   providers: [
     {
       provide : HTTP_INTERCEPTORS,

@@ -4,3 +4,7 @@ table {
 .mat-column-select {
   width: 38px;
 }
+.example-container {
+  height: 400px;
+  overflow: auto;
+}
