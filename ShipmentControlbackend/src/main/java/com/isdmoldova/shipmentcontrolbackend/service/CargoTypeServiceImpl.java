@@ -1,11 +1,15 @@
 package com.isdmoldova.shipmentcontrolbackend.service;
 
 import com.isdmoldova.shipmentcontrolbackend.dto.CargoTypeDTO;
+import com.isdmoldova.shipmentcontrolbackend.dto.TransportDTO;
 import com.isdmoldova.shipmentcontrolbackend.entity.CargoType;
+import com.isdmoldova.shipmentcontrolbackend.entity.User;
 import com.isdmoldova.shipmentcontrolbackend.exception.CargoTypeNotFoundException;
+import com.isdmoldova.shipmentcontrolbackend.exception.UserNotFoundException;
 import com.isdmoldova.shipmentcontrolbackend.mapper.CargoTypeDtoMapper;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.CargoTypeCommand;
 import com.isdmoldova.shipmentcontrolbackend.repository.CargoTypeRepository;
+import com.isdmoldova.shipmentcontrolbackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,6 +29,7 @@ public class CargoTypeServiceImpl implements CargoTypeService {
 
 
     private final CargoTypeRepository cargoTypeRepository;
+    private final UserRepository userRepository;
     private final CargoTypeDtoMapper mapper;
 
 
@@ -34,13 +39,14 @@ public class CargoTypeServiceImpl implements CargoTypeService {
         CargoType cargoType = new CargoType();
         cargoType.setName(command.getName());
         cargoTypeRepository.save(cargoType);
-
         return mapper.map(cargoType);
     }
+
 
     @Transactional
     @Override
     public List<CargoTypeDTO> findAll() {
+        List<CargoType> cargoTypeDTOS = cargoTypeRepository.findAll();
         return cargoTypeRepository.findAll().stream()
                 .map(mapper::map)
                 .collect(Collectors.toList());

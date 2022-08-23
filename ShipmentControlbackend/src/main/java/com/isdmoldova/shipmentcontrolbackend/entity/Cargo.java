@@ -14,7 +14,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "cargo")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @AllArgsConstructor
 public class Cargo extends BaseEntity{
 
@@ -32,4 +32,6 @@ public class Cargo extends BaseEntity{
     @Enumerated(EnumType.STRING)
     @Column(name = "cargo_status")
     private CargoStatus cargoStatus;
+
+
 }
