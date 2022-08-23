@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.TransactionalException;
@@ -36,6 +37,7 @@ public class TransportServiceImpl implements TransportService {
 
     @Override
     @Transactional
+
     public TransportDTO add(TransportCommand command, String username) {
         final User user = userRepository.findUserByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
