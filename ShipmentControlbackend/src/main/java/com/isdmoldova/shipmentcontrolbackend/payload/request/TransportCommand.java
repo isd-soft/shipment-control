@@ -18,5 +18,5 @@ public class TransportCommand {
    // private Long transportId;
     private String transportName;
     private TransportType transportType;
-    private List<CargoType> cargoTypes;
+    private List<Long> cargoTypes;
 }

@@ -25,7 +25,8 @@ public class TransportController {
     private final TransportService transportService;
 
     @PostMapping
-    public ResponseEntity<?> addTransport(@RequestBody TransportCommand transport, Principal principal) {
+    public ResponseEntity<?> addTransport(@RequestBody TransportCommand transport,
+                                          Principal principal) {
         transportService.add(transport, principal.getName());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
