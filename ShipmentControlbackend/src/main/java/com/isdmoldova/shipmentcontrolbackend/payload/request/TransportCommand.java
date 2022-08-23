@@ -12,8 +12,11 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class TransportCommand {
+
     private Long userId;
     private Long routeId;
+   // private Long transportId;
+    private String transportName;
     private TransportType transportType;
     private List<CargoType> cargoTypes;
 }

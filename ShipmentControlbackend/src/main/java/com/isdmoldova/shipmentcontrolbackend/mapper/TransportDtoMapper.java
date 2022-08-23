@@ -12,7 +12,7 @@ public class TransportDtoMapper {
         transportDTO.setTransportName(transport.getName());
         transportDTO.setTransportType(transport.getTransportType());
         transportDTO.setCargoTypes(transport.getCargoTypes());
-        transportDTO.setRouteId(transportDTO.getRouteId());
+        transportDTO.setUserId(transport.getUser().getId());
         return transportDTO;
     }
 }

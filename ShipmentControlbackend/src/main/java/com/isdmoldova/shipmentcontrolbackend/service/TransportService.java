@@ -1,23 +1,21 @@
 package com.isdmoldova.shipmentcontrolbackend.service;
 
 import com.isdmoldova.shipmentcontrolbackend.dto.TransportDTO;
-import com.isdmoldova.shipmentcontrolbackend.entity.Transport;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.TransportCommand;
 
 import java.util.List;
 
+
 public interface TransportService {
-    TransportDTO add(TransportCommand transport);
+    TransportDTO add(TransportCommand transport, String username);
 
-    TransportDTO update(Long id, TransportCommand transportCommand);
+    TransportDTO findTransportByIdAndUsername(Long id, String username);
 
-    TransportDTO findById(Long id);
+    List<TransportDTO> findAllTransport(String username);
 
-    TransportDTO findUserById(Long id);
+    TransportDTO update(Long id, TransportCommand command, String username);
 
-    List<TransportDTO> findAllTransport(Transport transport);
+    void delete(Long id, String username);
 
-    void delete(Long id);
-
-    List<TransportDTO> findAllTransportByUser(String username);
+//    List<TransportDTO> findAllTransportByUser(String username);
 }

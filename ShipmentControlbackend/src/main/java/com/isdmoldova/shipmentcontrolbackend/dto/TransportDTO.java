@@ -6,13 +6,16 @@ import lombok.Getter;
 import lombok.Setter;
 import java.util.List;
 
+
 @Setter
 @Getter
 public class TransportDTO {
 
-    private Integer routeId;
+    private Long userId;
+    private Long routeId;
     private Long transportId;
     private String transportName;
     private TransportType transportType;
     private List<CargoType> cargoTypes;
+
 }
