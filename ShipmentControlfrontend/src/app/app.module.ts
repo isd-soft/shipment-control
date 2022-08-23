@@ -32,6 +32,7 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import {MenuItemComponent} from "./dashboard/menu-item/menu-item.component";
 import { LoginRegisterNavBarComponent } from './login-register-nav-bar/login-register-nav-bar.component';
 import { TransportsComponent } from './transports/transports.component';
+import { CargoOverviewComponent } from './cargo-overview/cargo-overview.component';
 import {MatTableModule} from "@angular/material/table";
 import { CargoComponent } from './cargo/cargo.component';
 import { DialogComponent } from './cargo/dialog/dialog.component';
@@ -54,6 +55,7 @@ import { MatSortModule } from '@angular/material/sort';
     TransportsComponent,
     CargoComponent,
     DialogComponent,
+    CargoOverviewComponent
 
   ],
   imports: [
