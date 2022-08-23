@@ -10,9 +10,9 @@ public class TransportDtoMapper {
         final TransportDTO transportDTO = new TransportDTO();
         transportDTO.setTransportId(transport.getId());
         transportDTO.setTransportName(transport.getName());
-        transportDTO.setTransportType(transport.getTransportType());
+        transportDTO.setTransportType(transport.getTransportType().getLabel());
         transportDTO.setCargoTypes(transport.getCargoTypes());
-        transportDTO.setRouteId(transportDTO.getRouteId());
+        transportDTO.setUserId(transport.getUser().getId());
         return transportDTO;
     }
 }

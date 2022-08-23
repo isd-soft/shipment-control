@@ -17,5 +17,4 @@ public interface CargoRepository extends JpaRepository<Cargo , Long> {
 
     List<Cargo> findByCargoStatus(CargoStatus cargoStatus);
 
-    List<Cargo> findAll();
 }

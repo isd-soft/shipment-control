@@ -1,22 +1,27 @@
 package com.isdmoldova.shipmentcontrolbackend.service;
 
 import com.isdmoldova.shipmentcontrolbackend.dto.TransportDTO;
-import com.isdmoldova.shipmentcontrolbackend.entity.Route;
 import com.isdmoldova.shipmentcontrolbackend.entity.Transport;
 import com.isdmoldova.shipmentcontrolbackend.entity.User;
+import com.isdmoldova.shipmentcontrolbackend.exception.TransportNotFoundException;
+import com.isdmoldova.shipmentcontrolbackend.exception.UserNotAllowedException;
 import com.isdmoldova.shipmentcontrolbackend.exception.UserNotFoundException;
 import com.isdmoldova.shipmentcontrolbackend.mapper.TransportDtoMapper;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.TransportCommand;
 import com.isdmoldova.shipmentcontrolbackend.repository.RouteRepository;
 import com.isdmoldova.shipmentcontrolbackend.repository.TransportRepository;
 import com.isdmoldova.shipmentcontrolbackend.repository.UserRepository;
+import com.sun.xml.bind.v2.TODO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-import javax.transaction.Transactional;
+import javax.transaction.TransactionalException;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,66 +33,65 @@ public class TransportServiceImpl implements TransportService {
     private final RouteRepository routeRepository;
     private final TransportDtoMapper transportDtoMapper;
 
+
     @Override
     @Transactional
-    public TransportDTO add(TransportCommand command) {
-        final User user = userRepository.findById(command.getUserId()).orElseThrow(() -> new EntityNotFoundException("Entity not found"));
-        final Route route = routeRepository.findById(command.getRouteId()).orElseThrow();
+    public TransportDTO add(TransportCommand command, String username) {
+        final User user = userRepository.findUserByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
         final Transport transport = new Transport();
         transport.setUser(user);
-        transport.setRoute(route);
         transport.setTransportType(command.getTransportType());
-        transport.setCargoTypes(command.getCargoTypes());
-
+//        transport.setCargoTypes(command.getCargoTypes());
+        transportRepository.save(transport);
         return transportDtoMapper.map(transport);
     }
 
-    @Override
-    @Transactional
-    public TransportDTO update(Long id, TransportCommand command) {
-        final Transport transport = transportRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("lalala"));
-        transport.setTransportType(command.getTransportType());
-        transport.setCargoTypes(command.getCargoTypes());
 
-        return transportDtoMapper.map(transport);
+    @Override
+    @Transactional(readOnly = true)
+    public TransportDTO findTransportByIdAndUsername(Long id, String username) {
+        return transportRepository.findTransportByIdAndUserUsername(id, username)
+                .map(transportDtoMapper::map)
+                .orElseThrow(
+                        () -> new TransportNotFoundException("Transport with id " + id + " for username " + username + " not found"));
     }
 
-    @Override
-    @Transactional
-    public TransportDTO findById(Long id) {
-        final Transport transports = transportRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Id not found"));
-
-        return transportDtoMapper.map(transports);
-    }
 
     @Override
-    @Transactional
-    public TransportDTO findUserById(Long id) {
-        final Transport transports = transportRepository.findTransportById(id).orElseThrow(() -> new EntityNotFoundException("User with specified id not found"));
-
-        return transportDtoMapper.map(transports);
-    }
-
-    @Override
-    @Transactional
-    public List<TransportDTO> findAllTransport(Transport transport) {
-        final List<Transport> transports = transportRepository.findAll();
-
+    @Transactional(readOnly = true)
+    public List<TransportDTO> findAllTransport(String username) {
+        User user = userRepository.findUserByUsername(username).orElseThrow(
+                () -> new UserNotFoundException("Transports for user " + username + " not found"));
+        final List<Transport> transports = transportRepository.findAllByUser(user);
         return transports.stream().map(transportDtoMapper::map).collect(Collectors.toList());
     }
 
+
     @Override
     @Transactional
-    public void delete(Long id) {
+    public TransportDTO update(Long id, TransportCommand command, String username) {
+        Transport transport = transportRepository.findById(id).orElseThrow(
+                () -> new TransportNotFoundException("Transport entity not found by specified id " + id));
+        if (!transport.getUser().getUsername().equals(username)) {
+            throw new UserNotAllowedException("User " + username + " not allowed to update transport with id " + id);
+        }
+        transport.setTransportType(command.getTransportType());
+        //        transport.setCargoTypes(command.getCargoTypes());
+        transportRepository.save(transport);
+        return transportDtoMapper.map(transport);
+    }
+
+
+    @Override
+    @Transactional
+    public void delete(Long id, String username) {
+        Transport transport = transportRepository.findById(id).orElseThrow(
+                () -> new TransportNotFoundException("Transport entity not found by specified id " + id));
+        if (!transport.getUser().getUsername().equals(username)) {
+            throw new UserNotAllowedException("User " + username + " not allowed to delete transport with id " + id);
+        }
         transportRepository.deleteById(id);
     }
 
-    @Override
-    @Transactional
-    public List<TransportDTO> findAllTransportByUser(String username) {
-        List<Transport> transports =
-                transportRepository.findAllByUser(userRepository.findUserByUsername(username)
-                        .orElseThrow(() -> new UserNotFoundException("User " + username + " not found.")));
-        return transports.stream().map(transportDtoMapper::map).collect(Collectors.toList());
-    }
 }
