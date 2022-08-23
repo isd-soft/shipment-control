@@ -13,6 +13,6 @@ public class TransportDTO {
     private Integer routeId;
     private Long transportId;
     private String transportName;
-    private TransportType transportType;
+    private String transportType;
     private List<CargoType> cargoTypes;
 }
