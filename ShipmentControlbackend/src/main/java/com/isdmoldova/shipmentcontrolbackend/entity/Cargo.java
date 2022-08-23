@@ -6,9 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import javax.persistence.*;
-import java.util.List;
+
 
 @Getter
 @Setter
@@ -16,7 +15,7 @@ import java.util.List;
 @Table(name = "cargo")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Cargo extends BaseEntity{
+public class Cargo extends BaseEntity {
 
     @Column(name = "tracking_number")
     private String trackingNumber;

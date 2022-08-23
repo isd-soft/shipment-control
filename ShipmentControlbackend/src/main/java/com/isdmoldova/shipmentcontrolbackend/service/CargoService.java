@@ -13,4 +13,6 @@ public interface CargoService {
     Optional<Cargo> findByRoute(Route route);
 
     List<Cargo> findByCargoStatus(CargoStatus cargoStatus);
+
+    List<Cargo> findAll();
 }

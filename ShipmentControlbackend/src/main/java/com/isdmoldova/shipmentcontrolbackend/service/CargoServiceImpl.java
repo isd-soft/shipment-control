@@ -35,4 +35,9 @@ public class CargoServiceImpl implements CargoService {
         return  cargoRepository.findByCargoStatus(cargoStatus);
     }
 
+    @Override
+    public List<Cargo> findAll(){
+        return cargoRepository.findAll();
+    }
+
 }
