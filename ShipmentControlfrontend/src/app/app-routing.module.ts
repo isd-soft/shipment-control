@@ -13,7 +13,7 @@ const routes: Routes = [
     path: 'dashboard', component: DashboardComponent,
     children: [
       {path: 'transports', component: TransportsComponent},
-      {path: 'cargo', component: CargoTypeComponent}
+      {path: 'cargoType', component: CargoTypeComponent}
     ]
   },
   {path: '', component: LoginPageComponent}
