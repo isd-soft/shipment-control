@@ -8,10 +8,10 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-dialog',
-  templateUrl: './dialog.component.html',
-  styleUrls: ['./dialog.component.css']
+  templateUrl: './dialogCargoType.component.html',
+  styleUrls: ['./dialogCargoType.component.css']
 })
-export class DialogComponent implements OnInit {
+export class DialogCargoTypeComponent implements OnInit {
 
 
   cargoTypeForm !: FormGroup;
@@ -20,7 +20,7 @@ export class DialogComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private api: CargoTypeService,
               @Inject(MAT_DIALOG_DATA) public editData: any,
-              private dialogRef: MatDialogRef<DialogComponent>,
+              private dialogRef: MatDialogRef<DialogCargoTypeComponent>,
               private snackBar:MatSnackBar) {
   }
 
