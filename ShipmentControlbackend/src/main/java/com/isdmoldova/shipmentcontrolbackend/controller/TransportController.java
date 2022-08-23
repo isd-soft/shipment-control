@@ -6,13 +6,16 @@ import com.isdmoldova.shipmentcontrolbackend.entity.User;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.TransportCommand;
 import com.isdmoldova.shipmentcontrolbackend.service.TransportService;
 import com.isdmoldova.shipmentcontrolbackend.service.UserService;
+import com.isdmoldova.shipmentcontrolbackend.util.ExceptionResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -22,11 +25,11 @@ public class TransportController {
     private final TransportService transportService;
 
     @PostMapping
-    public ResponseEntity<?> addTransport(@RequestBody TransportCommand transport, Principal principal) {
+    public ResponseEntity<?> addTransport(@RequestBody TransportCommand transport,
+                                          Principal principal) {
         transportService.add(transport, principal.getName());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-
 
     @GetMapping()
     public ResponseEntity<List<TransportDTO>> getAllTransport(Principal principal) {
@@ -51,10 +54,12 @@ public class TransportController {
     }
 
     @DeleteMapping("/{id}")
+
     public ResponseEntity<?> deleteTransport(@PathVariable Long id, Principal principal) {
         transportService.delete(id, principal.getName());
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 
 
 }

@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {DialogComponent} from "./dialog/dialog.component";
+import {DialogCargoTypeComponent} from "./dialog/dialogCargoType.component";
 import {MatDialog} from "@angular/material/dialog";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
@@ -11,10 +11,10 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-cargo',
-  templateUrl: './cargo.component.html',
-  styleUrls: ['./cargo.component.css']
+  templateUrl: './cargoType.component.html',
+  styleUrls: ['./cargoType.component.css']
 })
-export class CargoComponent implements OnInit {
+export class CargoTypeComponent implements OnInit {
 
   displayedColumns: string[] = ['name', 'action'];
   dataSource!: MatTableDataSource<any>;
@@ -32,7 +32,7 @@ export class CargoComponent implements OnInit {
   }
 
   openDialog() {
-    this.dialog.open(DialogComponent, {
+    this.dialog.open(DialogCargoTypeComponent, {
       width:'30%'
     }).afterClosed().subscribe(value => {
       if(value === 'save'){
@@ -50,13 +50,13 @@ export class CargoComponent implements OnInit {
           this.dataSource.sort = this.sort;
         },
         error : ()=>{
-          this.snackbar.open("Error while fetching the the record!!",'Dismiss');
+          this.snackbar.open("Error while fetching the the record!!",'Error',{duration:2000});
         }
       })
   }
 
   editCargoType(row :any){
-    this.dialog.open(DialogComponent,{
+    this.dialog.open(DialogCargoTypeComponent,{
       width:'30%',
       data:row
     }).afterClosed().subscribe(value => {
@@ -70,11 +70,11 @@ export class CargoComponent implements OnInit {
     this.api.deleteCargoType(id)
       .subscribe({
         next:()=>{
-          this.snackbar.open("Deleted Successfully",'Dismiss')
+          this.snackbar.open("Deleted Successfully",'Ok',{duration:2000})
           this.getAllCargoType();
         },
         error : ()=>{
-          this.snackbar.open("Error while deleting the CargoType",'Dismiss');
+          this.snackbar.open("Error while deleting the CargoType",'Error',{duration:2000});
         }
       })
 

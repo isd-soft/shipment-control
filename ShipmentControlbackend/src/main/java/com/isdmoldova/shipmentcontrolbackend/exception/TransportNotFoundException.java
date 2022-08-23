@@ -1,7 +1,10 @@
 package com.isdmoldova.shipmentcontrolbackend.exception;
 
-public class TransportNotFoundException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
+@ResponseStatus(HttpStatus.BAD_REQUEST)
+public class TransportNotFoundException extends RuntimeException {
     public TransportNotFoundException(String message) {
         super(message);
     }

@@ -4,7 +4,7 @@ import {RegistrationPageComponent} from './registration-page/registration-page.c
 import {LoginPageComponent} from './login-page/login-page.component'
 import {DashboardComponent} from "./dashboard/dashboard.component";
 import {TransportsComponent} from "./transports/transports.component";
-import {CargoComponent} from "./cargo/cargo.component";
+import {CargoTypeComponent} from "./cargoType/cargoType.component";
 
 const routes: Routes = [
   {path: 'register', component: RegistrationPageComponent},
@@ -13,7 +13,7 @@ const routes: Routes = [
     path: 'dashboard', component: DashboardComponent,
     children: [
       {path: 'transports', component: TransportsComponent},
-      {path: 'cargo', component: CargoComponent}
+      {path: 'cargoType', component: CargoTypeComponent}
     ]
   },
   {path: '', component: LoginPageComponent}

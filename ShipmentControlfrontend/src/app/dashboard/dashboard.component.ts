@@ -43,7 +43,7 @@ export class DashboardComponent implements OnInit {
       {
         title: 'Cargo Type',
         icon: 'line_weight',
-        link: './cargo',
+        link: './cargoType',
         color: '#ff7f0e',
       },
     ];
