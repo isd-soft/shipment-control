@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
 import {FormGroup, FormControl, Validators, FormBuilder} from '@angular/forms';
 import {LoginCommand} from "../services/LoginCommand";
 import {AuthService} from "../services/auth.service";
@@ -18,7 +18,8 @@ export class LoginPageComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private authService: AuthService,
-              private router: Router) {
+              private router: Router,
+              private _snackBar: MatSnackBar) {
     this.loginForm = fb.group({
       username: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required])
@@ -37,6 +38,7 @@ export class LoginPageComponent implements OnInit {
       (result) => {
         localStorage.setItem('token', result.token);
         localStorage.setItem('username', result.username);
+        this._snackBar.open("Successfully logged in",'OK',{duration:1000});
         this.router.navigateByUrl('/dashboard');
       },
       error => {
