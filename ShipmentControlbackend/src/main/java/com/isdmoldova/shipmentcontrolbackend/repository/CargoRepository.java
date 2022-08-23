@@ -1,6 +1,7 @@
 package com.isdmoldova.shipmentcontrolbackend.repository;
 
 import com.isdmoldova.shipmentcontrolbackend.entity.Cargo;
+import com.isdmoldova.shipmentcontrolbackend.entity.CargoType;
 import com.isdmoldova.shipmentcontrolbackend.entity.Route;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.CargoStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,5 +17,6 @@ public interface CargoRepository extends JpaRepository<Cargo , Long> {
     Optional<Cargo> findByRoute(Route route);
 
     List<Cargo> findByCargoStatus(CargoStatus cargoStatus);
+
 
 }
