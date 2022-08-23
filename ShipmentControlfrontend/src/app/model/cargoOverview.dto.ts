@@ -1,9 +1,9 @@
 export interface CargoDTO{
 
- String : trackingNumber;
+  trackingNumber : string;
 
- destination : String;
+ destination : string;
 
- cargoStatus : cargoStatus ;
+ cargoStatus : string;
 
 }
