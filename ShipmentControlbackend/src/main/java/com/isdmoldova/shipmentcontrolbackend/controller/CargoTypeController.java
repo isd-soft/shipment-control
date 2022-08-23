@@ -27,11 +27,26 @@ public class CargoTypeController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<CargoTypeDTO>> getAllCargoTypes(){
+    public ResponseEntity<List<CargoTypeDTO>> getAllCargoTypes() {
         List<CargoTypeDTO> transportDTOS = cargoTypeService.findAll();
         return new ResponseEntity<>(transportDTOS,HttpStatus.OK);
-
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<CargoTypeDTO> getCargoTypeById(@PathVariable("id") Long id) {
+        CargoTypeDTO cargoTypeDTO = cargoTypeService.findById(id);
+        return new ResponseEntity<>(cargoTypeDTO, HttpStatus.OK);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<CargoTypeDTO> updateCargoType(@PathVariable("id") Long id, @RequestBody CargoTypeCommand cargoType) {
+        CargoTypeDTO cargoTypeDTO = cargoTypeService.findById(id);
+        cargoTypeService.update(id, cargoType);
+        return new ResponseEntity<>(cargoTypeDTO, HttpStatus.OK);
+    }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteCargoType(@PathVariable("id") Long id) {
+        cargoTypeService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
