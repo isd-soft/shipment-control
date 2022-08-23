@@ -12,9 +12,6 @@ import java.util.Optional;
 
 @Repository
 public interface CargoTypeRepository extends JpaRepository<CargoType, Long> {
-    List<CargoTypeDTO> list = new ArrayList<>();
-
-    CargoTypeDTO addCargoType(CargoType obj);
 
     Optional<CargoType> findByName(String name);
 

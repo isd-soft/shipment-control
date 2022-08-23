@@ -22,12 +22,10 @@ public class CargoType extends BaseEntity {
     @Column(name = "cargo_type_name")
     private String name;
 
-    @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
     }
 
-    @PrePersist
     protected void onModified() {
         this.modifiedAt = LocalDateTime.now();
     }
