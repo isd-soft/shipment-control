@@ -1,14 +1,9 @@
 export interface CargoDTO{
- String trackingNumber;
 
- route : Route;
-
- totalVolume : Double;
-
-  transportationType : TransportType;
+ String : trackingNumber;
 
  destination : String;
 
- cargoStatus : ;
+ cargoStatus : cargoStatus ;
 
 }
