@@ -45,12 +45,12 @@ export class DialogComponent implements OnInit {
         this.api.addCargoType(data)
           .subscribe({
             next: () => {
-              this.snackBar.open("Created Successfully",'Dismiss');
+              this.snackBar.open("Created Successfully",'Ok',{duration:2000});
               this.cargoTypeForm.reset();
               this.dialogRef.close('save');
             },
             error: () => {
-              this.snackBar.open("Error while adding the product",'Dismiss');
+              this.snackBar.open("Error while adding the product",'Error',{duration:2000});
             }
           })
       }
@@ -62,12 +62,12 @@ export class DialogComponent implements OnInit {
     this.api.putCargoType(this.cargoTypeForm.value, this.editData.id)
       .subscribe({
         next: () => {
-          this.snackBar.open("Updated Successfully",'Dismiss');
+          this.snackBar.open("Updated Successfully",'Ok',{duration:2000});
           this.cargoTypeForm.reset();
           this.dialogRef.close('update');
         },
         error: () => {
-          this.snackBar.open("Error while updating",'Dismiss');
+          this.snackBar.open("Error while updating",'Error',{duration:2000});
         }
       })
   }

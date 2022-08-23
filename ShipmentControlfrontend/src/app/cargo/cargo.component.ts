@@ -50,7 +50,7 @@ export class CargoComponent implements OnInit {
           this.dataSource.sort = this.sort;
         },
         error : ()=>{
-          this.snackbar.open("Error while fetching the the record!!",'Dismiss');
+          this.snackbar.open("Error while fetching the the record!!",'Error',{duration:2000});
         }
       })
   }
@@ -70,11 +70,11 @@ export class CargoComponent implements OnInit {
     this.api.deleteCargoType(id)
       .subscribe({
         next:()=>{
-          this.snackbar.open("Deleted Successfully",'Dismiss')
+          this.snackbar.open("Deleted Successfully",'Ok',{duration:2000})
           this.getAllCargoType();
         },
         error : ()=>{
-          this.snackbar.open("Error while deleting the CargoType",'Dismiss');
+          this.snackbar.open("Error while deleting the CargoType",'Error',{duration:2000});
         }
       })
 
