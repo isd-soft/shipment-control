@@ -8,6 +8,7 @@ import {
   Validators,
   FormBuilder,
 } from '@angular/forms';
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 
 @Component({
@@ -20,8 +21,25 @@ export class RegistrationPageComponent implements OnInit {
 
   registrationForm: FormGroup;
   hide: boolean = true;
-
   users : any
+
+  constructor(private fb: FormBuilder,
+              private registrationService: RegistrationService,
+              private router: Router,
+              private snackBar: MatSnackBar) {
+    this.registrationForm = fb.group({
+      userType: fb.control('', [Validators.required]),
+      email: fb.control('', [Validators.email]),
+      userName: fb.control('', [Validators.required]),
+      companyName: fb.control('', [Validators.required]),
+      telephoneNumber: fb.control('', [Validators.required, Validators.pattern("^[0-9]*$"),  Validators.maxLength(10)]),
+      password: fb.control('', [Validators.required]),
+      confirmPassword: fb.control('', [Validators.required]),
+
+    }, {validator: ConfirmedValidator('password', 'confirmPassword')});
+  }
+
+
   ngOnInit(): void {
     // this.registrationService.getUsers().subscribe(data =>{
     //   this.users = data;
@@ -49,24 +67,16 @@ export class RegistrationPageComponent implements OnInit {
         this.router.navigateByUrl("/login");
       },
       error => {
+        console.log("Unsuccessful");
+        this.snackBar.open("Unsuccessful registration, please fill all the fields", 'OK',{duration:6000});
 
       }
     );
+
   }
 
-  constructor(private fb: FormBuilder,
-              private registrationService: RegistrationService,
-              private router: Router) {
-    this.registrationForm = fb.group({
-      userType: fb.control('', [Validators.required]),
-      email: fb.control('', [Validators.email]),
-      userName: fb.control('', [Validators.required]),
-      companyName: fb.control('', [Validators.required]),
-      telephoneNumber: fb.control('', [Validators.required, Validators.pattern("^[0-9]*$"),  Validators.maxLength(10)]),
-      password: fb.control('', [Validators.required]),
-      confirmPassword: fb.control('', [Validators.required]),
-      }, {validator: ConfirmedValidator('password', 'confirmPassword')});
-    }
+
+
 }
 
 export function ConfirmedValidator(controlName: string, matchingControlName: string) {
@@ -83,3 +93,5 @@ export function ConfirmedValidator(controlName: string, matchingControlName: str
     }
   }
 }
+
+
