@@ -19,14 +19,13 @@ import java.util.List;
 public class CargoTypeController {
     private final CargoTypeService cargoTypeService;
 
-
     @PostMapping
     public ResponseEntity<CargoTypeDTO> addCargoType(@RequestBody CargoTypeCommand cargoTypeCommand) {
         cargoTypeService.add(cargoTypeCommand);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<List<CargoTypeDTO>> getAllCargoTypes() {
         List<CargoTypeDTO> transportDTOS = cargoTypeService.findAll();
         return new ResponseEntity<>(transportDTOS,HttpStatus.OK);
