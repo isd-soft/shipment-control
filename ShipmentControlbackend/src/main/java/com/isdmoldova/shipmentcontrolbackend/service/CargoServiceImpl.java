@@ -1,12 +1,12 @@
 package com.isdmoldova.shipmentcontrolbackend.service;
 
+import com.isdmoldova.shipmentcontrolbackend.dto.CargoDTO;
 import com.isdmoldova.shipmentcontrolbackend.entity.Cargo;
 import com.isdmoldova.shipmentcontrolbackend.entity.Route;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.CargoStatus;
 import com.isdmoldova.shipmentcontrolbackend.repository.CargoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -35,9 +35,5 @@ public class CargoServiceImpl implements CargoService {
         return  cargoRepository.findByCargoStatus(cargoStatus);
     }
 
-    @Override
-    public List<Cargo> findAll(){
-        return cargoRepository.findAll();
-    }
 
 }

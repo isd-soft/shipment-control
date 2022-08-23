@@ -1,7 +1,7 @@
 package com.isdmoldova.shipmentcontrolbackend.service;
 
+import com.isdmoldova.shipmentcontrolbackend.dto.CargoDTO;
 import com.isdmoldova.shipmentcontrolbackend.entity.Cargo;
-import com.isdmoldova.shipmentcontrolbackend.entity.CargoType;
 import com.isdmoldova.shipmentcontrolbackend.entity.Route;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.CargoStatus;
 import java.util.List;
@@ -15,5 +15,5 @@ public interface CargoService {
 
     List<Cargo> findByCargoStatus(CargoStatus cargoStatus);
 
-    List<Cargo> findAll();
+
 }
