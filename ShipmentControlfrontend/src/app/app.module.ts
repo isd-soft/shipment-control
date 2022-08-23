@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { RegistrationPageComponent } from './registration-page/registration-page.component';
-
+import { TokenInterceptor } from './services/token.interceptor';
 import { Input, Component, Output, EventEmitter, OnInit } from '@angular/core';
 import {FormGroup, FormControl, FormsModule} from '@angular/forms';
 
@@ -21,8 +21,9 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { MatIconModule } from "@angular/material/icon";
 
 
+
 import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {DashboardComponent } from './dashboard/dashboard.component';
 import {MatListModule} from "@angular/material/list";
 import {MatExpansionModule} from "@angular/material/expansion";
@@ -32,7 +33,13 @@ import {MenuItemComponent} from "./dashboard/menu-item/menu-item.component";
 import { LoginRegisterNavBarComponent } from './login-register-nav-bar/login-register-nav-bar.component';
 import { TransportsComponent } from './transports/transports.component';
 import {MatTableModule} from "@angular/material/table";
+import { CargoComponent } from './cargo/cargo.component';
+import { DialogComponent } from './cargo/dialog/dialog.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
+import { MatSortModule } from '@angular/material/sort';
 
 // import RouteIcon from '@mui/icons-material/Route';
 
@@ -45,6 +52,8 @@ import {MatTableModule} from "@angular/material/table";
     MenuItemComponent,
     LoginRegisterNavBarComponent,
     TransportsComponent,
+    CargoComponent,
+    DialogComponent,
 
   ],
   imports: [
@@ -69,8 +78,23 @@ import {MatTableModule} from "@angular/material/table";
     MatMenuModule,
     MatSidenavModule,
     MatTableModule,
+    HttpClientModule,
+    MatSortModule,
+    MatDialogModule,
+    MatPaginatorModule,
+    MatSnackBarModule
   ],
-  providers: [],
+  exports: [
+    MatSortModule,
+    MatPaginatorModule,
+],
+  providers: [
+    {
+      provide : HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi   : true,
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
