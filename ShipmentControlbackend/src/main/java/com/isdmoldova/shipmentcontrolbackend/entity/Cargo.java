@@ -6,17 +6,16 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import javax.persistence.*;
-import java.util.List;
+
 
 @Getter
 @Setter
 @Entity
 @Table(name = "cargo")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @AllArgsConstructor
-public class Cargo extends BaseEntity{
+public class Cargo extends BaseEntity {
 
     @Column(name = "tracking_number")
     private String trackingNumber;
@@ -32,4 +31,6 @@ public class Cargo extends BaseEntity{
     @Enumerated(EnumType.STRING)
     @Column(name = "cargo_status")
     private CargoStatus cargoStatus;
+
+
 }

@@ -30,7 +30,6 @@ public class TransportController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-
     @GetMapping()
     public ResponseEntity<List<TransportDTO>> getAllTransport(Principal principal) {
         List<TransportDTO> transportDTOS = transportService.findAllTransport(principal.getName());
@@ -54,6 +53,7 @@ public class TransportController {
     }
 
     @DeleteMapping("/{id}")
+
     public ResponseEntity<?> deleteTransport(@PathVariable Long id, Principal principal) {
         transportService.delete(id, principal.getName());
         return new ResponseEntity<>(HttpStatus.OK);

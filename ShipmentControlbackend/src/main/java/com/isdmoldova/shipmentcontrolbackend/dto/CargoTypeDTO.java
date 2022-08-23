@@ -9,9 +9,11 @@ import java.time.LocalDateTime;
 @Getter
 
 public class CargoTypeDTO {
-    private Long id;
-    private String name;
 
+    private Long id;
+
+    private String name;
     private LocalDateTime createdAt;
+
     private LocalDateTime modifiedAt;
 }
