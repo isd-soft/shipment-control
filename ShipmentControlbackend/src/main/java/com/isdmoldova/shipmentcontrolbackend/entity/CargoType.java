@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,4 +30,7 @@ public class CargoType extends BaseEntity {
     protected void onModified() {
         this.modifiedAt = LocalDateTime.now();
     }
+
+    @ManyToMany(mappedBy = "cargoTypes")
+    private List<Transport> transports;
 }
