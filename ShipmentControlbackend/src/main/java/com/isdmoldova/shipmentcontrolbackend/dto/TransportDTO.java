@@ -16,6 +16,6 @@ public class TransportDTO {
     private Long transportId;
     private String transportName;
     private String transportType;
-    private List<CargoType> cargoTypes;
+    private List<CargoTypeDTO> cargoTypes;
 
 }

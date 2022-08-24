@@ -4,8 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
-public class CargoTypeNotFoundException extends RuntimeException{
-    public CargoTypeNotFoundException(String message) {
+public class RouteNotFoundException extends RuntimeException{
+    public RouteNotFoundException(String message){
         super(message);
     }
 }
