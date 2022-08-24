@@ -10,4 +10,5 @@ public interface RouteRepository extends JpaRepository<Route, Long> {
 
     List<Route> findByOrigin(String origin);
 
+
 }

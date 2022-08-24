@@ -21,6 +21,7 @@ public class TransportDtoMapper {
         transportDTO.setCargoTypes(transport.getCargoTypes()
                 .stream().map(cargoTypeDtoMapper::map).collect(Collectors.toList()));
         transportDTO.setUserId(transport.getUser().getId());
+        transportDTO.setRouteId(transport.getRoute().getId());
         return transportDTO;
     }
 }
