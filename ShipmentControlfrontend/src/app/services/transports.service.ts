@@ -21,8 +21,8 @@ export class TransportsService {
     return this.httpClient.post<TransportCommand>("http://localhost:8080/api/transports/",data)
   }
 
-  putTransports(data : any, name:string) {
-    return this.httpClient.put<any>("http://localhost:8080/api/transports/" + data, name)
+  putTransports(data : TransportCommand, id:number) {
+    return this.httpClient.put<any>("http://localhost:8080/api/transports/" + data, id)
   }
   deleteTransports(id : number){
     return this.httpClient.delete("http://localhost:8080/api/transports/"+id);

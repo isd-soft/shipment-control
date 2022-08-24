@@ -1,9 +1,7 @@
-<div class="demo-button-container">
-  <button mat-raised-button class="demo-button">
-    Add Transport
-  </button>
-</div>
-<section class="example-container mat-elevation-z8" tabindex="0">
+<mat-toolbar>
+  <button mat-raised-button color="warn" (click)="openDialog()">Create</button>
+</mat-toolbar>
+<section class="example-container" tabindex="0">
 <mat-form-field appearance="standard">
   <mat-label>Filter</mat-label>
   <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
