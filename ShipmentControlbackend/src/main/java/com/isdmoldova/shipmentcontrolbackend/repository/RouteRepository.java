@@ -8,6 +8,6 @@ import java.util.List;
 @Repository
 public interface RouteRepository extends JpaRepository<Route, Long> {
 
-    List<Route> findByOrigin(String origin);
+
 
 }

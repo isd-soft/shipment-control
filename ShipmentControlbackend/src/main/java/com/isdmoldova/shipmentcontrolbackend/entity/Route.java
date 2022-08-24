@@ -7,20 +7,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
+import javax.persistence.*;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -42,12 +33,9 @@ public class Route extends BaseEntity {
     @Column(name = "estimated_route_days")
     private String estimatedDays;
 
-    private String origin;
-
-    private String destination;
-
     @ElementCollection(targetClass = AvailableDaysRent.class)
     @JoinTable(name = "route_available_days", joinColumns = @JoinColumn(name = "route_id"))
+
     @Column(name = "available_day", nullable = false)
     @Enumerated(EnumType.STRING)
     private List<AvailableDaysRent> availableDaysRent;
@@ -58,5 +46,17 @@ public class Route extends BaseEntity {
     @Column(name = "max_weight")
     private Double maximalLoadValue;
 
+    @Column(name = "max_volume")
+    private Double maxLoadVolume;
+
+    @OneToMany(mappedBy = "route")
+    private List<Transport> transports;
+
+    public List<CargoType> getAllowedCargoTypes() {
+        return this.transports.stream()
+                .map(Transport::getCargoTypes)
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
+    }
 
 }
