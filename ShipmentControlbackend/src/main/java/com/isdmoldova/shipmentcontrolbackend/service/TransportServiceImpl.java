@@ -81,15 +81,6 @@ public class TransportServiceImpl implements TransportService {
                 () -> new EntityNotFoundException("Transports for user " + username + " not found"));
         final List<Transport> transports = transportRepository.findAllByUser(user);
         return transports.stream().map(transportDtoMapper::map).collect(Collectors.toList());
-
-
-
-//        User user = userRepository.findUserByUsername(username).orElseThrow(
-//                () -> new EntityNotFoundException("Transports for user " + username + " not found"));
-//        final List<Transport> transports = transportRepository.findAllByUser(user);
-//        return transports.stream().map(transportDtoMapper::map).collect(Collectors.toList());
-
-
     }
 
 

@@ -43,6 +43,9 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { TransportsDialogComponent } from './transports/transports.dialog/transports.dialog.component';
 
+import { CustomMaterialModule } from './cargoType/custom-material.module';
+import { ConfirmDialogComponent } from './cargoType/dialog/confirm-dialog.component';
+
 // import RouteIcon from '@mui/icons-material/Route';
 
 @NgModule({
@@ -58,7 +61,7 @@ import { TransportsDialogComponent } from './transports/transports.dialog/transp
     DialogCargoTypeComponent,
     CargoOverviewComponent,
     TransportsDialogComponent,
-
+    ConfirmDialogComponent
 
   ],
   imports: [
@@ -87,8 +90,10 @@ import { TransportsDialogComponent } from './transports/transports.dialog/transp
     MatSortModule,
     MatDialogModule,
     MatPaginatorModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    CustomMaterialModule
   ],
+  entryComponents: [ConfirmDialogComponent],
   exports: [
     MatSortModule,
     MatPaginatorModule,
@@ -103,5 +108,4 @@ import { TransportsDialogComponent } from './transports/transports.dialog/transp
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-
 
