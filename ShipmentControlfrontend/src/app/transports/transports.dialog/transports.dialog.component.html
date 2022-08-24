@@ -1,0 +1,20 @@
+<div mat-dialog-content>
+  <form [formGroup]="transportTypeForm" >
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input formControlName="transportName" matInput placeholder="Name"/>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+    <mat-label>Type</mat-label>
+      <input formControlName="transportType" matInput placeholder="Type"/>
+      </mat-form-field>
+    <!--<mat-form-field appearance="outline">
+      <mat-label>Cargo Types</mat-label>
+      <input formControlName="cargoTypes" matInput placeholder="Cargo Types"/>
+    </mat-form-field>-->
+  </form>
+</div>
+<div mat-dialog-actions [align]="'end'">
+  <button mat-raised-button color="warn" mat-dialog-close="">Close</button>
+  <button mat-raised-button color="primary" (click)="addTransports()">{{actionBtn}}</button>
+</div>
