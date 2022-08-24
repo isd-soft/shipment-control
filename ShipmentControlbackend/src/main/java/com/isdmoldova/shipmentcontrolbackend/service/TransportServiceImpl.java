@@ -3,12 +3,10 @@ package com.isdmoldova.shipmentcontrolbackend.service;
 import com.isdmoldova.shipmentcontrolbackend.dto.CargoTypeDTO;
 import com.isdmoldova.shipmentcontrolbackend.dto.TransportDTO;
 import com.isdmoldova.shipmentcontrolbackend.entity.CargoType;
+import com.isdmoldova.shipmentcontrolbackend.entity.Route;
 import com.isdmoldova.shipmentcontrolbackend.entity.Transport;
 import com.isdmoldova.shipmentcontrolbackend.entity.User;
-import com.isdmoldova.shipmentcontrolbackend.exception.CargoTypeNotFoundException;
-import com.isdmoldova.shipmentcontrolbackend.exception.TransportNotFoundException;
-import com.isdmoldova.shipmentcontrolbackend.exception.UserNotAllowedException;
-import com.isdmoldova.shipmentcontrolbackend.exception.UserNotFoundException;
+import com.isdmoldova.shipmentcontrolbackend.exception.*;
 import com.isdmoldova.shipmentcontrolbackend.mapper.CargoTypeDtoMapper;
 import com.isdmoldova.shipmentcontrolbackend.mapper.TransportDtoMapper;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.TransportCommand;
@@ -44,7 +42,6 @@ public class TransportServiceImpl implements TransportService {
 
     @Override
     @Transactional
-
     public TransportDTO add(TransportCommand command, String username) {
         final User user = userRepository.findUserByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
@@ -53,11 +50,16 @@ public class TransportServiceImpl implements TransportService {
                         () -> new CargoTypeNotFoundException("Cargo type with id " + cargoTypeId + " not found")
                 ))
                 .collect(Collectors.toList());
+
+        Route route = routeRepository.findById(command.getRouteId())
+                .orElseThrow(() -> new RouteNotFoundException("Route with specified id not found"));
+
         final Transport transport = new Transport();
         transport.setUser(user);
         transport.setTransportType(command.getTransportType());
         transport.setCargoTypes(cargoTypes);
         transport.setName(command.getTransportName());
+        transport.setRoute(route);
         transportRepository.save(transport);
         return transportDtoMapper.map(transport);
     }
@@ -96,9 +98,14 @@ public class TransportServiceImpl implements TransportService {
                         () -> new CargoTypeNotFoundException("Cargo type with id " + cargoTypeId + " not found")
                 ))
                 .collect(Collectors.toList());
+
+        Route route = routeRepository.findById(command.getRouteId())
+                .orElseThrow(() -> new RouteNotFoundException("Route with specified id not found"));
+
         transport.setTransportType(command.getTransportType());
         transport.setCargoTypes(cargoTypes);
         transport.setName(command.getTransportName());
+        transport.setRoute(route);
         transportRepository.save(transport);
         return transportDtoMapper.map(transport);
     }
