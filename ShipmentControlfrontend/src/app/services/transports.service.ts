@@ -22,7 +22,7 @@ export class TransportsService {
   }
 
   putTransports(data : TransportCommand, id:number) {
-    return this.httpClient.put<any>("http://localhost:8080/api/transports/" + data, id)
+    return this.httpClient.put<any>("http://localhost:8080/api/transports/" + id, data)
   }
   deleteTransports(id : number){
     return this.httpClient.delete("http://localhost:8080/api/transports/"+id);

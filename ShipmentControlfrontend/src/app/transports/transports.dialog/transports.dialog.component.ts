@@ -16,12 +16,15 @@ import {TransportCommand} from "../../services/TransportCommand";
 export class TransportsDialogComponent implements OnInit {
   transportTypeForm !: FormGroup;
   actionBtn: string = "Save"
+  updatedTransport: TransportCommand;
 
   constructor(private formBuilder: FormBuilder,
               private transportsService: TransportsService,
               @Inject(MAT_DIALOG_DATA) public editData: any,
               private dialogRef: MatDialogRef<TransportsDialogComponent>,
-              private snackBar: MatSnackBar) {
+              private snackBar: MatSnackBar,
+
+              ) {
   }
 
   ngOnInit(): void {
@@ -34,7 +37,7 @@ export class TransportsDialogComponent implements OnInit {
       this.actionBtn = "Update";
       this.transportTypeForm.controls['transportName'].setValue(this.editData.transportName);
       this.transportTypeForm.controls['transportType'].setValue(this.editData.transportType);
-      this.transportTypeForm.controls['cargoTypes'].setValue(this.editData.cargoTypes);
+      /* this.transportTypeForm.controls['Cargo Type'].setValue(this.editData.cargoTypes);*/
     }
   }
 
@@ -45,7 +48,7 @@ export class TransportsDialogComponent implements OnInit {
           routeId: 1,
           transportName: this.transportTypeForm.controls['transportName'].value,
           transportType: this.transportTypeForm.controls['transportType'].value,
-          cargoTypes: [1,2]
+          cargoTypes: [1, 2]
         }
         this.transportsService.addTransports(data)
           .subscribe({
@@ -59,20 +62,25 @@ export class TransportsDialogComponent implements OnInit {
             }
           })
       }
-    }else {
-      this.updateTransport();}
+    } else {
+      this.updateTransport();
+    }
   }
 
-  updateTransport(){
-    this.transportsService.putTransports(this.transportTypeForm.value, this.editData.id)
+  updateTransport() {
+
+this.updatedTransport.transportName= this.transportTypeForm.controls['transportName'].value;
+this.updatedTransport.transportType= this.transportTypeForm.controls['transportType'].value;
+
+this.transportsService.putTransports(this.updatedTransport, 45)
       .subscribe({
         next: () => {
-          this.snackBar.open("Updated Successfully",'Ok',{duration:2000});
+          this.snackBar.open("Updated Successfully", 'Ok', {duration: 2000});
           this.transportTypeForm.reset();
           this.dialogRef.close('update');
         },
         error: () => {
-          this.snackBar.open("Error while updating",'Error',{duration:2000});
+          this.snackBar.open("Error while updating", 'Error', {duration: 2000});
         }
       })
   }

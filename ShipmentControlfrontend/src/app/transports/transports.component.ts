@@ -39,7 +39,7 @@ export class TransportsComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  public redirectToUpdate = (id: string) => {
+  public redirectToUpdate = (id: number) => {
     this.dialog.open(TransportsDialogComponent,{
       width:'30%',
       data:id
