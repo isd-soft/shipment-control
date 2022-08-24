@@ -5,6 +5,7 @@ import {LoginPageComponent} from './login-page/login-page.component'
 import {DashboardComponent} from "./dashboard/dashboard.component";
 import {TransportsComponent} from "./transports/transports.component";
 import {CargoTypeComponent} from "./cargoType/cargoType.component";
+import {CargoOverviewComponent} from "./cargo-overview/cargo-overview.component";
 
 const routes: Routes = [
   {path: 'register', component: RegistrationPageComponent},
@@ -13,7 +14,8 @@ const routes: Routes = [
     path: 'dashboard', component: DashboardComponent,
     children: [
       {path: 'transports', component: TransportsComponent},
-      {path: 'cargo', component: CargoTypeComponent}
+      {path: 'cargoType', component: CargoTypeComponent},
+      {path: 'cargo', component: CargoOverviewComponent}
     ]
   },
   {path: '', component: LoginPageComponent}

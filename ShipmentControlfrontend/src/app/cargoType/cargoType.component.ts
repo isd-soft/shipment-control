@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {DialogCargoTypeComponent} from "./dialogCargoType/dialogCargoType.component";
+import {DialogCargoTypeComponent} from "./dialog/dialogCargoType.component";
 import {MatDialog} from "@angular/material/dialog";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";

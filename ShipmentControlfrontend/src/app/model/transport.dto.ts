@@ -1,7 +1,9 @@
+import {CargoTypeDto} from "./cargoType.dto";
+
 export interface TransportDto {
   transportName: string;
   routeId: number;
-  cargoTypes: string[];
+  cargoTypes: CargoTypeDto[];
   transportType: string;
   transportId: number;
 }

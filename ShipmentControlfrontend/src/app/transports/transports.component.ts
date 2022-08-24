@@ -5,6 +5,7 @@ import {MatTableDataSource} from "@angular/material/table";
 import {SelectionModel} from "@angular/cdk/collections";
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from "@angular/material/paginator";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-transports',
@@ -19,17 +20,14 @@ export class TransportsComponent implements OnInit, AfterViewInit {
   @ViewChild('empTbSort') empTbSort = new MatSort();
   @ViewChild('paginator') paginator: MatPaginator;
 
-  constructor(private transportService: TransportsService) {
+  constructor(private transportService: TransportsService,
+              private snackbar: MatSnackBar) {
     this.dataSource = new MatTableDataSource();
   }
 
   ngOnInit(): void {
-    this.transportService.getTransports().subscribe(data => {
-      this.dataSource.data = data;
-      this.dataSource.sort = this.empTbSort;
-      this.dataSource.paginator=this.paginator;
-    });
-     }
+    this.getAllTransports();
+  }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -39,11 +37,39 @@ export class TransportsComponent implements OnInit, AfterViewInit {
   public redirectToUpdate = (id: string) => {
 
   }
-  public redirectToDelete = (id: string) => {
+  public redirectToDelete = (id: number) => {
+    this.transportService.deleteTransports(id).subscribe({
+      next: () => {
+        this.snackbar.open("Deleted Successfully", 'Dismiss')
+        this.getAllTransports();
+      },
+      error: () => {
+        this.snackbar.open("Error while deleting the Transport", 'Dismiss');
+      }
+    })
+  }
+getAllTransports(){
+  return this.transportService.getTransports().subscribe(data => {
+    this.dataSource.data = data;
+    this.dataSource.sort = this.empTbSort;
+    this.dataSource.paginator = this.paginator;
+  });
+}
+  getCargoTypeNames(element: any): string {
+    let cargoTypes = "";
+
+    element.cargoTypes.forEach(name => {
+      cargoTypes += name.name + ", ";
+    })
+    return cargoTypes;
   }
 
   ngAfterViewInit(): void {
 
+  }
+
+  onRowClicked(row) {
+    console.log('Row clicked: ', row);
   }
 }
 
