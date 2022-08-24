@@ -16,7 +16,8 @@ public class AppExceptionHandler {
 
     @ExceptionHandler({
             TransportNotFoundException.class,
-            UserNotAllowedException.class})
+            UserNotAllowedException.class,
+            CargoTypeNotFoundException.class})
     public ResponseEntity<Object> handleException(Exception ex) {
         return ResponseEntity.badRequest().body(Map.of("error:", ex.getMessage()));
     }
