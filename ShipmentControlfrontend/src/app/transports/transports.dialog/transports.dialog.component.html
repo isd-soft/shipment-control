@@ -1,17 +1,34 @@
 <div mat-dialog-content>
-  <form [formGroup]="transportTypeForm" >
+  <form [formGroup]="transportTypeForm">
     <mat-form-field appearance="outline">
       <mat-label>Name</mat-label>
       <input formControlName="transportName" matInput placeholder="Name"/>
     </mat-form-field>
     <mat-form-field appearance="outline">
-    <mat-label>Type</mat-label>
-      <input formControlName="transportType" matInput placeholder="Type"/>
-      </mat-form-field>
-    <!--<mat-form-field appearance="outline">
+      <mat-label>Type</mat-label>
+      <mat-select formControlName="transportType">
+        <mat-option *ngFor="let transportTypeDto of transportTypeDtoList" [value]="transportTypeDto.name">
+          {{transportTypeDto.label}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
       <mat-label>Cargo Types</mat-label>
-      <input formControlName="cargoTypes" matInput placeholder="Cargo Types"/>
-    </mat-form-field>-->
+      <mat-select [formControl]="cargoTypesValues" multiple>
+        <mat-select-trigger>
+          {{cargoTypesValues.value?.[0] || ''}}
+          <span *ngIf="(cargoTypesValues.value?.length || 0) > 1" class="example-additional-selection">
+        (+{{(cargoTypesValues.value?.length || 0) - 1}} {{cargoTypesValues.value?.length === 2 ? 'other' : 'others'}})
+      </span>
+        </mat-select-trigger>
+        <mat-option *ngFor="let cargoTypeDto of cargoTypeDtoList"
+                    [value]="cargoTypeDto.id">{{cargoTypeDto.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Route ID</mat-label>
+      <input formControlName="routeId" matInput placeholder="Route ID"/>
+    </mat-form-field>
   </form>
 </div>
 <div mat-dialog-actions [align]="'end'">

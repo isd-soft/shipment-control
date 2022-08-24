@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {TransportDto} from "../model/transport.dto";
 import {TransportCommand} from "./TransportCommand";
+import {TransportTypeDto} from "../model/transportTypeDto";
 
 
 @Injectable({
@@ -26,5 +27,9 @@ export class TransportsService {
   }
   deleteTransports(id : number){
     return this.httpClient.delete("http://localhost:8080/api/transports/"+id);
+  }
+
+  getTransportTypes() {
+    return this.httpClient.get<TransportTypeDto[]>("http://localhost:8080/api/transports/transport-type");
   }
 }
