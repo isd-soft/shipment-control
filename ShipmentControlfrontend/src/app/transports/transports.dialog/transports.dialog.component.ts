@@ -33,7 +33,7 @@ export class TransportsDialogComponent implements OnInit {
     this.transportTypeForm = this.formBuilder.group({
       transportName: new FormControl('', [Validators.required]),
       transportType: new FormControl('', [Validators.required]),
-      cargoTypes: new FormControl([], [Validators.required]),
+     /* cargoTypes: new FormControl( '',[Validators.required]),*/
       routeId: new FormControl('', [Validators.required])
     })
     if (this.editData) {
@@ -57,7 +57,6 @@ export class TransportsDialogComponent implements OnInit {
         }
       });
   }
-
   addTransports() {
     if (!this.editData) {
       if (this.transportTypeForm.valid) {
