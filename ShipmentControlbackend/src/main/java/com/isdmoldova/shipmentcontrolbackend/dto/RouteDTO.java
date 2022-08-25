@@ -16,22 +16,13 @@ import java.util.List;
 public class RouteDTO {
 
     private User user;
-
     private Itinerary itinerary;
-
     private CargoType cargoType;
-
     private String detailedRouteDescription;
-
-    private String estimatedDays;
-
+    private Integer estimatedDays;
     private String origin;
-
     private String destination;
-
     private List<AvailableDaysRent> availableDaysRent;
-
     private LocalTime estimatedAmountTimeShipment;
-
     private Double maximalLoadValue;
 }

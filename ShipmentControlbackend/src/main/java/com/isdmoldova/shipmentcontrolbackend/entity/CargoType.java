@@ -31,6 +31,6 @@ public class CargoType extends BaseEntity {
         this.modifiedAt = LocalDateTime.now();
     }
 
-    @ManyToMany(mappedBy = "cargoTypes")
+    @ManyToMany(mappedBy = "cargoTypes", cascade = CascadeType.ALL)
     private List<Transport> transports;
 }
