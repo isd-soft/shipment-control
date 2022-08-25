@@ -1,11 +1,7 @@
 package com.isdmoldova.shipmentcontrolbackend.entity;
 
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.AvailableDaysRent;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -19,6 +15,7 @@ import java.util.stream.Collectors;
 @Table(name = "route")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@Builder
 public class Route extends BaseEntity {
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "route")
@@ -31,7 +28,7 @@ public class Route extends BaseEntity {
     private User user;
 
     @Column(name = "estimated_route_days")
-    private String estimatedDays;
+    private Long estimatedDays;
 
     @ElementCollection(targetClass = AvailableDaysRent.class)
     @JoinTable(name = "route_available_days", joinColumns = @JoinColumn(name = "route_id"))
@@ -48,7 +45,6 @@ public class Route extends BaseEntity {
     @Column(name = "max_volume")
     private Double maxLoadVolume;
 
-    //    @OneToMany(fetch = FetchType.LAZY, mappedBy = "route")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "route")
     private List<Transport> transports;
 

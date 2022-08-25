@@ -5,6 +5,8 @@ import com.isdmoldova.shipmentcontrolbackend.entity.Itinerary;
 import com.isdmoldova.shipmentcontrolbackend.entity.User;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.AvailableDaysRent;
 
+import com.isdmoldova.shipmentcontrolbackend.entity.enums.TransportType;
+import com.isdmoldova.shipmentcontrolbackend.payload.request.ItineraryCommand;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,14 +17,13 @@ import java.util.List;
 @Setter
 public class RouteDTO {
 
-    private User user;
-    private Itinerary itinerary;
-    private CargoType cargoType;
-    private String detailedRouteDescription;
-    private Integer estimatedDays;
-    private String origin;
-    private String destination;
-    private List<AvailableDaysRent> availableDaysRent;
-    private LocalTime estimatedAmountTimeShipment;
-    private Double maximalLoadValue;
+    private Long userId;
+    private Long routeId;
+    private List<TransportDTO> transportDTOList;
+    private ItineraryDTO itineraryDTO;
+    private List<AvailableDaysRent> availableDaysRentList;
+    private Double maximalLoadWeight;
+    private Double maxLoadVolume;
+    private Long estimatedAmountTimeShipment;
+
 }

@@ -28,7 +28,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class TransportController {
     private final TransportService transportService;
-
     private final TransportTypeDtoMapper transportTypeDtoMapper;
 
     @PostMapping

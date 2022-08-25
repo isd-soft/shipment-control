@@ -13,9 +13,7 @@ import java.util.List;
 public class ItineraryDTO {
 
     private Route route;
-
     private List<Leg> leg;
-
     private LocalDateTime executionTime;
 
 }
