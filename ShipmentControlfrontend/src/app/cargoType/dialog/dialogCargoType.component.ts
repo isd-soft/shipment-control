@@ -1,7 +1,7 @@
 import {CargoTypeService} from "../../services/cargoType.service";
 import {Component, Inject, OnInit} from '@angular/core';
 import {FormGroup, FormBuilder, Validators, FormControl} from "@angular/forms";
-import {MatDialogRef,MAT_DIALOG_DATA} from '@angular/material/dialog'
+import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog'
 import {CargoTypeDto} from "../../model/cargoType.dto";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
@@ -21,7 +21,7 @@ export class DialogCargoTypeComponent implements OnInit {
               private api: CargoTypeService,
               @Inject(MAT_DIALOG_DATA) public editData: any,
               private dialogRef: MatDialogRef<DialogCargoTypeComponent>,
-              private snackBar:MatSnackBar) {
+              private snackBar: MatSnackBar) {
   }
 
   ngOnInit(): void {
@@ -40,17 +40,18 @@ export class DialogCargoTypeComponent implements OnInit {
     if (!this.editData) {
       if (this.cargoTypeForm.valid) {
         const data: CargoTypeDto = {
-          name: this.cargoTypeForm.controls['name'].value
+          name: this.cargoTypeForm.controls['name'].value,
+          id: 1
         }
         this.api.addCargoType(data)
           .subscribe({
             next: () => {
-              this.snackBar.open("Created Successfully",'Ok',{duration:2000});
+              this.snackBar.open("Created Successfully", 'Ok', {duration: 2000});
               this.cargoTypeForm.reset();
               this.dialogRef.close('save');
             },
             error: () => {
-              this.snackBar.open("Error while adding the product",'Error',{duration:2000});
+              this.snackBar.open("Error while adding the product", 'Error', {duration: 2000});
             }
           })
       }
@@ -58,16 +59,17 @@ export class DialogCargoTypeComponent implements OnInit {
       this.updateCargoType();
     }
   }
-  updateCargoType(){
+
+  updateCargoType() {
     this.api.putCargoType(this.cargoTypeForm.value, this.editData.id)
       .subscribe({
         next: () => {
-          this.snackBar.open("Updated Successfully",'Ok',{duration:2000});
+          this.snackBar.open("Updated Successfully", 'Ok', {duration: 2000});
           this.cargoTypeForm.reset();
           this.dialogRef.close('update');
         },
         error: () => {
-          this.snackBar.open("Error while updating",'Error',{duration:2000});
+          this.snackBar.open("Error while updating", 'Error', {duration: 2000});
         }
       })
   }

@@ -13,7 +13,7 @@ public class ItineraryDtoMapper {
         final ItineraryDTO itineraryDTO = new ItineraryDTO();
         itineraryDTO.setRoute(itinerary.getRoute());
         itineraryDTO.setLeg(itinerary.getLegs());
-        itineraryDTO.setExecutionTime(itinerary.getExecutionTime());
+
 
         return itineraryDTO;
     }

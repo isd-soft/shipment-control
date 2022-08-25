@@ -18,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -33,15 +34,18 @@ public class Itinerary extends BaseEntity{
     private Route route;
 
     @OneToMany(mappedBy = "itinerary", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Leg> legs;
+    private List<Leg> legs = new ArrayList<>();
 
-    @Column(name = "execution_time")
-    private LocalDateTime executionTime;
+    @Column(name = "days_of_execution")
+    private Long daysOfExecution;
 
+    public Leg getOrigin() {
+        return legs.get(0);
+    }
 
-    private String destination;
-
-    private String origin;
+    public Leg getDestination() {
+        return legs.get(legs.size() - 1);
+    }
 
 
 

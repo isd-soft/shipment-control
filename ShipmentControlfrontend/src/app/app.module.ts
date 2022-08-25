@@ -41,7 +41,14 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 import { MatSortModule } from '@angular/material/sort';
+
 import {DialogCargoOverviewComponent} from "./cargo-overview/dialog/dialogCargoOverview.component";
+import { TransportsDialogComponent } from './transports/transports.dialog/transports.dialog.component';
+
+import { CustomMaterialModule } from './cargoType/custom-material.module';
+import { ConfirmDialogComponent } from './cargoType/dialog/confirm-dialog.component';
+import {ConfirmDialogCargoComponent} from "./cargo-overview/dialog/confirm-dialogCargo.component";
+
 
 // import RouteIcon from '@mui/icons-material/Route';
 
@@ -57,7 +64,10 @@ import {DialogCargoOverviewComponent} from "./cargo-overview/dialog/dialogCargoO
     CargoTypeComponent,
     DialogCargoTypeComponent,
     CargoOverviewComponent,
-    DialogCargoOverviewComponent
+    DialogCargoOverviewComponent,
+    ConfirmDialogCargoComponent,
+    TransportsDialogComponent,
+    ConfirmDialogComponent
 
 
   ],
@@ -87,8 +97,10 @@ import {DialogCargoOverviewComponent} from "./cargo-overview/dialog/dialogCargoO
     MatSortModule,
     MatDialogModule,
     MatPaginatorModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    CustomMaterialModule
   ],
+  entryComponents: [ConfirmDialogComponent],
   exports: [
     MatSortModule,
     MatPaginatorModule,
@@ -103,5 +115,4 @@ import {DialogCargoOverviewComponent} from "./cargo-overview/dialog/dialogCargoO
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-
 

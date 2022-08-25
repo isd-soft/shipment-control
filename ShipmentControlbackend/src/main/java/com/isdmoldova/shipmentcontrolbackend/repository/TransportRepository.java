@@ -14,8 +14,7 @@ public interface TransportRepository extends JpaRepository<Transport, Long> {
 
     List<Transport> findAllByUser(User user);
 
+
     Optional<Transport> findTransportByIdAndUserUsername(Long id, String username);
-
-
 
 }

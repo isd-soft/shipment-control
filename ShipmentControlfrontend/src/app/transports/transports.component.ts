@@ -6,6 +6,8 @@ import {SelectionModel} from "@angular/cdk/collections";
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {MatDialog} from "@angular/material/dialog";
+import {TransportsDialogComponent} from "./transports.dialog/transports.dialog.component";
 
 @Component({
   selector: 'app-transports',
@@ -21,6 +23,7 @@ export class TransportsComponent implements OnInit, AfterViewInit {
   @ViewChild('paginator') paginator: MatPaginator;
 
   constructor(private transportService: TransportsService,
+              private dialog: MatDialog,
               private snackbar: MatSnackBar) {
     this.dataSource = new MatTableDataSource();
   }
@@ -29,18 +32,30 @@ export class TransportsComponent implements OnInit, AfterViewInit {
     this.getAllTransports();
   }
 
+  reload() {
+    this.getAllTransports();
+  }
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  public redirectToUpdate = (id: string) => {
+  public redirectToUpdate = (row: any) => {
+    this.dialog.open(TransportsDialogComponent, {
+      width: '30%',
+      data: row
+    }).afterClosed().subscribe(value => {
+      if (value === 'update') {
+        this.getAllTransports();
+      }
+    })
 
   }
   public redirectToDelete = (id: number) => {
     this.transportService.deleteTransports(id).subscribe({
       next: () => {
-        this.snackbar.open("Deleted Successfully", 'Dismiss')
+        this.snackbar.open("Deleted Successfully", 'Dismiss', {duration: 2000})
         this.getAllTransports();
       },
       error: () => {
@@ -48,13 +63,21 @@ export class TransportsComponent implements OnInit, AfterViewInit {
       }
     })
   }
-getAllTransports(){
-  return this.transportService.getTransports().subscribe(data => {
-    this.dataSource.data = data;
-    this.dataSource.sort = this.empTbSort;
-    this.dataSource.paginator = this.paginator;
-  });
-}
+
+  getAllTransports() {
+    return this.transportService.getTransports().subscribe({
+      next: (data) => {
+
+        this.dataSource = new MatTableDataSource<TransportDto>(data);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.empTbSort;
+      },
+      error: () => {
+        this.snackbar.open("Error while fetching the the record!!", 'Error', {duration: 2000});
+      }
+    });
+  }
+
   getCargoTypeNames(element: any): string {
     let cargoTypes = "";
 
@@ -70,6 +93,16 @@ getAllTransports(){
 
   onRowClicked(row) {
     console.log('Row clicked: ', row);
+  }
+
+  openDialog() {
+    this.dialog.open(TransportsDialogComponent, {
+      width: '30%'
+    }).afterClosed().subscribe(value => {
+      if (value === 'save') {
+        this.getAllTransports();
+      }
+    })
   }
 }
 
