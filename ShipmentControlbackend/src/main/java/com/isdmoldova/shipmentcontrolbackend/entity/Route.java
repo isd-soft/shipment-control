@@ -39,7 +39,7 @@ public class Route extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private List<AvailableDaysRent> availableDaysRent;
 
-    @Column(name = "estimated_time_amount",columnDefinition = "TIME")
+    @Column(name = "estimated_time_amount", columnDefinition = "TIME")
     private LocalTime estimatedAmountTimeShipment;
 
     @Column(name = "max_weight")
@@ -48,7 +48,8 @@ public class Route extends BaseEntity {
     @Column(name = "max_volume")
     private Double maxLoadVolume;
 
-    @OneToMany(mappedBy = "route")
+    //    @OneToMany(fetch = FetchType.LAZY, mappedBy = "route")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "route")
     private List<Transport> transports;
 
     public List<CargoType> getAllowedCargoTypes() {

@@ -30,19 +30,19 @@ export class DashboardComponent implements OnInit {
     this.myMenu = [
       {
         title: 'Routes',
-        icon: 'home',
+        icon: 'directions',
         link: '/routes',
         color: '#ff7f0e',
       },
       {
         title: 'Transports',
-        icon: 'router',
+        icon: 'directions_car',
         link: './transports',
         color: '#ff7f0e',
       },
       {
         title: 'Cargo Type',
-        icon: 'line_weight',
+        icon: 'category',
         link: './cargoType',
         color: '#ff7f0e',
       },

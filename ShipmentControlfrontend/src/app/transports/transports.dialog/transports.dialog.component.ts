@@ -34,12 +34,10 @@ export class TransportsDialogComponent implements OnInit {
       transportName: new FormControl('', [Validators.required]),
       transportType: new FormControl('', [Validators.required]),
      /* cargoTypes: new FormControl( '',[Validators.required]),*/
-      routeId: new FormControl('', [Validators.required])
     })
     if (this.editData) {
       this.actionBtn = "Update";
       this.transportTypeForm.controls['transportName'].setValue(this.editData.transportName);
-      this.transportTypeForm.controls['routeId'].setValue(this.editData.routeId);
       /*let selectedType = this.transportTypeDtoList.find(value => value.label==this.editData.transportType);
       this.transportTypeForm.controls['transportType'].setValue(selectedType);
     this.transportTypeForm.controls['cargoTypes'].setValue(this.editData.cargoTypes);*/
@@ -61,7 +59,6 @@ export class TransportsDialogComponent implements OnInit {
     if (!this.editData) {
       if (this.transportTypeForm.valid) {
         const data: TransportCommand = {
-          routeId: this.transportTypeForm.controls['routeId'].value,
           transportName: this.transportTypeForm.controls['transportName'].value,
           transportType: this.transportTypeForm.controls['transportType'].value,
           cargoTypes: this.cargoTypesValues.value,
