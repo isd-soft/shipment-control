@@ -14,5 +14,6 @@ public interface CargoTypeService  {
     CargoTypeDTO findById(Long id);
 
     CargoTypeDTO update(Long id, CargoTypeCommand cargo);
+
     void delete(Long id);
 }

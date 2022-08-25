@@ -1,0 +1,12 @@
+<div mat-dialog-content>
+  <form [formGroup]="" >
+    <mat-form-field appearance="outline">
+      <mat-label>name</mat-label>
+      <input formControlName="name" matInput placeholder="name"/>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions [align]="'end'">
+  <button mat-raised-button color="warn" mat-dialog-close="">Close</button>
+  <button mat-raised-button color="primary" (click)="addCargoOverview()">{{actionBtn}}</button>
+</div>

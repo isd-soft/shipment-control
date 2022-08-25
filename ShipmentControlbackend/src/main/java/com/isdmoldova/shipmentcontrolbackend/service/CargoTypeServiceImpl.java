@@ -67,8 +67,7 @@ public class CargoTypeServiceImpl implements CargoTypeService {
     @Transactional
     @Override
     public CargoTypeDTO update(Long id, CargoTypeCommand cargo) {
-        CargoType cargoType = cargoTypeRepository.findById(id).orElseThrow(() ->
-                new CargoTypeNotFoundException("This id does not exists!"));
+        CargoType cargoType = cargoTypeRepository.findById(id).orElseThrow(() -> new CargoTypeNotFoundException("This id does not exists!"));
         cargoType.setName(cargo.getName());
         return mapper.map(cargoType);
     }
