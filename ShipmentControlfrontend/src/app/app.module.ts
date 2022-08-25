@@ -41,10 +41,14 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 import { MatSortModule } from '@angular/material/sort';
+
+import {DialogCargoOverviewComponent} from "./cargo-overview/dialog/dialogCargoOverview.component";
 import { TransportsDialogComponent } from './transports/transports.dialog/transports.dialog.component';
 
 import { CustomMaterialModule } from './cargoType/custom-material.module';
 import { ConfirmDialogComponent } from './cargoType/dialog/confirm-dialog.component';
+import {ConfirmDialogCargoComponent} from "./cargo-overview/dialog/confirm-dialogCargo.component";
+
 import { RouteComponent } from './route/route.component';
 
 // import RouteIcon from '@mui/icons-material/Route';
@@ -61,6 +65,8 @@ import { RouteComponent } from './route/route.component';
     CargoTypeComponent,
     DialogCargoTypeComponent,
     CargoOverviewComponent,
+    DialogCargoOverviewComponent,
+    ConfirmDialogCargoComponent,
     TransportsDialogComponent,
     ConfirmDialogComponent,
     RouteComponent

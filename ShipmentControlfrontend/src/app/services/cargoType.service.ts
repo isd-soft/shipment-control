@@ -23,4 +23,5 @@ export class CargoTypeService {
   deleteCargoType(id : number){
     return this.http.delete<any>("http://localhost:8080/api/cargoType/"+id);
   }
+
 }
