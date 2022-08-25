@@ -49,6 +49,7 @@ import { CustomMaterialModule } from './cargoType/custom-material.module';
 import { ConfirmDialogComponent } from './cargoType/dialog/confirm-dialog.component';
 import {ConfirmDialogCargoComponent} from "./cargo-overview/dialog/confirm-dialogCargo.component";
 
+import { RouteComponent } from './route/route.component';
 
 // import RouteIcon from '@mui/icons-material/Route';
 
@@ -67,8 +68,8 @@ import {ConfirmDialogCargoComponent} from "./cargo-overview/dialog/confirm-dialo
     DialogCargoOverviewComponent,
     ConfirmDialogCargoComponent,
     TransportsDialogComponent,
-    ConfirmDialogComponent
-
+    ConfirmDialogComponent,
+    RouteComponent
 
   ],
   imports: [

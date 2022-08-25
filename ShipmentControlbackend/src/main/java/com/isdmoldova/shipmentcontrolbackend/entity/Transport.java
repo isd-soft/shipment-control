@@ -23,7 +23,6 @@ public class Transport extends BaseEntity {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "route_id")
     private Route route;
 
     @Enumerated(EnumType.STRING)

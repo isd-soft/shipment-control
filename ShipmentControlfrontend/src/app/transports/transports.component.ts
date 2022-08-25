@@ -16,7 +16,7 @@ import {TransportsDialogComponent} from "./transports.dialog/transports.dialog.c
 })
 export class TransportsComponent implements OnInit, AfterViewInit {
 
-  displayedColumns: string[] = ['transportName', 'transportType', 'routeId', 'cargoTypes', 'update', 'delete'];
+  displayedColumns: string[] = ['transportName', 'transportType', 'cargoTypes', 'update', 'delete'];
   dataSource: MatTableDataSource<TransportDto>;
   selection = new SelectionModel<TransportDto>(true, []);
   @ViewChild('empTbSort') empTbSort = new MatSort();
