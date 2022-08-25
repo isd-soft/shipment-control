@@ -1,8 +1,11 @@
 package com.isdmoldova.shipmentcontrolbackend.controller;
 
 import com.isdmoldova.shipmentcontrolbackend.dto.TransportDTO;
+import com.isdmoldova.shipmentcontrolbackend.dto.TransportTypeDTO;
 import com.isdmoldova.shipmentcontrolbackend.dto.UserDTO;
 import com.isdmoldova.shipmentcontrolbackend.entity.User;
+import com.isdmoldova.shipmentcontrolbackend.entity.enums.TransportType;
+import com.isdmoldova.shipmentcontrolbackend.mapper.TransportTypeDtoMapper;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.TransportCommand;
 import com.isdmoldova.shipmentcontrolbackend.service.TransportService;
 import com.isdmoldova.shipmentcontrolbackend.service.UserService;
@@ -16,13 +19,17 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/transports")
 @RequiredArgsConstructor
 public class TransportController {
     private final TransportService transportService;
+
+    private final TransportTypeDtoMapper transportTypeDtoMapper;
 
     @PostMapping
     public ResponseEntity<?> addTransport(@RequestBody TransportCommand transport,
@@ -60,6 +67,12 @@ public class TransportController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+@GetMapping("/transport-type")
+    public ResponseEntity<List<TransportTypeDTO>> getAllTransportTypes(){
+        List<TransportTypeDTO> transportTypeDTOS=Arrays.stream(TransportType.values())
+                .map(transportTypeDtoMapper::map).collect(Collectors.toList());
 
+        return new ResponseEntity<>(transportTypeDTOS, HttpStatus.OK);
+}
 
 }

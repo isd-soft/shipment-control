@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {TransportDto} from "../model/transport.dto";
 import {TransportCommand} from "./TransportCommand";
+import {TransportTypeDto} from "../model/transportTypeDto";
 
 
 @Injectable({
@@ -21,10 +22,14 @@ export class TransportsService {
     return this.httpClient.post<TransportCommand>("http://localhost:8080/api/transports/",data)
   }
 
-  putTransports(data : any, name:string) {
-    return this.httpClient.put<any>("http://localhost:8080/api/transports/" + data, name)
+  putTransports(data : TransportCommand, id:number) {
+    return this.httpClient.put<any>("http://localhost:8080/api/transports/" + id, data)
   }
   deleteTransports(id : number){
     return this.httpClient.delete("http://localhost:8080/api/transports/"+id);
+  }
+
+  getTransportTypes() {
+    return this.httpClient.get<TransportTypeDto[]>("http://localhost:8080/api/transports/transport-type");
   }
 }

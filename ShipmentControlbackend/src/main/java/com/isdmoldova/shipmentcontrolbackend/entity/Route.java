@@ -35,7 +35,6 @@ public class Route extends BaseEntity {
 
     @ElementCollection(targetClass = AvailableDaysRent.class)
     @JoinTable(name = "route_available_days", joinColumns = @JoinColumn(name = "route_id"))
-
     @Column(name = "available_day", nullable = false)
     @Enumerated(EnumType.STRING)
     private List<AvailableDaysRent> availableDaysRent;
