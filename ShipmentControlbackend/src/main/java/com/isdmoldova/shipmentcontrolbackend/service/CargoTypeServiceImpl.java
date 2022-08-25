@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +60,7 @@ public class CargoTypeServiceImpl implements CargoTypeService {
     @Override
     public CargoTypeDTO findById(Long id) {
         CargoType cargoType = cargoTypeRepository.findById(id).orElseThrow(()->
-                new CargoTypeNotFoundException("This id does not exists!"));
+                new EntityNotFoundException("This id does not exists!"));
 
         return mapper.map(cargoType);
     }
@@ -68,7 +69,7 @@ public class CargoTypeServiceImpl implements CargoTypeService {
     @Override
     public CargoTypeDTO update(Long id, CargoTypeCommand cargo) {
         CargoType cargoType = cargoTypeRepository.findById(id).orElseThrow(() ->
-                new CargoTypeNotFoundException("This id does not exists!"));
+                new EntityNotFoundException("This id does not exists!"));
         cargoType.setName(cargo.getName());
         return mapper.map(cargoType);
     }
@@ -77,7 +78,7 @@ public class CargoTypeServiceImpl implements CargoTypeService {
     @Override
     public void delete(Long id) {
          cargoTypeRepository.findById(id).orElseThrow(
-                () -> new CargoTypeNotFoundException("CargoType entity not found by specified id " + id));
+                () -> new EntityNotFoundException("CargoType entity not found by specified id " + id));
         cargoTypeRepository.deleteById(id);
     }
 }

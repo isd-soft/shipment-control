@@ -67,12 +67,12 @@ public class TransportController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-@GetMapping("/transport-type")
-    public ResponseEntity<List<TransportTypeDTO>> getAllTransportTypes(){
-        List<TransportTypeDTO> transportTypeDTOS=Arrays.stream(TransportType.values())
+    @GetMapping("/transport-type")
+    public ResponseEntity<List<TransportTypeDTO>> getAllTransportTypes() {
+        List<TransportTypeDTO> transportTypeDTOS = Arrays.stream(TransportType.values())
                 .map(transportTypeDtoMapper::map).collect(Collectors.toList());
 
         return new ResponseEntity<>(transportTypeDTOS, HttpStatus.OK);
-}
+    }
 
 }

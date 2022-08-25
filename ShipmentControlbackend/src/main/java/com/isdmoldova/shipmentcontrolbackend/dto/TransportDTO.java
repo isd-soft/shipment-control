@@ -12,7 +12,7 @@ import java.util.List;
 public class TransportDTO {
 
     private Long userId;
-    private Long routeId;
+  //  private Long routeId;
     private Long transportId;
     private String transportName;
     private String transportType;

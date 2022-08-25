@@ -50,15 +50,11 @@ public class TransportServiceImpl implements TransportService {
                         () -> new EntityNotFoundException("Cargo type with id " + cargoTypeId + " not found")
                 ))
                 .collect(Collectors.toList());
-        Route route = routeRepository.findById(command.getRouteId())
-                .orElseThrow(() -> new EntityNotFoundException("Route with id " + command.getRouteId() + " not found"));
-
         final Transport transport = new Transport();
         transport.setUser(user);
         transport.setTransportType(command.getTransportType());
         transport.setCargoTypes(cargoTypes);
         transport.setName(command.getTransportName());
-        transport.setRoute(route);
         transportRepository.save(transport);
         return transportDtoMapper.map(transport);
     }
@@ -97,13 +93,9 @@ public class TransportServiceImpl implements TransportService {
                         () -> new EntityNotFoundException("Cargo type with id " + cargoTypeId + " not found")
                 ))
                 .collect(Collectors.toList());
-        Route route = routeRepository.findById(command.getRouteId())
-                .orElseThrow(() -> new EntityNotFoundException("Route with id " + command.getRouteId() + " not found"));
-
         transport.setTransportType(command.getTransportType());
         transport.setCargoTypes(cargoTypes);
         transport.setName(command.getTransportName());
-        transport.setRoute(route);
         transportRepository.save(transport);
         return transportDtoMapper.map(transport);
     }

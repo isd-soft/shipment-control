@@ -14,7 +14,6 @@ import java.util.List;
 public class TransportCommand {
 
     private Long userId;
-    private Long routeId;
    // private Long transportId;
     private String transportName;
     private TransportType transportType;
