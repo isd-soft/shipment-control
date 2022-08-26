@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Builder
 public class Route extends BaseEntity {
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "route")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "route", cascade = CascadeType.ALL)
     private Itinerary itinerary;
 
     @Column(name = "detail_route")
@@ -41,7 +41,7 @@ public class Route extends BaseEntity {
     private Double maxLoadVolume;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "route", orphanRemoval = true)
-    @Builder.Default
+//    @Builder.Default
     private List<Transport> transports = new ArrayList<>();
 
     public Route(String detailedRouteDescription,

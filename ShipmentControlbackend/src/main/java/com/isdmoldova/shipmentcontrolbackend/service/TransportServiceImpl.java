@@ -85,7 +85,7 @@ public class TransportServiceImpl implements TransportService {
         Transport transport = transportRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Transport entity not found by specified id " + id));
         if (!transport.getUser().getUsername().equals(username)) {
-            throw new EntityNotFoundException("User " + username + " not allowed to update transport with id " + id);
+            throw new EntityNotFoundException("User " + username + " is not allowed to update transport with id " + id);
         }
         List<CargoType> cargoTypes = command.getCargoTypes().stream()
                 .map(cargoTypeId -> cargoTypeRepository.findById(cargoTypeId).orElseThrow(

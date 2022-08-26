@@ -6,6 +6,8 @@ import com.isdmoldova.shipmentcontrolbackend.entity.*;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.AvailableDaysRent;
 import com.isdmoldova.shipmentcontrolbackend.mapper.RouteDtoMapper;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.RouteCommand;
+import com.isdmoldova.shipmentcontrolbackend.payload.request.TransportCommand;
+import com.isdmoldova.shipmentcontrolbackend.repository.ItineraryRepository;
 import com.isdmoldova.shipmentcontrolbackend.repository.RouteRepository;
 import com.isdmoldova.shipmentcontrolbackend.repository.TransportRepository;
 import com.isdmoldova.shipmentcontrolbackend.repository.UserRepository;
@@ -14,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,6 +28,7 @@ public class RouteServiceImpl implements RouteService {
     private final UserRepository userRepository;
     private final RouteDtoMapper routeDtoMapper;
     private final TransportRepository transportRepository;
+    private final ItineraryRepository itineraryRepository;
 
 
     @Override
@@ -47,6 +49,7 @@ public class RouteServiceImpl implements RouteService {
                 .collect(Collectors.toList());
         Itinerary itinerary = new Itinerary(routeCommand.getItineraryCommand().getEstimatedAmountTimeShipment());
         legs.forEach(itinerary::addLeg);
+        itineraryRepository.save(itinerary);
 
         Route route = new Route(routeCommand.getDetailedRouteDescription(),
                 user,
@@ -67,6 +70,13 @@ public class RouteServiceImpl implements RouteService {
                 () -> new EntityNotFoundException("Transports for user " + username + " not found"));
         final List<Route> routes = routeRepository.findAllByUser(user);
         return routes.stream().map(routeDtoMapper::map).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public RouteDTO findById(Long id) {
+        return routeRepository.findById(id).map(routeDtoMapper::map)
+                .orElseThrow(() -> new EntityNotFoundException("Route with id " + id + " does not exist!"));
     }
 
     @Override
@@ -97,19 +107,21 @@ public class RouteServiceImpl implements RouteService {
         return routeDtoMapper.map(route);
     }
 
-    @Override
-    @Transactional
-    public RouteDTO findById(Long id) {
-        return routeRepository.findById(id).map(routeDtoMapper::map)
-                .orElseThrow(() -> new EntityNotFoundException("Route with id " + id + " does not exist!"));
-    }
+
+
 
     @Override
-    @Transactional
-    public void delete(Long id) {
+    public void delete(Long id, String username) {
         Route route = routeRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Route with id " + id + " does not exist!"));
+                () -> new EntityNotFoundException("Route not found with id " + id));
+
+        if(!route.getUser().getUsername().equals(username)){
+            throw new EntityNotFoundException("User " + username + " is not allowed to delete route with id " + id);
+        }
 
         routeRepository.delete(route);
     }
+
 }
+
+
