@@ -8,9 +8,7 @@ import com.isdmoldova.shipmentcontrolbackend.entity.enums.AvailableDaysRent;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.TransportType;
 import com.isdmoldova.shipmentcontrolbackend.mapper.AvailableDaysRentDtoMapper;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.RouteCommand;
-import com.isdmoldova.shipmentcontrolbackend.payload.request.TransportCommand;
 import com.isdmoldova.shipmentcontrolbackend.service.RouteService;
-import com.isdmoldova.shipmentcontrolbackend.service.TransportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,8 +28,8 @@ public class RouteController {
     private final AvailableDaysRentDtoMapper availableDaysRentDtoMapper;
 
     @PostMapping
-    public ResponseEntity<?> addRoute(@RequestBody RouteCommand routeCommand,
-                                      Principal principal) {
+    public ResponseEntity<Void> addRoute(@RequestBody RouteCommand routeCommand,
+                                          Principal principal) {
         routeService.add(routeCommand, principal.getName());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -42,6 +40,11 @@ public class RouteController {
         return new ResponseEntity<>(routeDTOS, HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<RouteDTO> getById(@PathVariable("id") Long id) {
+        RouteDTO route = routeService.findById(id);
+        return new ResponseEntity<>(route, HttpStatus.OK);
+    }
     @GetMapping("/available-days")
     public ResponseEntity<List<AvailableDaysRentDTO>> getAllAvailableDaysRend() {
         List<AvailableDaysRentDTO> availableDaysRentDTOS = Arrays.stream(AvailableDaysRent.values())
@@ -50,4 +53,16 @@ public class RouteController {
         return new ResponseEntity<>(availableDaysRentDTOS, HttpStatus.OK);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateRoute(@RequestBody RouteCommand command, @PathVariable Long id,
+                                         Principal principal) {
+        routeService.update(command, id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteRoute(@PathVariable Long id, Principal principal) {
+        routeService.delete(id, principal.getName());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

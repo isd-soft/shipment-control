@@ -10,6 +10,7 @@ import {RouteComponent} from "./route/route.component";
 import {RouteAddComponent} from "./route/route.add/route.add.component";
 import {RouteDisplayDetailsComponent} from "./route/route.display.details/route.display.details.component";
 
+
 const routes: Routes = [
   {path: 'register', component: RegistrationPageComponent},
   {path: 'login', component: LoginPageComponent},

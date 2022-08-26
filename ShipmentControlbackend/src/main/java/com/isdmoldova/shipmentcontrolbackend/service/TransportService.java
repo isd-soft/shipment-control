@@ -17,5 +17,4 @@ public interface TransportService {
 
     void delete(Long id, String username);
 
-//    List<TransportDTO> findAllTransportByUser(String username);
 }

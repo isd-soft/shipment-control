@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,7 +19,7 @@ import java.util.stream.Collectors;
 @Builder
 public class Route extends BaseEntity {
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "route")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "route", cascade = CascadeType.ALL)
     private Itinerary itinerary;
 
     @Column(name = "detail_route")
@@ -39,8 +40,9 @@ public class Route extends BaseEntity {
     @Column(name = "max_volume")
     private Double maxLoadVolume;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "route")
-    private List<Transport> transports;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "route", orphanRemoval = true)
+//    @Builder.Default
+    private List<Transport> transports = new ArrayList<>();
 
     public Route(String detailedRouteDescription,
                  User user,
@@ -52,6 +54,7 @@ public class Route extends BaseEntity {
         this.availableDaysRent = availableDaysRent;
         this.maximalLoadValue = maximalLoadValue;
         this.maxLoadVolume = maxLoadVolume;
+        this.transports = new ArrayList<>();
     }
 
     public void addItinerary(Itinerary itinerary) {
