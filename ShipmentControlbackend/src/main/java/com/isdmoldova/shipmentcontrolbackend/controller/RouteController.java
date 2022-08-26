@@ -22,7 +22,7 @@ public class RouteController {
     private final RouteService routeService;
 
     @PostMapping
-    public ResponseEntity<?> addRoute(@RequestBody RouteCommand routeCommand,
+    public ResponseEntity<Void> addRoute(@RequestBody RouteCommand routeCommand,
                                           Principal principal) {
         routeService.add(routeCommand, principal.getName());
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -41,15 +41,14 @@ public class RouteController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateRoute(@RequestBody RouteCommand command,
-                                         @PathVariable Long id,
+    public ResponseEntity<Void> updateRoute(@RequestBody RouteCommand command, @PathVariable Long id,
                                          Principal principal) {
         routeService.update(command, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteRoute(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteRoute(@PathVariable Long id) {
         routeService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

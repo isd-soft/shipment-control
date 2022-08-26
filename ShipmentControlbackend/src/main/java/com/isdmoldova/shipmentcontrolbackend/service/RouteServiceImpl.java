@@ -39,7 +39,8 @@ public class RouteServiceImpl implements RouteService {
         Double maxVolume = routeCommand.getMaxLoadVolume();
         List<AvailableDaysRent> availableDaysRentList = routeCommand.getAvailableDaysRentList();
         List<Transport> transportList = routeCommand.getTransportIdList()
-                .stream().map(transportId -> transportRepository.findById(transportId).orElseThrow(
+                .
+        ).map(transportId -> transportRepository.findById(transportId).orElseThrow(
                         () -> new EntityNotFoundException("Transport with id " + transportId + " not found")))
                 .collect(Collectors.toList());
         List<Leg> legs = routeCommand.getItineraryCommand().getLegList().stream()
@@ -76,16 +77,18 @@ public class RouteServiceImpl implements RouteService {
                 () -> new EntityNotFoundException("Route with this " + id + " does not found!"));
 
         route.setDetailedRouteDescription(command.getDetailedRouteDescription());
-        //route.setTransports(command.getTransportIdList());
+        List<Transport> transportList = command.getTransportIdList()
+                .stream().map(transportId -> transportRepository.findById(transportId).orElseThrow(
+                        () -> new EntityNotFoundException("Transport with id " + transportId + " not found")))
+                .collect(Collectors.toList());
+
+        route.setTransports(transportList);
         route.setAvailableDaysRent(command.getAvailableDaysRentList());
-        //route.setItinerary(command.getItineraryCommand());
-        //route.setUser(command.);
+        route.getItinerary().setDaysOfExecution(command.getItineraryCommand().getEstimatedAmountTimeShipment());
         route.setMaxLoadVolume(command.getMaxLoadVolume());
         route.setMaximalLoadValue(command.getMaxLoadWeight());
-        //route.setCreatedAt(command.get);
-        //route.setId(command.getId());
-        //route.setId(command);
         routeRepository.save(route);
+
         return routeDtoMapper.map(route);
     }
 
