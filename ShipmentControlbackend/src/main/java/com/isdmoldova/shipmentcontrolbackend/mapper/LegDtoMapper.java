@@ -1,18 +1,22 @@
 package com.isdmoldova.shipmentcontrolbackend.mapper;
 
-import com.isdmoldova.shipmentcontrolbackend.dto.CargoDTO;
-
 import com.isdmoldova.shipmentcontrolbackend.dto.LegDTO;
 import com.isdmoldova.shipmentcontrolbackend.entity.Leg;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 
+@Component
+@AllArgsConstructor
 public class LegDtoMapper {
 
     public LegDTO map(Leg leg) {
-        final LegDTO legDTO = new LegDTO();
-        legDTO.setAddress(leg.getAddress());
-        legDTO.setItinerary(leg.getItinerary());
-        legDTO.setName(leg.getName());
+        LegDTO legDTO = new LegDTO();
 
-        return  legDTO;
+        legDTO.setName(leg.getName());
+        legDTO.setAddress(legDTO.getAddress());
+        legDTO.setCountry(legDTO.getCountry());
+        legDTO.setCountryCode(leg.getCountryCode());
+
+        return legDTO;
     }
 }

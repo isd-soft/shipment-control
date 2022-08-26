@@ -12,8 +12,9 @@ import java.util.List;
 @Setter
 public class ItineraryDTO {
 
-    private Route route;
-    private List<Leg> leg;
-    private LocalDateTime executionTime;
+    private List<LegDTO> legDTOS;
+    private Long executionTime;
+
+
 
 }

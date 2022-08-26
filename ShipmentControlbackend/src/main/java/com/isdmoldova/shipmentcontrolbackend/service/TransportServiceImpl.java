@@ -47,8 +47,7 @@ public class TransportServiceImpl implements TransportService {
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
         List<CargoType> cargoTypes = command.getCargoTypes().stream()
                 .map(cargoTypeId -> cargoTypeRepository.findById(cargoTypeId).orElseThrow(
-                        () -> new EntityNotFoundException("Cargo type with id " + cargoTypeId + " not found")
-                ))
+                        () -> new EntityNotFoundException("Cargo type with id " + cargoTypeId + " not found")))
                 .collect(Collectors.toList());
         final Transport transport = new Transport();
         transport.setUser(user);

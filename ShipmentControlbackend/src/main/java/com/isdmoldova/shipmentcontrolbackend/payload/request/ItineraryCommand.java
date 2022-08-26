@@ -1,11 +1,12 @@
 package com.isdmoldova.shipmentcontrolbackend.payload.request;
 
-import com.isdmoldova.shipmentcontrolbackend.entity.Leg;
+import lombok.Data;
 
 import java.util.List;
 
+@Data
 public class ItineraryCommand {
-    private List<Leg> legList;
-//    private List<LegCommand> legList;
+    private Long estimatedAmountTimeShipment;
+    private List<LegCommand> legList;
 
 }

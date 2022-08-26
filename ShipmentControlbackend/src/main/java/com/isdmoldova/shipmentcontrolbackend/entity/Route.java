@@ -27,17 +27,11 @@ public class Route extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    @Column(name = "estimated_route_days")
-    private Long estimatedDays;
-
     @ElementCollection(targetClass = AvailableDaysRent.class)
     @JoinTable(name = "route_available_days", joinColumns = @JoinColumn(name = "route_id"))
     @Column(name = "available_day", nullable = false)
     @Enumerated(EnumType.STRING)
     private List<AvailableDaysRent> availableDaysRent;
-
-    @Column(name = "estimated_time_amount", columnDefinition = "TIME")
-    private LocalTime estimatedAmountTimeShipment;
 
     @Column(name = "max_weight")
     private Double maximalLoadValue;
@@ -47,6 +41,28 @@ public class Route extends BaseEntity {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "route")
     private List<Transport> transports;
+
+    public Route(String detailedRouteDescription,
+                 User user,
+                 List<AvailableDaysRent> availableDaysRent,
+                 Double maximalLoadValue,
+                 Double maxLoadVolume) {
+        this.detailedRouteDescription = detailedRouteDescription;
+        this.user = user;
+        this.availableDaysRent = availableDaysRent;
+        this.maximalLoadValue = maximalLoadValue;
+        this.maxLoadVolume = maxLoadVolume;
+    }
+
+    public void addItinerary(Itinerary itinerary) {
+        this.itinerary = itinerary;
+        itinerary.setRoute(this);
+    }
+
+    public void addTransport(Transport transport) {
+        transports.add(transport);
+        transport.setRoute(this);
+    }
 
     public List<CargoType> getAllowedCargoTypes() {
         return this.transports.stream()

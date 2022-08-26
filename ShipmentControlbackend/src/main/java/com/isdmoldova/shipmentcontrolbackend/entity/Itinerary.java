@@ -27,7 +27,6 @@ import java.util.List;
 @Setter
 @Table(name = "itinerary")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class Itinerary extends BaseEntity{
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -47,7 +46,12 @@ public class Itinerary extends BaseEntity{
         return legs.get(legs.size() - 1);
     }
 
+    public Itinerary(Long daysOfExecution) {
+        this.daysOfExecution = daysOfExecution;
+    }
 
-
-
+    public void addLeg(Leg leg) {
+        legs.add(leg);
+        leg.setItinerary(this);
+    }
 }

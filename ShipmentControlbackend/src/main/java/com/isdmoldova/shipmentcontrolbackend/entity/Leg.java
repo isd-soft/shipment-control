@@ -9,7 +9,6 @@ import javax.persistence.*;
 @Setter
 @Table(name = "leg")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class Leg extends BaseEntity {
 
     @Column(name = "country_name")
@@ -26,4 +25,11 @@ public class Leg extends BaseEntity {
 
     @ManyToOne (fetch = FetchType.LAZY)
     private Itinerary itinerary;
+
+    public Leg(String country, String countryCode, String address, String name) {
+        this.country = country;
+        this.countryCode = countryCode;
+        this.address = address;
+        this.name = name;
+    }
 }

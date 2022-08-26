@@ -1,20 +1,23 @@
 package com.isdmoldova.shipmentcontrolbackend.mapper;
 
+import com.isdmoldova.shipmentcontrolbackend.dto.ItineraryDTO;
 import com.isdmoldova.shipmentcontrolbackend.dto.RouteDTO;
+import com.isdmoldova.shipmentcontrolbackend.dto.TransportDTO;
+import com.isdmoldova.shipmentcontrolbackend.entity.Itinerary;
 import com.isdmoldova.shipmentcontrolbackend.entity.Route;
-import com.isdmoldova.shipmentcontrolbackend.entity.Transport;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 @RequiredArgsConstructor
-
 public class RouteDtoMapper {
 
     private final TransportDtoMapper transportDtoMapper ;
+    private  final ItineraryDtoMapper itineraryDtoMapper;
     public RouteDTO map(Route route) {
 
         final RouteDTO routeDTO = new RouteDTO();
@@ -22,14 +25,17 @@ public class RouteDtoMapper {
         routeDTO.setRouteId(route.getId());
         routeDTO.setUserId(route.getUser().getId());
         routeDTO.setTransportDTOList(route.getTransports()
-                .stream().map(transportDtoMapper::map).collect(Collectors.toList()));
-        routeDTO.setAvailableDaysRentList(route.getAvailableDaysRent()
-                .stream().collect(Collectors.toList()));
+                .stream().map(transportDtoMapper::map)
+                .collect(Collectors.toList()));
+        routeDTO.setAvailableDaysRentList(route.getAvailableDaysRent());
+        routeDTO.setItineraryDTO(itineraryDtoMapper.map(route.getItinerary()));
+
         routeDTO.setMaxLoadVolume(route.getMaxLoadVolume());
         routeDTO.setMaximalLoadWeight(route.getMaximalLoadValue());
-        routeDTO.setEstimatedAmountTimeShipment(route.getEstimatedDays());
-        routeDTO.setItineraryDTO(routeDTO.getItineraryDTO());
+//        routeDTO.setEstimatedAmountTimeShipment(route.getEstimatedDays());
 
         return routeDTO;
     }
+
 }
+

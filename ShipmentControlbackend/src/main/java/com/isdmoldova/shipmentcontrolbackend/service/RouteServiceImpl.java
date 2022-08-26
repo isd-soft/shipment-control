@@ -1,6 +1,7 @@
 package com.isdmoldova.shipmentcontrolbackend.service;
 
 import com.isdmoldova.shipmentcontrolbackend.dto.RouteDTO;
+import com.isdmoldova.shipmentcontrolbackend.dto.TransportDTO;
 import com.isdmoldova.shipmentcontrolbackend.entity.*;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.AvailableDaysRent;
 import com.isdmoldova.shipmentcontrolbackend.mapper.RouteDtoMapper;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,28 +35,28 @@ public class RouteServiceImpl implements RouteService {
         User user = userRepository.findUserByUsername(username)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
-
-
         Double maxWeight = routeCommand.getMaxLoadWeight();
         Double maxVolume = routeCommand.getMaxLoadVolume();
-        Long estimatedDays = routeCommand.getEstimatedAmountTimeShipment();
-//        String routeDescription = "smthg";
-//        Itinerary itinerary = routeCommand.getItineraryCommand();
         List<AvailableDaysRent> availableDaysRentList = routeCommand.getAvailableDaysRentList();
-        List<Transport> transportList = routeCommand.getTransportList().stream()
-                .map(transportId -> transportRepository.findById(transportId).orElseThrow(
-                        () -> new EntityNotFoundException("Transport type with id " + transportId + " not found")
-                ))
+        List<Transport> transportList = routeCommand.getTransportIdList()
+                .stream().map(transportId -> transportRepository.findById(transportId).orElseThrow(
+                        () -> new EntityNotFoundException("Transport with id " + transportId + " not found")))
                 .collect(Collectors.toList());
+        List<Leg> legs = routeCommand.getItineraryCommand().getLegList().stream()
+                .map(leg -> new Leg(leg.getCountry(), leg.getCountryCode(), leg.getAddress(), leg.getName()))
+                .collect(Collectors.toList());
+        Itinerary itinerary = new Itinerary(routeCommand.getItineraryCommand().getEstimatedAmountTimeShipment());
+        legs.forEach(itinerary::addLeg);
 
+        Route route = new Route(routeCommand.getDetailedRouteDescription(),
+                user,
+                availableDaysRentList,
+                maxWeight,
+                maxVolume);
+        route.addItinerary(itinerary);
+        transportList.forEach(route::addTransport);
 
-//        List<Transport> transport = routeCommand.getTransportList()
-//                .stream().map(tr -> transportRepository.findById(tr.getId()).orElseThrow())
-//                .collect(Collectors.toList());
-        Route route = Route.builder().maximalLoadValue(maxWeight).maxLoadVolume(maxVolume)
-                .estimatedDays(estimatedDays)
-                .availableDaysRent(availableDaysRentList).transports(transportList).build();
-
+        routeRepository.save(route);
         return routeDtoMapper.map(route);
     }
 
@@ -66,26 +68,6 @@ public class RouteServiceImpl implements RouteService {
         final List<Route> routes = routeRepository.findAllByUser(user);
         return routes.stream().map(routeDtoMapper::map).collect(Collectors.toList());
     }
-
-
-//    @Override
-//    @Transactional
-//    public TransportDTO add(TransportCommand command, String username) {
-//        final User user = userRepository.findUserByUsername(username)
-//                .orElseThrow(() -> new EntityNotFoundException("User not found"));
-//        List<CargoType> cargoTypes = command.getCargoTypes().stream()
-//                .map(cargoTypeId -> cargoTypeRepository.findById(cargoTypeId).orElseThrow(
-//                        () -> new EntityNotFoundException("Cargo type with id " + cargoTypeId + " not found")
-//                ))
-//                .collect(Collectors.toList());
-//        final Transport transport = new Transport();
-//        transport.setUser(user);
-//        transport.setTransportType(command.getTransportType());
-//        transport.setCargoTypes(cargoTypes);
-//        transport.setName(command.getTransportName());
-//        transportRepository.save(transport);
-//        return transportDtoMapper.map(transport);
-//    }
 
 
 }
