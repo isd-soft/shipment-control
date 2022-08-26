@@ -13,8 +13,8 @@ public class LegDtoMapper {
         LegDTO legDTO = new LegDTO();
 
         legDTO.setName(leg.getName());
-        legDTO.setAddress(legDTO.getAddress());
-        legDTO.setCountry(legDTO.getCountry());
+        legDTO.setAddress(leg.getAddress());
+        legDTO.setCountry(leg.getCountry());
         legDTO.setCountryCode(leg.getCountryCode());
 
         return legDTO;

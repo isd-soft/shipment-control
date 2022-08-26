@@ -1,11 +1,8 @@
 package com.isdmoldova.shipmentcontrolbackend.controller;
 
 import com.isdmoldova.shipmentcontrolbackend.dto.RouteDTO;
-import com.isdmoldova.shipmentcontrolbackend.dto.TransportDTO;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.RouteCommand;
-import com.isdmoldova.shipmentcontrolbackend.payload.request.TransportCommand;
 import com.isdmoldova.shipmentcontrolbackend.service.RouteService;
-import com.isdmoldova.shipmentcontrolbackend.service.TransportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,5 +31,17 @@ public class RouteController {
         return new ResponseEntity<>(routeDTOS, HttpStatus.OK);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateRoute(@RequestBody RouteCommand routeCommand,
+                                             @PathVariable Long id,
+                                             Principal principal) {
+        routeService.update(id, routeCommand, principal.getName());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteRoute(@PathVariable Long id, Principal principal) {
+        routeService.delete(id, principal.getName());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

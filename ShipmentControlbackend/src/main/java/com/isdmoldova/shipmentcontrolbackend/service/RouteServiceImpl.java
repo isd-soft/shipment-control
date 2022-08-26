@@ -6,6 +6,7 @@ import com.isdmoldova.shipmentcontrolbackend.entity.*;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.AvailableDaysRent;
 import com.isdmoldova.shipmentcontrolbackend.mapper.RouteDtoMapper;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.RouteCommand;
+import com.isdmoldova.shipmentcontrolbackend.payload.request.TransportCommand;
 import com.isdmoldova.shipmentcontrolbackend.repository.ItineraryRepository;
 import com.isdmoldova.shipmentcontrolbackend.repository.RouteRepository;
 import com.isdmoldova.shipmentcontrolbackend.repository.TransportRepository;
@@ -15,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -72,5 +72,44 @@ public class RouteServiceImpl implements RouteService {
         return routes.stream().map(routeDtoMapper::map).collect(Collectors.toList());
     }
 
+    @Override
+    public RouteDTO update(Long id, RouteCommand routeCommand, String username) {
+
+        Route route = routeRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Route not found with id " + id));
+
+        if(!route.getUser().getUsername().equals(username)){
+            throw new EntityNotFoundException("User " + username + " is not allowed to update route with id " + id);
+        }
+
+        route.setDetailedRouteDescription(routeCommand.getDetailedRouteDescription());
+        List<Transport> transportList = routeCommand.getTransportIdList()
+                .stream().map(transportId -> transportRepository.findById(transportId).orElseThrow(
+                        () -> new EntityNotFoundException("Transport with id " + transportId + " not found")
+                ))
+                .collect(Collectors.toList());
+        route.setTransports(transportList);
+
+        route.setAvailableDaysRent(routeCommand.getAvailableDaysRentList());
+        route.setMaxLoadVolume(routeCommand.getMaxLoadVolume());
+        route.setMaximalLoadValue(route.getMaximalLoadValue());
+
+
+        return routeDtoMapper.map(route);
+    }
+
+    @Override
+    public void delete(Long id, String username) {
+        Route route = routeRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Route not found with id " + id));
+
+        if(!route.getUser().getUsername().equals(username)){
+            throw new EntityNotFoundException("User " + username + " is not allowed to delete route with id " + id);
+        }
+
+        routeRepository.delete(route);
+    }
 
 }
+
+
