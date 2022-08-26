@@ -6,7 +6,6 @@ import com.isdmoldova.shipmentcontrolbackend.entity.*;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.AvailableDaysRent;
 import com.isdmoldova.shipmentcontrolbackend.mapper.RouteDtoMapper;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.RouteCommand;
-import com.isdmoldova.shipmentcontrolbackend.repository.ItineraryRepository;
 import com.isdmoldova.shipmentcontrolbackend.repository.RouteRepository;
 import com.isdmoldova.shipmentcontrolbackend.repository.TransportRepository;
 import com.isdmoldova.shipmentcontrolbackend.repository.UserRepository;
@@ -28,7 +27,6 @@ public class RouteServiceImpl implements RouteService {
     private final UserRepository userRepository;
     private final RouteDtoMapper routeDtoMapper;
     private final TransportRepository transportRepository;
-    private final ItineraryRepository itineraryRepository;
 
 
     @Override
@@ -41,8 +39,7 @@ public class RouteServiceImpl implements RouteService {
         Double maxVolume = routeCommand.getMaxLoadVolume();
         List<AvailableDaysRent> availableDaysRentList = routeCommand.getAvailableDaysRentList();
         List<Transport> transportList = routeCommand.getTransportIdList()
-                .
-        ).map(transportId -> transportRepository.findById(transportId).orElseThrow(
+                .stream().map(transportId -> transportRepository.findById(transportId).orElseThrow(
                         () -> new EntityNotFoundException("Transport with id " + transportId + " not found")))
                 .collect(Collectors.toList());
         List<Leg> legs = routeCommand.getItineraryCommand().getLegList().stream()
@@ -50,7 +47,6 @@ public class RouteServiceImpl implements RouteService {
                 .collect(Collectors.toList());
         Itinerary itinerary = new Itinerary(routeCommand.getItineraryCommand().getEstimatedAmountTimeShipment());
         legs.forEach(itinerary::addLeg);
-        itineraryRepository.save(itinerary);
 
         Route route = new Route(routeCommand.getDetailedRouteDescription(),
                 user,
@@ -87,7 +83,13 @@ public class RouteServiceImpl implements RouteService {
 
         route.setTransports(transportList);
         route.setAvailableDaysRent(command.getAvailableDaysRentList());
-        route.getItinerary().setDaysOfExecution(command.getItineraryCommand().getEstimatedAmountTimeShipment());
+        Itinerary itinerary = route.getItinerary();
+        itinerary.clearLegs();
+        List<Leg> legs = command.getItineraryCommand().getLegList().stream()
+                .map(leg -> new Leg(leg.getCountry(), leg.getCountryCode(), leg.getAddress(), leg.getName()))
+                .collect(Collectors.toList());
+        legs.forEach(itinerary::addLeg);
+        itinerary.setDaysOfExecution(command.getItineraryCommand().getEstimatedAmountTimeShipment());
         route.setMaxLoadVolume(command.getMaxLoadVolume());
         route.setMaximalLoadValue(command.getMaxLoadWeight());
         routeRepository.save(route);
