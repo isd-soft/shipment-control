@@ -69,5 +69,39 @@ public class RouteServiceImpl implements RouteService {
         return routes.stream().map(routeDtoMapper::map).collect(Collectors.toList());
     }
 
+    @Override
+    @Transactional
+    public RouteDTO update(RouteCommand command, Long id) {
+        Route route = routeRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Route with this " + id + " does not found!"));
 
+        route.setDetailedRouteDescription(command.getDetailedRouteDescription());
+        //route.setTransports(command.getTransportIdList());
+        route.setAvailableDaysRent(command.getAvailableDaysRentList());
+        //route.setItinerary(command.getItineraryCommand());
+        //route.setUser(command.);
+        route.setMaxLoadVolume(command.getMaxLoadVolume());
+        route.setMaximalLoadValue(command.getMaxLoadWeight());
+        //route.setCreatedAt(command.get);
+        //route.setId(command.getId());
+        //route.setId(command);
+        routeRepository.save(route);
+        return routeDtoMapper.map(route);
+    }
+
+    @Override
+    @Transactional
+    public RouteDTO findById(Long id) {
+        return routeRepository.findById(id).map(routeDtoMapper::map)
+                .orElseThrow(() -> new EntityNotFoundException("Route with id " + id + " does not exist!"));
+    }
+
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        Route route = routeRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Route with id " + id + " does not exist!"));
+
+        routeRepository.delete(route);
+    }
 }

@@ -17,4 +17,10 @@ public interface RouteService {
 
     List<RouteDTO> findAllRoutes(String username);
 
+    RouteDTO update(RouteCommand command, Long id);
+
+    RouteDTO findById(Long id);
+
+    void delete(Long id);
+
 }
