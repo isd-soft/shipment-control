@@ -19,7 +19,7 @@ public class RouteController {
     private final RouteService routeService;
 
     @PostMapping
-    public ResponseEntity<?> addTransport(@RequestBody RouteCommand routeCommand,
+    public ResponseEntity<Void> addRoute(@RequestBody RouteCommand routeCommand,
                                           Principal principal) {
         routeService.add(routeCommand, principal.getName());
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -31,14 +31,24 @@ public class RouteController {
         return new ResponseEntity<>(routeDTOS, HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<RouteDTO> getById(@PathVariable("id") Long id) {
+        RouteDTO route = routeService.findById(id);
+        return new ResponseEntity<>(route, HttpStatus.OK);
+    }
+
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateRoute(@RequestBody RouteCommand routeCommand,
-                                             @PathVariable Long id,
-                                             Principal principal) {
-        routeService.update(id, routeCommand, principal.getName());
+    public ResponseEntity<Void> updateRoute(@RequestBody RouteCommand command, @PathVariable Long id,
+                                         Principal principal) {
+        routeService.update(command, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteRoute(@PathVariable Long id) {
+        routeService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteRoute(@PathVariable Long id, Principal principal) {
         routeService.delete(id, principal.getName());

@@ -33,7 +33,6 @@ public class RouteDtoMapper {
         routeDTO.setMaximalLoadWeight(route.getMaximalLoadValue());
         routeDTO.setEstimatedAmountTimeShipment(route.getItinerary().getDaysOfExecution());
 
-
         return routeDTO;
     }
 

@@ -73,5 +73,4 @@ public class TransportController {
 
         return new ResponseEntity<>(transportTypeDTOS, HttpStatus.OK);
     }
-
 }

@@ -73,30 +73,36 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public RouteDTO update(Long id, RouteCommand routeCommand, String username) {
+    @Transactional(readOnly = true)
+    public RouteDTO findById(Long id) {
+        return routeRepository.findById(id).map(routeDtoMapper::map)
+                .orElseThrow(() -> new EntityNotFoundException("Route with id " + id + " does not exist!"));
+    }
 
+    @Override
+    @Transactional
+    public RouteDTO update(RouteCommand command, Long id) {
         Route route = routeRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Route not found with id " + id));
+                () -> new EntityNotFoundException("Route with this " + id + " does not found!"));
 
-        if(!route.getUser().getUsername().equals(username)){
-            throw new EntityNotFoundException("User " + username + " is not allowed to update route with id " + id);
-        }
-
-        route.setDetailedRouteDescription(routeCommand.getDetailedRouteDescription());
-        List<Transport> transportList = routeCommand.getTransportIdList()
+        route.setDetailedRouteDescription(command.getDetailedRouteDescription());
+        List<Transport> transportList = command.getTransportIdList()
                 .stream().map(transportId -> transportRepository.findById(transportId).orElseThrow(
-                        () -> new EntityNotFoundException("Transport with id " + transportId + " not found")
-                ))
+                        () -> new EntityNotFoundException("Transport with id " + transportId + " not found")))
                 .collect(Collectors.toList());
+
         route.setTransports(transportList);
-
-        route.setAvailableDaysRent(routeCommand.getAvailableDaysRentList());
-        route.setMaxLoadVolume(routeCommand.getMaxLoadVolume());
-        route.setMaximalLoadValue(route.getMaximalLoadValue());
-
+        route.setAvailableDaysRent(command.getAvailableDaysRentList());
+        route.getItinerary().setDaysOfExecution(command.getItineraryCommand().getEstimatedAmountTimeShipment());
+        route.setMaxLoadVolume(command.getMaxLoadVolume());
+        route.setMaximalLoadValue(command.getMaxLoadWeight());
+        routeRepository.save(route);
 
         return routeDtoMapper.map(route);
     }
+
+
+
 
     @Override
     public void delete(Long id, String username) {
