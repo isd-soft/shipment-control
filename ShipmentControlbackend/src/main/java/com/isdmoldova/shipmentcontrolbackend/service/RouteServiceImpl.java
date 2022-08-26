@@ -6,6 +6,7 @@ import com.isdmoldova.shipmentcontrolbackend.entity.*;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.AvailableDaysRent;
 import com.isdmoldova.shipmentcontrolbackend.mapper.RouteDtoMapper;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.RouteCommand;
+import com.isdmoldova.shipmentcontrolbackend.repository.ItineraryRepository;
 import com.isdmoldova.shipmentcontrolbackend.repository.RouteRepository;
 import com.isdmoldova.shipmentcontrolbackend.repository.TransportRepository;
 import com.isdmoldova.shipmentcontrolbackend.repository.UserRepository;
@@ -27,6 +28,7 @@ public class RouteServiceImpl implements RouteService {
     private final UserRepository userRepository;
     private final RouteDtoMapper routeDtoMapper;
     private final TransportRepository transportRepository;
+    private final ItineraryRepository itineraryRepository;
 
 
     @Override
@@ -48,6 +50,7 @@ public class RouteServiceImpl implements RouteService {
                 .collect(Collectors.toList());
         Itinerary itinerary = new Itinerary(routeCommand.getItineraryCommand().getEstimatedAmountTimeShipment());
         legs.forEach(itinerary::addLeg);
+        itineraryRepository.save(itinerary);
 
         Route route = new Route(routeCommand.getDetailedRouteDescription(),
                 user,
