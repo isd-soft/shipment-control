@@ -14,6 +14,4 @@ public class LegDTO {
     private String country;
     private String countryCode;
 
-//    private ItineraryDTO itineraryDTO;
-
 }
