@@ -22,17 +22,17 @@ public class RouteDtoMapper {
 
         final RouteDTO routeDTO = new RouteDTO();
 
-        routeDTO.setRouteId(route.getId());
         routeDTO.setUserId(route.getUser().getId());
+        routeDTO.setRouteId(route.getId());
         routeDTO.setTransportDTOList(route.getTransports()
                 .stream().map(transportDtoMapper::map)
                 .collect(Collectors.toList()));
-        routeDTO.setAvailableDaysRentList(route.getAvailableDaysRent());
         routeDTO.setItineraryDTO(itineraryDtoMapper.map(route.getItinerary()));
-
+        routeDTO.setAvailableDaysRentList(route.getAvailableDaysRent());
         routeDTO.setMaxLoadVolume(route.getMaxLoadVolume());
         routeDTO.setMaximalLoadWeight(route.getMaximalLoadValue());
-//        routeDTO.setEstimatedAmountTimeShipment(route.getEstimatedDays());
+        routeDTO.setEstimatedAmountTimeShipment(route.getItinerary().getDaysOfExecution());
+
 
         return routeDTO;
     }
