@@ -49,15 +49,12 @@ import { ConfirmDialogComponent } from './cargoType/dialog/confirm-dialog.compon
 
 
 import { RouteComponent } from './route/route.component';
-<<<<<<< HEAD
 import { RouteAddComponent } from './route/route.add/route.add.component';
 import { RouteDisplayDetailsComponent } from './route/route.display.details/route.display.details.component';
 import {MatTabsModule} from "@angular/material/tabs";
-=======
 import {ConfirmDialogCargoComponent} from "./cargo-overview/dialog/confirm-dialogCargo.component";
 import {DialogCargoOverviewComponent} from "./cargo-overview/dialog/dialogCargoOverview.component";
 import {CargoOverviewComponent} from "./cargo-overview/cargo-overview.component";
->>>>>>> efebd2888c8a2162799df118cd7e3704bfa0c6b8
 
 // import RouteIcon from '@mui/icons-material/Route';
 
@@ -75,15 +72,11 @@ import {CargoOverviewComponent} from "./cargo-overview/cargo-overview.component"
     TransportsDialogComponent,
     ConfirmDialogComponent,
     RouteComponent,
-<<<<<<< HEAD
     RouteAddComponent,
-    RouteDisplayDetailsComponent
-=======
+    RouteDisplayDetailsComponent,
     ConfirmDialogCargoComponent,
     DialogCargoOverviewComponent,
     CargoOverviewComponent
-
->>>>>>> efebd2888c8a2162799df118cd7e3704bfa0c6b8
 
   ],
   imports: [
