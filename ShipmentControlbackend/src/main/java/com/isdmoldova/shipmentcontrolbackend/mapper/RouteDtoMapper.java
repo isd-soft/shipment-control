@@ -16,8 +16,10 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class RouteDtoMapper {
 
-    private final TransportDtoMapper transportDtoMapper ;
-    private  final ItineraryDtoMapper itineraryDtoMapper;
+    private final TransportDtoMapper transportDtoMapper;
+    private final ItineraryDtoMapper itineraryDtoMapper;
+    private final AvailableDaysRentDtoMapper availableDaysRentDtoMapper;
+
     public RouteDTO map(Route route) {
 
         final RouteDTO routeDTO = new RouteDTO();
@@ -28,8 +30,10 @@ public class RouteDtoMapper {
                 .stream().map(transportDtoMapper::map)
                 .collect(Collectors.toList()));
         routeDTO.setItineraryDTO(itineraryDtoMapper.map(route.getItinerary()));
-        routeDTO.setAvailableDaysRentList(route.getAvailableDaysRent());
+        routeDTO.setAvailableDaysRentList(route.getAvailableDaysRent()
+                .stream().map(availableDaysRentDtoMapper::map).collect(Collectors.toList()));
         routeDTO.setMaxLoadVolume(route.getMaxLoadVolume());
+        routeDTO.setRouteDescription(route.getDetailedRouteDescription());
         routeDTO.setMaximalLoadWeight(route.getMaximalLoadValue());
         routeDTO.setEstimatedAmountTimeShipment(route.getItinerary().getDaysOfExecution());
 

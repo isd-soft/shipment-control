@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import {  NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { RegistrationPageComponent } from './registration-page/registration-page.component';
 import { TokenInterceptor } from './services/token.interceptor';
-import { Input, Component, Output, EventEmitter, OnInit } from '@angular/core';
 import {FormGroup, FormControl, FormsModule} from '@angular/forms';
 
 import { MatCardModule } from '@angular/material/card';
@@ -50,6 +50,9 @@ import { ConfirmDialogComponent } from './cargoType/dialog/confirm-dialog.compon
 import {ConfirmDialogCargoComponent} from "./cargo-overview/dialog/confirm-dialogCargo.component";
 
 import { RouteComponent } from './route/route.component';
+import { RouteAddComponent } from './route/route.add/route.add.component';
+import { RouteDisplayDetailsComponent } from './route/route.display.details/route.display.details.component';
+import {MatTabsModule} from "@angular/material/tabs";
 
 // import RouteIcon from '@mui/icons-material/Route';
 
@@ -69,7 +72,9 @@ import { RouteComponent } from './route/route.component';
     ConfirmDialogCargoComponent,
     TransportsDialogComponent,
     ConfirmDialogComponent,
-    RouteComponent
+    RouteComponent,
+    RouteAddComponent,
+    RouteDisplayDetailsComponent
 
   ],
   imports: [
@@ -99,7 +104,10 @@ import { RouteComponent } from './route/route.component';
     MatDialogModule,
     MatPaginatorModule,
     MatSnackBarModule,
-    CustomMaterialModule
+    CustomMaterialModule,
+    NgxMatTimepickerModule,
+    MatTabsModule
+
   ],
   entryComponents: [ConfirmDialogComponent],
   exports: [

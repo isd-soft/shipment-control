@@ -1,1 +1,64 @@
-<p>route works!</p>
+
+<mat-toolbar>
+  <button mat-raised-button color="warn" (click)="btnClick()">Create</button>
+</mat-toolbar>
+
+<section class="route-container" tabindex="0">
+  <mat-form-field appearance="standard">
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Example" #input>
+  </mat-form-field>
+
+  <table mat-table [dataSource]="dataSource" matSort #empTbSort="matSort">
+
+    <ng-container matColumnDef="routeDescription">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
+      <td mat-cell *matCellDef="let element">{{element.routeDescription}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="availableDaysRent">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Available Days</th>
+      <td mat-cell *matCellDef="let element">{{getAvailableDays(element)}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="origin">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Origin</th>
+      <td mat-cell *matCellDef="let element">{{getOrigin(element.itineraryDTO)}}</td>
+    </ng-container>
+    <ng-container matColumnDef="destination">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Destination</th>
+      <td mat-cell *matCellDef="let element">{{getDestination(element.itineraryDTO)}}</td>
+    </ng-container>
+    <ng-container matColumnDef="details">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let row" (click)="openDetails()">
+        <button mat-icon-button color="accent" >
+          <mat-icon class="mat-18">dehaze</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="edit">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let row">
+        <button mat-icon-button color="accent">
+          <mat-icon class="mat-18">edit</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="delete">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let row">
+        <button mat-icon-button color="warn" >
+          <mat-icon class="mat-18">delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClicked(row)"></tr>
+  </table>
+  <mat-paginator #paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
+</section>
+
+
