@@ -32,7 +32,7 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import {MenuItemComponent} from "./dashboard/menu-item/menu-item.component";
 import { LoginRegisterNavBarComponent } from './login-register-nav-bar/login-register-nav-bar.component';
 import { TransportsComponent } from './transports/transports.component';
-import { CargoOverviewComponent } from './cargo-overview/cargo-overview.component';
+
 import {MatTableModule} from "@angular/material/table";
 import { CargoTypeComponent } from './cargoType/cargoType.component';
 import { DialogCargoTypeComponent } from './cargoType/dialog/dialogCargoType.component';
@@ -42,14 +42,16 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 import { MatSortModule } from '@angular/material/sort';
 
-import {DialogCargoOverviewComponent} from "./cargo-overview/dialog/dialogCargoOverview.component";
 import { TransportsDialogComponent } from './transports/transports.dialog/transports.dialog.component';
 
 import { CustomMaterialModule } from './cargoType/custom-material.module';
 import { ConfirmDialogComponent } from './cargoType/dialog/confirm-dialog.component';
-import {ConfirmDialogCargoComponent} from "./cargo-overview/dialog/confirm-dialogCargo.component";
+
 
 import { RouteComponent } from './route/route.component';
+import {ConfirmDialogCargoComponent} from "./cargo-overview/dialog/confirm-dialogCargo.component";
+import {DialogCargoOverviewComponent} from "./cargo-overview/dialog/dialogCargoOverview.component";
+import {CargoOverviewComponent} from "./cargo-overview/cargo-overview.component";
 
 // import RouteIcon from '@mui/icons-material/Route';
 
@@ -64,12 +66,13 @@ import { RouteComponent } from './route/route.component';
     TransportsComponent,
     CargoTypeComponent,
     DialogCargoTypeComponent,
-    CargoOverviewComponent,
-    DialogCargoOverviewComponent,
-    ConfirmDialogCargoComponent,
     TransportsDialogComponent,
     ConfirmDialogComponent,
-    RouteComponent
+    RouteComponent,
+    ConfirmDialogCargoComponent,
+    DialogCargoOverviewComponent,
+    CargoOverviewComponent
+
 
   ],
   imports: [

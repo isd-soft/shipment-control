@@ -3,7 +3,6 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {FormGroup, FormBuilder, Validators, FormControl} from "@angular/forms";
 import {MatDialogRef,MAT_DIALOG_DATA} from '@angular/material/dialog'
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {CargoDTO} from "../../model/cargoOverview.dto";
 
 
 @Component({
@@ -26,13 +25,17 @@ export class DialogCargoOverviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargoOverviewForm = this.formBuilder.group({
-      name: new FormControl('', [Validators.required])
+      trackingNumber: new FormControl('', [Validators.required]),
+      destination: new FormControl('', [Validators.required]),
+      cargoStatus: new FormControl('', [Validators.required]),
 
     });
 
     if (this.editData) {
       this.actionBtn = "Update";
-      this.cargoOverviewForm.controls['name'].setValue(this.editData.name);
+      this.cargoOverviewForm.controls['trackingNumber'].setValue(this.editData.trackingNumber);
+      this.cargoOverviewForm.controls['destination'].setValue(this.editData.destination);
+      this.cargoOverviewForm.controls['cargoStatus'].setValue(this.editData.cargoStatus);
     }
   }
 
@@ -40,7 +43,7 @@ export class DialogCargoOverviewComponent implements OnInit {
     if (!this.editData) {
       if (this.cargoOverviewForm.valid) {
         const data: { trackingNumber: any } = {
-          trackingNumber: this.cargoOverviewForm.controls['trackingNumber'].value
+          trackingNumber: this.cargoOverviewForm.controls['trackingNumber'].value,
         }
         this.api.addCargoOverview(data)
           .subscribe({

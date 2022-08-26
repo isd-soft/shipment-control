@@ -1,9 +1,20 @@
 <div mat-dialog-content>
-  <form [formGroup]="" >
+  <form [formGroup]="cargoOverviewForm" >
     <mat-form-field appearance="outline">
-      <mat-label>name</mat-label>
-      <input formControlName="name" matInput placeholder="name"/>
+      <mat-label>Tracking Number</mat-label>
+      <input formControlName="trackingNumber" matInput placeholder="trackingNumber"/>
     </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Destination</mat-label>
+      <input formControlName="destination" matInput placeholder="destination"/>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Cargo Status</mat-label>
+      <input formControlName="cargoStatus" matInput placeholder="cargoStatus"/>
+    </mat-form-field>
+
   </form>
 </div>
 <div mat-dialog-actions [align]="'end'">

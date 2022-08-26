@@ -7,6 +7,7 @@ import {TransportsComponent} from "./transports/transports.component";
 import {CargoTypeComponent} from "./cargoType/cargoType.component";
 import {CargoOverviewComponent} from "./cargo-overview/cargo-overview.component";
 
+
 const routes: Routes = [
   {path: 'register', component: RegistrationPageComponent},
   {path: 'login', component: LoginPageComponent},
