@@ -45,11 +45,6 @@ public class RouteController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRoute(@PathVariable Long id) {
-        routeService.delete(id);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteRoute(@PathVariable Long id, Principal principal) {
         routeService.delete(id, principal.getName());
         return new ResponseEntity<>(HttpStatus.OK);
