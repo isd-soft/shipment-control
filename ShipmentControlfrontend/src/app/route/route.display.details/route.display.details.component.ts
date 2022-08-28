@@ -3,7 +3,16 @@ import {MatTableDataSource} from "@angular/material/table";
 import {RouteDto} from "../../model/route.dto";
 import {RouteService} from "../../services/route.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
+import {TransportDto} from "../../model/transport.dto";
+import {MatPaginator} from "@angular/material/paginator";
+import {MatSort} from "@angular/material/sort";
+import {LegDto} from "../../model/leg.dto";
+
+export interface RouteDetails {
+  name: string;
+  content: string;
+}
 
 @Component({
   selector: 'app-route.display.details',
@@ -12,36 +21,73 @@ import {Router} from "@angular/router";
 })
 export class RouteDisplayDetailsComponent implements OnInit {
 
-  displayedColumns: string[] = ['routeDescription', 'availableDaysRent', 'origin', 'destination', 'details','edit','delete'];
-  dataSource:MatTableDataSource<RouteDto>;
+  transportDisplayedColumns: string[] = ['transportName', 'transportType', 'cargoTypes'];
+  routeDetailsDisplayedColumns: string[] = ['name', 'content'];
+  legDisplayedColumns: string [] = ['name', 'address', 'country', 'countryCode'];
+  dataSource: RouteDto;
+  transportDataSource: MatTableDataSource<TransportDto>;
+  legDataSource: MatTableDataSource<LegDto>;
+  currentRouteId: Params;
+  routeDetails: RouteDetails[];
+  @ViewChild('transportPaginator') transportPaginator: MatPaginator;
+  @ViewChild('legPaginator') legPaginator: MatPaginator;
+  @ViewChild('transportSort') transportSort = new MatSort();
+  @ViewChild('legSort') legSort = new MatSort();
 
   constructor(
-              private routeService: RouteService,
-              private snackbar: MatSnackBar,
-              private router: Router) {
-    this.dataSource = new MatTableDataSource()
+    private routeService: RouteService,
+    private snackbar: MatSnackBar,
+    private router: Router,
+    private route: ActivatedRoute) {
+    this.transportDataSource = new MatTableDataSource();
+    this.legDataSource = new MatTableDataSource();
   }
 
   ngOnInit(): void {
-    this.getAllRoutes();
+    this.getRouteById();
+
   }
 
-  getOrigin(element: any): string {
-    return element.legDTOS.shift().address;
-  }
-  getDestination(element: any): string {
-    return element.legDTOS.at(-1).address;
+  getCargoTypeNames(element: any): string {
+    let cargoTypes = "";
+
+    element.cargoTypes.forEach(name => {
+      cargoTypes += name.name + ", ";
+    })
+    return cargoTypes;
   }
 
-  btnClick = () => {
-    this.router.navigateByUrl('/dashboard/route/add');
-  };
+  getAvailableDays(element: any): string {
+    let days = "";
 
-  getAllRoutes() {
-    this.routeService.getRoute()
+    element.availableDaysRentList.forEach(name => {
+      days += name.label + ", ";
+    })
+    return days;
+  }
+
+  getRouteById() {
+    this.route.queryParams
+      .subscribe(params => {
+        this.currentRouteId = params;
+      })
+    this.routeService.getRouteById(this.currentRouteId['routeId'])
       .subscribe({
         next: (res) => {
-          this.dataSource = new MatTableDataSource<RouteDto>(res);
+          this.dataSource = res;
+          this.transportDataSource = new MatTableDataSource<TransportDto>(res.transportDTOList);
+          this.transportDataSource.sort = this.transportSort;
+          this.transportDataSource.paginator = this.transportPaginator;
+          this.routeDetails = [
+            {name: "Route Description", content: this.dataSource.routeDescription},
+            {name: "Available days", content: this.getAvailableDays(this.dataSource)},
+            {name: "Maximum load weight", content: this.dataSource.maximalLoadWeight.toString()},
+            {name: "Estimate time for delivering", content: this.dataSource.estimatedAmountTimeShipment.toString()}
+          ];
+          this.legDataSource = new MatTableDataSource<LegDto>(res.itineraryDTO.legDTOS);
+          this.legDataSource.paginator = this.legPaginator;
+          this.legDataSource.sort = this.legSort;
+
         },
         error: () => {
           this.snackbar.open("Error while fetching the the record!!", 'Error', {duration: 2000});
@@ -49,7 +95,6 @@ export class RouteDisplayDetailsComponent implements OnInit {
         }
       })
   }
-
 
 
 }

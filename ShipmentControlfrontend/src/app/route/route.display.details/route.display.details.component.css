@@ -1,0 +1,17 @@
+table {
+  width: 100%;
+}
+.mat-column-select {
+  width: 38px;
+}
+.example-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+.mat-dialog-title{
+  margin-left: 40px;
+}

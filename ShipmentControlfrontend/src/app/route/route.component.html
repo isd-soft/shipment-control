@@ -1,6 +1,8 @@
-
 <mat-toolbar>
-  <button mat-raised-button color="warn" (click)="btnClick()">Create</button>
+  <button mat-raised-button color="warn" (click)="routeAddClick()">Create</button>
+  <button mat-icon-button (click)="reload()">
+    <mat-icon>refresh</mat-icon>
+  </button>
 </mat-toolbar>
 
 <section class="route-container" tabindex="0">
@@ -31,8 +33,8 @@
     </ng-container>
     <ng-container matColumnDef="details">
       <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let row" (click)="openDetails()">
-        <button mat-icon-button color="accent" >
+      <td mat-cell *matCellDef="let row" (click)="openDetails(row)">
+        <button mat-icon-button color="accent">
           <mat-icon class="mat-18">dehaze</mat-icon>
         </button>
       </td>
@@ -50,7 +52,7 @@
     <ng-container matColumnDef="delete">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let row">
-        <button mat-icon-button color="warn" >
+        <button mat-icon-button color="warn">
           <mat-icon class="mat-18">delete</mat-icon>
         </button>
       </td>

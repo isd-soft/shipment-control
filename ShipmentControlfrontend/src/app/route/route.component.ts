@@ -16,12 +16,11 @@ import {SelectionModel} from "@angular/cdk/collections";
   styleUrls: ['./route.component.css']
 })
 export class RouteComponent implements OnInit {
-  displayedColumns: string[] = ['routeDescription', 'availableDaysRent', 'origin', 'destination', 'details','edit','delete'];
-  dataSource:MatTableDataSource<RouteDto>;
+  displayedColumns: string[] = ['routeDescription', 'availableDaysRent', 'origin', 'destination', 'details', 'edit', 'delete'];
+  dataSource: MatTableDataSource<RouteDto>;
   selection = new SelectionModel<RouteDto>(true, []);
   @ViewChild('paginator') paginator: MatPaginator;
-  @ViewChild('empTbSort') empTbSort = new MatSort();
-
+  @ViewChild('empTbSort') sort = new MatSort();
 
   constructor(private dialog: MatDialog,
               private routeService: RouteService,
@@ -32,6 +31,7 @@ export class RouteComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllRoutes();
+
   }
 
   getAvailableDays(element: any): string {
@@ -42,23 +42,22 @@ export class RouteComponent implements OnInit {
     })
     return days;
   }
-  getOrigin(element: any): string {
-   return element.legDTOS.shift().address;
-  }
-  getDestination(element: any): string {
-   return element.legDTOS.at(-1).address;
+
+  reload() {
+    this.getAllRoutes();
   }
 
-  btnClick = () => {
+  getOrigin(element: any): string {
+    return element.legDTOS.at(0).address;
+  }
+
+  getDestination(element: any): string {
+    return element.legDTOS.at(-1).address;
+  }
+
+  routeAddClick = () => {
     this.router.navigateByUrl('/dashboard/route/add');
   };
-
-  // layout
-  opened = true;
-
-  toggle(): void {
-    this.opened = !this.opened;
-  }
 
   getAllRoutes() {
     this.routeService.getRoute()
@@ -66,7 +65,7 @@ export class RouteComponent implements OnInit {
         next: (res) => {
           this.dataSource = new MatTableDataSource<RouteDto>(res);
           this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.empTbSort;
+          this.dataSource.sort = this.sort;
         },
         error: () => {
           this.snackbar.open("Error while fetching the the record!!", 'Error', {duration: 2000});
@@ -109,17 +108,10 @@ export class RouteComponent implements OnInit {
     }
   }
 
-  viewRouteDetails(row) {
-
-
-  }
-
-  onRowClicked(row) {
-
-  }
-
   openDetails(row) {
-    this.router.navigateByUrl('/dashboard/route/details');
+    this.router.navigate(['/dashboard/route/details'],
+      {queryParams: {'routeId': row.routeId}});
+    console.log('Row clicked: ', row);
   }
 }
 
