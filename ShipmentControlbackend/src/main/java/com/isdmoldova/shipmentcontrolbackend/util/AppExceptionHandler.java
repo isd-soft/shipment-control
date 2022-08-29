@@ -17,7 +17,8 @@ import java.util.Map;
 public class AppExceptionHandler {
 
     @ExceptionHandler({
-            EntityNotFoundException.class
+            EntityNotFoundException.class,
+            NullPointerException.class
             })
     public ResponseEntity<Object> handleException(Exception ex) {
         return ResponseEntity.badRequest().body(Map.of("error:", ex.getMessage()));

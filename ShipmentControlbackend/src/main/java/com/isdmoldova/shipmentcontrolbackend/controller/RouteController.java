@@ -8,13 +8,19 @@ import com.isdmoldova.shipmentcontrolbackend.entity.enums.AvailableDaysRent;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.TransportType;
 import com.isdmoldova.shipmentcontrolbackend.mapper.AvailableDaysRentDtoMapper;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.RouteCommand;
+import com.isdmoldova.shipmentcontrolbackend.payload.request.TransportCommand;
 import com.isdmoldova.shipmentcontrolbackend.service.RouteService;
+import com.isdmoldova.shipmentcontrolbackend.util.ExceptionResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,7 +34,7 @@ public class RouteController {
     private final AvailableDaysRentDtoMapper availableDaysRentDtoMapper;
 
     @PostMapping
-    public ResponseEntity<Void> addRoute(@RequestBody RouteCommand routeCommand,
+    public ResponseEntity<Void> addRoute(@Validated @RequestBody RouteCommand routeCommand,
                                           Principal principal) {
         routeService.add(routeCommand, principal.getName());
         return new ResponseEntity<>(HttpStatus.CREATED);
