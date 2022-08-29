@@ -1,6 +1,12 @@
 package com.isdmoldova.shipmentcontrolbackend.controller;
 
+import com.isdmoldova.shipmentcontrolbackend.dto.AvailableDaysRentDTO;
 import com.isdmoldova.shipmentcontrolbackend.dto.RouteDTO;
+import com.isdmoldova.shipmentcontrolbackend.dto.TransportDTO;
+import com.isdmoldova.shipmentcontrolbackend.dto.TransportTypeDTO;
+import com.isdmoldova.shipmentcontrolbackend.entity.enums.AvailableDaysRent;
+import com.isdmoldova.shipmentcontrolbackend.entity.enums.TransportType;
+import com.isdmoldova.shipmentcontrolbackend.mapper.AvailableDaysRentDtoMapper;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.RouteCommand;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.TransportCommand;
 import com.isdmoldova.shipmentcontrolbackend.service.RouteService;
@@ -15,7 +21,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/route")
@@ -23,6 +31,7 @@ import java.util.List;
 public class RouteController {
 
     private final RouteService routeService;
+    private final AvailableDaysRentDtoMapper availableDaysRentDtoMapper;
 
     @PostMapping
     public ResponseEntity<Void> addRoute(@Validated @RequestBody RouteCommand routeCommand,
@@ -30,18 +39,6 @@ public class RouteController {
         routeService.add(routeCommand, principal.getName());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-
-
-//    @ExceptionHandler(BadCredentialsException.class)
-//    public ResponseEntity<ExceptionResponse> customException(BadCredentialsException ex) {
-//        ExceptionResponse response=new ExceptionResponse();
-//        response.setErrorCode("BAD_REQUEST");
-//        response.setErrorMessage(ex.getMessage());
-//        response.setTimestamp(LocalDateTime.now());
-//        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-//    }
-
-
 
     @GetMapping()
     public ResponseEntity<List<RouteDTO>> getAllRoute(Principal principal) {
@@ -54,11 +51,18 @@ public class RouteController {
         RouteDTO route = routeService.findById(id);
         return new ResponseEntity<>(route, HttpStatus.OK);
     }
+    @GetMapping("/available-days")
+    public ResponseEntity<List<AvailableDaysRentDTO>> getAllAvailableDaysRend() {
+        List<AvailableDaysRentDTO> availableDaysRentDTOS = Arrays.stream(AvailableDaysRent.values())
+                .map(availableDaysRentDtoMapper::map).collect(Collectors.toList());
+
+        return new ResponseEntity<>(availableDaysRentDTOS, HttpStatus.OK);
+    }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateRoute(@RequestBody RouteCommand routeCommand,
-                                             @PathVariable Long id) {
-        routeService.update(routeCommand, id);
+    public ResponseEntity<Void> updateRoute(@RequestBody RouteCommand command, @PathVariable Long id,
+                                         Principal principal) {
+        routeService.update(command, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

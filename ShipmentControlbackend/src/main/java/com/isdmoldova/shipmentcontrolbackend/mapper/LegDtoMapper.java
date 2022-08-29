@@ -11,7 +11,6 @@ public class LegDtoMapper {
 
     public LegDTO map(Leg leg) {
         LegDTO legDTO = new LegDTO();
-
         legDTO.setName(leg.getName());
         legDTO.setAddress(leg.getAddress());
         legDTO.setCountry(leg.getCountry());
