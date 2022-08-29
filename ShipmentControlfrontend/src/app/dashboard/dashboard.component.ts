@@ -31,7 +31,7 @@ export class DashboardComponent implements OnInit {
       {
         title: 'Routes',
         icon: 'directions',
-        link: '/routes',
+        link: './route',
         color: '#ff7f0e',
       },
       {
@@ -52,6 +52,7 @@ export class DashboardComponent implements OnInit {
         link: './cargo',
         color: '#ff7f0e',
       },
+
     ];
 
     this.user = localStorage.getItem('username');
