@@ -55,6 +55,7 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {ConfirmDialogCargoComponent} from "./cargo-overview/dialog/confirm-dialogCargo.component";
 import {DialogCargoOverviewComponent} from "./cargo-overview/dialog/dialogCargoOverview.component";
 import {CargoOverviewComponent} from "./cargo-overview/cargo-overview.component";
+import { RouteConfirmDialogComponent } from './route/route.confirm.dialog/route.confirm.dialog.component';
 
 // import RouteIcon from '@mui/icons-material/Route';
 
@@ -76,7 +77,8 @@ import {CargoOverviewComponent} from "./cargo-overview/cargo-overview.component"
     RouteDisplayDetailsComponent,
     ConfirmDialogCargoComponent,
     DialogCargoOverviewComponent,
-    CargoOverviewComponent
+    CargoOverviewComponent,
+    RouteConfirmDialogComponent
 
   ],
   imports: [

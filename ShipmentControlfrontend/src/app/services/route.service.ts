@@ -12,7 +12,7 @@ export class RouteService {
   }
 
   createRoute(data: any) {
-    return this.http.post<any>("http://localhost:3000/routeList/", data)
+    return this.http.post<any>("http://localhost:8080/api/route/", data)
   }
 
   getRoute() {
@@ -24,11 +24,11 @@ export class RouteService {
   }
 
   putRoute(data: any, id: number) {
-    return this.http.put<any>("http://localhost:3000/routeList/" + id, data)
+    return this.http.put<any>("http://localhost:8080/api/route/" + id, data)
   }
 
   deleteRoute(id: number) {
-    return this.http.delete<any>("http://localhost:3000/routeList/" + id);
+    return this.http.delete("http://localhost:8080/api/route/" + id);
   }
 
   getAvailableDaysRent() {

@@ -8,6 +8,10 @@ import {Router} from "@angular/router";
 import {MatTableDataSource} from "@angular/material/table";
 import {RouteDto} from "../model/route.dto";
 import {SelectionModel} from "@angular/cdk/collections";
+import {
+  RouteConfirmDialogComponent,
+  RouteConfirmDialogModel
+} from "./route.confirm.dialog/route.confirm.dialog.component";
 
 
 @Component({
@@ -85,20 +89,33 @@ export class RouteComponent implements OnInit {
     })
   }*/
 
-  /*deleteRoute(id: number) {
-    this.routeService.deleteRoute(id)
-      .subscribe({
-        next: (res) => {
-          this.snackbar.open("Deleted Successfully", 'Ok', {duration: 2000})
+  confirmDialog(id: number): void {
+    const message = `Are you sure you want to delete this?`;
 
-          this.getAllRoutes();
-        },
-        error: () => {
-          this.snackbar.open("Error while deleting the Route", 'Error', {duration: 2000});
+    const dialogData = new RouteConfirmDialogModel("Confirm Action", message);
+
+    const dialogRef = this.dialog.open(RouteConfirmDialogComponent, {
+      maxWidth: "400px",
+      data: dialogData
+    });
+
+      dialogRef.afterClosed().subscribe(dialogResult => {
+        if (dialogResult) {
+          this.routeService.deleteRoute(id)
+            .subscribe({
+              next: (res) => {
+                this.snackbar.open("Deleted Successfully", 'Ok', {duration: 2000})
+                this.getAllRoutes();
+              },
+              error: () => {
+                this.snackbar.open("Error while deleting the Route", 'Error', {duration: 2000});
+              }
+            })
+
         }
-      })
+      });
+    }
 
-  }*/
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -113,6 +130,7 @@ export class RouteComponent implements OnInit {
       {queryParams: {'routeId': row.routeId}});
     console.log('Row clicked: ', row);
   }
+
 }
 
 
