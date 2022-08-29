@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -21,14 +22,14 @@ public class RouteCommand {
     private String detailedRouteDescription;
 
     @NotEmpty(message = "Please enter the transports")
-    private List<Long> transportIdList;
+    private List<Long> transportIdList = new ArrayList<>();
 
     @NotNull(message = "Please enter an itinerary")
     @Valid
     private ItineraryCommand itineraryCommand;
 
     @Size(min = 1, message = "Please enter available days of rent")
-    private List<AvailableDaysRent> availableDaysRentList;
+    private List<AvailableDaysRent> availableDaysRentList = new ArrayList<>();
 
     @NotNull(message = "Please enter the maximum load weight")
     private Double maxLoadWeight;

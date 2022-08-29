@@ -14,12 +14,12 @@ public class EditRouteValidationImpl implements EditRouteValidation {
 
     private void validateTransport(RouteCommand routeCommand) {
         if (routeCommand.getTransportIdList().isEmpty())
-            throw new ValidationException("The transport list cannot be empty!");
+            throw new ValidationException("transportList", "The transport list cannot be empty!");
 
     }
 
     public void validateLeg(RouteCommand routeCommand) {
         if (routeCommand.getItineraryCommand().getLegList().isEmpty())
-            throw new ValidationException("The leg list cannot be empty!");
+            throw new ValidationException("legList", "The leg list cannot be empty!");
     }
 }
