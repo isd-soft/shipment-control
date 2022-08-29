@@ -46,7 +46,7 @@ export class CargoOverviewComponent implements OnInit {
     this.api.getCargoOverview()
       .subscribe({
         next:(res)=>{
-          this.dataSource =new MatTableDataSource<CargoDTO>;
+          this.dataSource =new MatTableDataSource<CargoDTO>(res);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
         },

@@ -3,6 +3,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {FormGroup, FormBuilder, Validators, FormControl} from "@angular/forms";
 import {MatDialogRef,MAT_DIALOG_DATA} from '@angular/material/dialog'
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {CargoDTO} from "../../model/cargoOverview.dto";
 
 
 @Component({
@@ -44,6 +45,7 @@ export class DialogCargoOverviewComponent implements OnInit {
       if (this.cargoOverviewForm.valid) {
         const data: { trackingNumber: any } = {
           trackingNumber: this.cargoOverviewForm.controls['trackingNumber'].value,
+
         }
         this.api.addCargoOverview(data)
           .subscribe({
