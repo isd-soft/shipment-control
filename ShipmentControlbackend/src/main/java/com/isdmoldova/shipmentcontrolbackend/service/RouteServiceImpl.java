@@ -1,8 +1,10 @@
 package com.isdmoldova.shipmentcontrolbackend.service;
 
+import com.isdmoldova.shipmentcontrolbackend.dto.AvailableDaysRentDTO;
 import com.isdmoldova.shipmentcontrolbackend.dto.RouteDTO;
 import com.isdmoldova.shipmentcontrolbackend.entity.*;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.AvailableDaysRent;
+import com.isdmoldova.shipmentcontrolbackend.mapper.AvailableDaysRentDtoMapper;
 import com.isdmoldova.shipmentcontrolbackend.mapper.ItineraryDtoMapper;
 import com.isdmoldova.shipmentcontrolbackend.mapper.LegDtoMapper;
 import com.isdmoldova.shipmentcontrolbackend.mapper.RouteDtoMapper;
@@ -21,6 +23,7 @@ import org.springframework.validation.annotation.Validated;
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,6 +39,7 @@ public class RouteServiceImpl implements RouteService {
     private final ItineraryRepository itineraryRepository;
     private final ItineraryDtoMapper itineraryDtoMapper;
     private final LegDtoMapper legDtoMapper;
+    private final AvailableDaysRentDtoMapper availableDaysRentDtoMapper;
     private final EditRouteValidation editRouteValidation;
 
 
@@ -103,9 +107,9 @@ public class RouteServiceImpl implements RouteService {
         route.setDetailedRouteDescription(command.getDetailedRouteDescription());
 
         List<Transport> transportList = command.getTransportIdList()
-            .stream().map(transportId -> transportRepository.findById(transportId).orElseThrow(
-                    () -> new EntityNotFoundException("Transport with id " + transportId + " not found")))
-            .collect(Collectors.toList());
+                .stream().map(transportId -> transportRepository.findById(transportId).orElseThrow(
+                        () -> new EntityNotFoundException("Transport with id " + transportId + " not found")))
+                .collect(Collectors.toList());
 
         route.setTransports(transportList);
 
@@ -138,6 +142,17 @@ public class RouteServiceImpl implements RouteService {
 
         routeRepository.delete(route);
     }
+
+    @Override
+    public List<AvailableDaysRentDTO> findAvailableDaysRentById(Long routeId) {
+        Route route = routeRepository.findById(routeId).orElseThrow(
+                () -> new EntityNotFoundException("Route not found with id " + routeId));
+
+        List<AvailableDaysRent> daysRent = routeRepository.findAvailableDaysRentById(route.getId());
+
+        return daysRent.stream().map(availableDaysRentDtoMapper::map).collect(Collectors.toList());
+    }
+
 }
 
 
