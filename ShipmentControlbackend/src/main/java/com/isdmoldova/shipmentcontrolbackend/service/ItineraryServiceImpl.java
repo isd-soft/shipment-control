@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class ItineraryServiceImpl implements ItineraryService{
+public class ItineraryServiceImpl implements ItineraryService {
 
     private final ItineraryRepository itineraryRepository;
 

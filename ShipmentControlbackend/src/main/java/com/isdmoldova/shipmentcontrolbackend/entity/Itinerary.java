@@ -54,4 +54,8 @@ public class Itinerary extends BaseEntity{
         legs.add(leg);
         leg.setItinerary(this);
     }
+
+    public void clearLegs() {
+        legs.clear();
+    }
 }
