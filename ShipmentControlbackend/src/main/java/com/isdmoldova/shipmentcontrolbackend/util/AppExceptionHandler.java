@@ -5,6 +5,7 @@ import com.isdmoldova.shipmentcontrolbackend.exception.CargoTypeNotFoundExceptio
 //import com.isdmoldova.shipmentcontrolbackend.exception.RouteNotFoundException;
 //import com.isdmoldova.shipmentcontrolbackend.exception.TransportNotFoundException;
 import com.isdmoldova.shipmentcontrolbackend.exception.UserNotAllowedException;
+import com.isdmoldova.shipmentcontrolbackend.service.ValidationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -22,5 +23,10 @@ public class AppExceptionHandler {
             })
     public ResponseEntity<Object> handleException(Exception ex) {
         return ResponseEntity.badRequest().body(Map.of("error:", ex.getMessage()));
+    }
+
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<Map<String, String>> handleValidationException(ValidationException ex) {
+        return ResponseEntity.badRequest().body(Map.of(ex.getFieldName(), ex.getError()));
     }
 }
