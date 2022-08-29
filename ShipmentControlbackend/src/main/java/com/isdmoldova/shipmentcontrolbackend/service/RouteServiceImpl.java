@@ -94,7 +94,6 @@ public class RouteServiceImpl implements RouteService {
 
         route.setTransports(transportList);
 
-
         route.setAvailableDaysRent(command.getAvailableDaysRentList());
         Itinerary itinerary = route.getItinerary();
         itinerary.clearLegs();

@@ -16,7 +16,7 @@ import {DialogCargoOverviewComponent} from "./dialog/dialogCargoOverview.compone
 })
 export class CargoOverviewComponent implements OnInit {
 
-  displayedColumns: string[] = ['trackingNumber', 'destination', 'cargoStatus'];
+  displayedColumns: string[] = ['trackingNumber', 'destination', 'cargoStatus','action'];
   dataSource: MatTableDataSource<CargoDTO>;
   selection = new SelectionModel<CargoDTO>(true, []);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
