@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -13,9 +14,9 @@ import java.util.List;
 public class RouteCommand {
 
     private String detailedRouteDescription;
-    private List<Long> transportIdList;
+    private List<Long> transportIdList = new ArrayList<>();
     private ItineraryCommand itineraryCommand;
-    private List<AvailableDaysRent> availableDaysRentList;
+    private List<AvailableDaysRent> availableDaysRentList = new ArrayList<>();
     private Double maxLoadWeight;
     private Double maxLoadVolume;
 

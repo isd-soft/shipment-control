@@ -1,12 +1,10 @@
 package com.isdmoldova.shipmentcontrolbackend.service;
 
 import com.isdmoldova.shipmentcontrolbackend.dto.RouteDTO;
-import com.isdmoldova.shipmentcontrolbackend.dto.TransportDTO;
 import com.isdmoldova.shipmentcontrolbackend.entity.*;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.AvailableDaysRent;
 import com.isdmoldova.shipmentcontrolbackend.mapper.RouteDtoMapper;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.RouteCommand;
-import com.isdmoldova.shipmentcontrolbackend.payload.request.TransportCommand;
 import com.isdmoldova.shipmentcontrolbackend.repository.ItineraryRepository;
 import com.isdmoldova.shipmentcontrolbackend.repository.RouteRepository;
 import com.isdmoldova.shipmentcontrolbackend.repository.TransportRepository;
@@ -29,6 +27,7 @@ public class RouteServiceImpl implements RouteService {
     private final RouteDtoMapper routeDtoMapper;
     private final TransportRepository transportRepository;
     private final ItineraryRepository itineraryRepository;
+    private final EditRouteValidation editRouteValidation;
 
 
     @Override
@@ -82,23 +81,29 @@ public class RouteServiceImpl implements RouteService {
     @Override
     @Transactional
     public RouteDTO update(RouteCommand command, Long id) {
+        editRouteValidation.validate(command);
         Route route = routeRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Route with this " + id + " does not found!"));
 
         route.setDetailedRouteDescription(command.getDetailedRouteDescription());
+
         List<Transport> transportList = command.getTransportIdList()
-                .stream().map(transportId -> transportRepository.findById(transportId).orElseThrow(
-                        () -> new EntityNotFoundException("Transport with id " + transportId + " not found")))
-                .collect(Collectors.toList());
+            .stream().map(transportId -> transportRepository.findById(transportId).orElseThrow(
+                    () -> new EntityNotFoundException("Transport with id " + transportId + " not found")))
+            .collect(Collectors.toList());
 
         route.setTransports(transportList);
+
+
         route.setAvailableDaysRent(command.getAvailableDaysRentList());
         Itinerary itinerary = route.getItinerary();
         itinerary.clearLegs();
+
         List<Leg> legs = command.getItineraryCommand().getLegList().stream()
                 .map(leg -> new Leg(leg.getCountry(), leg.getCountryCode(), leg.getAddress(), leg.getName()))
                 .collect(Collectors.toList());
         legs.forEach(itinerary::addLeg);
+
         itinerary.setDaysOfExecution(command.getItineraryCommand().getEstimatedAmountTimeShipment());
         route.setMaxLoadVolume(command.getMaxLoadVolume());
         route.setMaximalLoadValue(command.getMaxLoadWeight());
@@ -106,9 +111,6 @@ public class RouteServiceImpl implements RouteService {
 
         return routeDtoMapper.map(route);
     }
-
-
-
 
     @Override
     public void delete(Long id, String username) {
@@ -121,7 +123,6 @@ public class RouteServiceImpl implements RouteService {
 
         routeRepository.delete(route);
     }
-
 }
 
 
