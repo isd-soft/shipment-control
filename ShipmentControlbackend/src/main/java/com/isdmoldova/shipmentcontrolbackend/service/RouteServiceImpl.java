@@ -3,10 +3,7 @@ package com.isdmoldova.shipmentcontrolbackend.service;
 import com.isdmoldova.shipmentcontrolbackend.dto.RouteDTO;
 import com.isdmoldova.shipmentcontrolbackend.entity.*;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.AvailableDaysRent;
-import com.isdmoldova.shipmentcontrolbackend.mapper.ItineraryDtoMapper;
-import com.isdmoldova.shipmentcontrolbackend.mapper.LegDtoMapper;
 import com.isdmoldova.shipmentcontrolbackend.mapper.RouteDtoMapper;
-import com.isdmoldova.shipmentcontrolbackend.payload.request.ItineraryCommand;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.LegCommand;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.RouteCommand;
 import com.isdmoldova.shipmentcontrolbackend.repository.ItineraryRepository;
@@ -16,11 +13,9 @@ import com.isdmoldova.shipmentcontrolbackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.EntityNotFoundException;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,8 +29,6 @@ public class RouteServiceImpl implements RouteService {
     private final RouteDtoMapper routeDtoMapper;
     private final TransportRepository transportRepository;
     private final ItineraryRepository itineraryRepository;
-    private final ItineraryDtoMapper itineraryDtoMapper;
-    private final LegDtoMapper legDtoMapper;
     private final EditRouteValidation editRouteValidation;
 
 
@@ -53,8 +46,8 @@ public class RouteServiceImpl implements RouteService {
                 .stream().map(transportId -> transportRepository.findById(transportId).orElseThrow(
                         () -> new EntityNotFoundException("Transport with id " + transportId + " not found")))
                 .collect(Collectors.toList());
-        List<LegCommand> legCommandList = routeCommand.getItineraryCommand().getLegList();
 
+        List<LegCommand> legCommandList = routeCommand.getItineraryCommand().getLegList();
         List<Leg> legs = legCommandList.stream()
                 .map(leg -> new Leg(leg.getCountry(), leg.getCountryCode(), leg.getAddress(), leg.getName()))
                 .collect(Collectors.toList());
