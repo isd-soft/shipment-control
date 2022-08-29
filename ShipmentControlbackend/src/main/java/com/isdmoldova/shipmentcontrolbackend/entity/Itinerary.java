@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,5 +54,9 @@ public class Itinerary extends BaseEntity{
     public void addLeg(Leg leg) {
         legs.add(leg);
         leg.setItinerary(this);
+    }
+
+    public void setLegs(Leg newLeg) {
+        newLeg.setItinerary(this);
     }
 }

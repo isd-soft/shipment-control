@@ -4,7 +4,11 @@ import com.isdmoldova.shipmentcontrolbackend.dto.RouteDTO;
 import com.isdmoldova.shipmentcontrolbackend.dto.TransportDTO;
 import com.isdmoldova.shipmentcontrolbackend.entity.*;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.AvailableDaysRent;
+import com.isdmoldova.shipmentcontrolbackend.mapper.ItineraryDtoMapper;
+import com.isdmoldova.shipmentcontrolbackend.mapper.LegDtoMapper;
 import com.isdmoldova.shipmentcontrolbackend.mapper.RouteDtoMapper;
+import com.isdmoldova.shipmentcontrolbackend.payload.request.ItineraryCommand;
+import com.isdmoldova.shipmentcontrolbackend.payload.request.LegCommand;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.RouteCommand;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.TransportCommand;
 import com.isdmoldova.shipmentcontrolbackend.repository.ItineraryRepository;
@@ -14,8 +18,11 @@ import com.isdmoldova.shipmentcontrolbackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,6 +36,8 @@ public class RouteServiceImpl implements RouteService {
     private final RouteDtoMapper routeDtoMapper;
     private final TransportRepository transportRepository;
     private final ItineraryRepository itineraryRepository;
+    private final ItineraryDtoMapper itineraryDtoMapper;
+    private final LegDtoMapper legDtoMapper;
 
 
     @Override
@@ -40,17 +49,23 @@ public class RouteServiceImpl implements RouteService {
         Double maxWeight = routeCommand.getMaxLoadWeight();
         Double maxVolume = routeCommand.getMaxLoadVolume();
         List<AvailableDaysRent> availableDaysRentList = routeCommand.getAvailableDaysRentList();
+
         List<Transport> transportList = routeCommand.getTransportIdList()
                 .stream().map(transportId -> transportRepository.findById(transportId).orElseThrow(
                         () -> new EntityNotFoundException("Transport with id " + transportId + " not found")))
                 .collect(Collectors.toList());
-        List<Leg> legs = routeCommand.getItineraryCommand().getLegList().stream()
+        List<LegCommand> legCommandList = routeCommand.getItineraryCommand().getLegList();
+
+        List<Leg> legs = legCommandList.stream()
                 .map(leg -> new Leg(leg.getCountry(), leg.getCountryCode(), leg.getAddress(), leg.getName()))
                 .collect(Collectors.toList());
-        Itinerary itinerary = new Itinerary(routeCommand.getItineraryCommand().getEstimatedAmountTimeShipment());
+
+        Long estimatedAmountTimeShipment = routeCommand.getItineraryCommand().getEstimatedAmountTimeShipment();
+
+        Itinerary itinerary = new Itinerary(estimatedAmountTimeShipment);
+
         legs.forEach(itinerary::addLeg);
         itineraryRepository.save(itinerary);
-
         Route route = new Route(routeCommand.getDetailedRouteDescription(),
                 user,
                 availableDaysRentList,
@@ -58,10 +73,10 @@ public class RouteServiceImpl implements RouteService {
                 maxVolume);
         route.addItinerary(itinerary);
         transportList.forEach(route::addTransport);
-
         routeRepository.save(route);
         return routeDtoMapper.map(route);
     }
+
 
     @Override
     @Transactional(readOnly = true)
@@ -102,14 +117,12 @@ public class RouteServiceImpl implements RouteService {
     }
 
 
-
-
     @Override
     public void delete(Long id, String username) {
         Route route = routeRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Route not found with id " + id));
 
-        if(!route.getUser().getUsername().equals(username)){
+        if (!route.getUser().getUsername().equals(username)) {
             throw new EntityNotFoundException("User " + username + " is not allowed to delete route with id " + id);
         }
 
