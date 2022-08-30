@@ -1,5 +1,7 @@
 package com.isdmoldova.shipmentcontrolbackend.controller;
 
+import com.isdmoldova.shipmentcontrolbackend.dto.BookingRequestsDTO;
+import com.isdmoldova.shipmentcontrolbackend.email.service.EmailService;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.BookingRequestsCommand;
 import com.isdmoldova.shipmentcontrolbackend.service.BookingRequestsService;
 import lombok.RequiredArgsConstructor;
@@ -19,13 +21,14 @@ import java.security.Principal;
 public class BookingRequestsController {
 
     private final BookingRequestsService bookingRequestsService;
+    private final EmailService emailService;
 
     @PostMapping
-    public ResponseEntity<?> requestBooking(
+    public ResponseEntity<String> requestBooking(
             @RequestBody BookingRequestsCommand bookingRequestsCommand, Principal principal) {
-        bookingRequestsService.add(bookingRequestsCommand, principal.getName());
-        return new ResponseEntity<>(HttpStatus.OK);
+        BookingRequestsDTO bookingRequestsDTO = bookingRequestsService.add(bookingRequestsCommand, principal.getName());
+        String alertInfo = emailService.sendBookingRequest(bookingRequestsDTO, principal);
 
+        return new ResponseEntity<>(alertInfo, HttpStatus.OK);
     }
-
 }

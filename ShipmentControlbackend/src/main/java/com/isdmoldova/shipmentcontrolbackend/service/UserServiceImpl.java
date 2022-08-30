@@ -22,4 +22,9 @@ public class UserServiceImpl implements UserService {
         final User user = userRepository.findUserByUsername(username).orElseThrow(()-> new UsernameNotFoundException("Username not found!"));
         return userDtoMapper.map(user);
     }
+
+    @Override
+    public String findEmailByUsername(String username) {
+        return userRepository.findEmailByCompanyName(username);
+    }
 }
