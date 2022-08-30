@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Builder
 public class Route extends BaseEntity {
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "route", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "route", cascade = CascadeType.ALL,orphanRemoval = true)
     private Itinerary itinerary;
 
     @Column(name = "detail_route")
@@ -67,6 +67,10 @@ public class Route extends BaseEntity {
     public void addTransport(Transport transport) {
         transports.add(transport);
         transport.setRoute(this);
+    }
+
+    public void clearTransports() {
+        transports.clear();
     }
 
     public List<CargoType> getAllowedCargoTypes() {

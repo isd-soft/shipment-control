@@ -105,12 +105,13 @@ public class RouteServiceImpl implements RouteService {
 
         route.setDetailedRouteDescription(command.getDetailedRouteDescription());
 
+        route.clearTransports();
         List<Transport> transportList = command.getTransportIdList()
                 .stream().map(transportId -> transportRepository.findById(transportId).orElseThrow(
                         () -> new EntityNotFoundException("Transport with id " + transportId + " not found")))
                 .collect(Collectors.toList());
 
-        route.setTransports(transportList);
+        transportList.forEach(route::addTransport);
 
         route.setAvailableDaysRent(command.getAvailableDaysRentList());
         Itinerary itinerary = route.getItinerary();
