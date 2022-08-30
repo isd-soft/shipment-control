@@ -7,8 +7,10 @@ import com.isdmoldova.shipmentcontrolbackend.dto.TransportTypeDTO;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.AvailableDaysRent;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.TransportType;
 import com.isdmoldova.shipmentcontrolbackend.mapper.AvailableDaysRentDtoMapper;
+import com.isdmoldova.shipmentcontrolbackend.payload.request.BookingRequestsCommand;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.RouteCommand;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.TransportCommand;
+import com.isdmoldova.shipmentcontrolbackend.service.BookingRequestsService;
 import com.isdmoldova.shipmentcontrolbackend.service.RouteService;
 import com.isdmoldova.shipmentcontrolbackend.util.ExceptionResponse;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +37,7 @@ public class RouteController {
 
     @PostMapping
     public ResponseEntity<Void> addRoute(@Validated @RequestBody RouteCommand routeCommand,
-                                          Principal principal) {
+                                         Principal principal) {
         routeService.add(routeCommand, principal.getName());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -51,6 +53,7 @@ public class RouteController {
         RouteDTO route = routeService.findById(id);
         return new ResponseEntity<>(route, HttpStatus.OK);
     }
+
     @GetMapping("/available-days")
     public ResponseEntity<List<AvailableDaysRentDTO>> getAllAvailableDaysRend() {
         List<AvailableDaysRentDTO> availableDaysRentDTOS = Arrays.stream(AvailableDaysRent.values())
@@ -61,7 +64,7 @@ public class RouteController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateRoute(@RequestBody RouteCommand command, @PathVariable Long id,
-                                         Principal principal) {
+                                            Principal principal) {
         routeService.update(command, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -71,4 +74,12 @@ public class RouteController {
         routeService.delete(id, principal.getName());
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("/days-available/{id}")
+    public ResponseEntity<List<AvailableDaysRentDTO>> requestAvailableDays(@PathVariable Long id) {
+        List<AvailableDaysRentDTO> availableDaysRentDTOS = routeService.findAvailableDaysRentById(id);
+        return new ResponseEntity<>(availableDaysRentDTOS, HttpStatus.OK);
+    }
+
 }
+

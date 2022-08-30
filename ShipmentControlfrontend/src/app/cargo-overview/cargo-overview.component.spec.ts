@@ -1,3 +1,4 @@
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CargoOverviewComponent } from './cargo-overview.component';
@@ -10,7 +11,7 @@ describe('CargoOverviewComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ CargoOverviewComponent ]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(CargoOverviewComponent);
     component = fixture.componentInstance;

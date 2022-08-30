@@ -43,6 +43,9 @@ public class Route extends BaseEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "route", orphanRemoval = true)
     private List<Transport> transports = new ArrayList<>();
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "route")
+    private List<BookingRequests> bookingRequests = new ArrayList<>();
+
     public Route(String detailedRouteDescription,
                  User user,
                  List<AvailableDaysRent> availableDaysRent,

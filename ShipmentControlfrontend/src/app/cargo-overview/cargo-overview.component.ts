@@ -8,6 +8,8 @@ import {MatDialog} from "@angular/material/dialog";
 import {CargoOverviewService} from "../services/cargoOverview.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {DialogCargoOverviewComponent} from "./dialog/dialogCargoOverview.component";
+import {ConfirmDialogCargoComponent , ConfirmDialogCargoModel} from "../cargo-overview/dialog/confirm-dialogCargo.component";
+
 
 @Component({
   selector: 'app-cargo-overview',
@@ -19,6 +21,7 @@ export class CargoOverviewComponent implements OnInit {
   displayedColumns: string[] = ['trackingNumber', 'destination', 'cargoStatus','action'];
   dataSource: MatTableDataSource<CargoDTO>;
   selection = new SelectionModel<CargoDTO>(true, []);
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -31,6 +34,16 @@ export class CargoOverviewComponent implements OnInit {
   ngOnInit(): void {
     this.getAllCargoOverview();
   }
+
+  reload() {
+    this.getAllCargoOverview();
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
 
   openDialog() {
     this.dialog.open(DialogCargoOverviewComponent, {
@@ -46,7 +59,7 @@ export class CargoOverviewComponent implements OnInit {
     this.api.getCargoOverview()
       .subscribe({
         next:(res)=>{
-          this.dataSource =new MatTableDataSource<CargoDTO>;
+          this.dataSource =new MatTableDataSource<CargoDTO>(res);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
         },
@@ -67,26 +80,38 @@ export class CargoOverviewComponent implements OnInit {
     })
   }
 
-  deleteCargoOverview(id : number){
-    this.api.deleteCargoOverview(id)
-      .subscribe({
-        next:()=>{
-          this.snackbar.open("Deleted Successfully",'Ok',{duration:2000})
-          this.getAllCargoOverview();
-        },
-        error : ()=>{
-          this.snackbar.open("Error while deleting the CargoType",'Error',{duration:2000});
-        }
-      })
 
+  deleteCargoOverview(id: number) {
+    this.confirmDialog(id);
   }
 
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+  result: boolean;
+  confirmDialog(id: number): void {
+    const message = `Are you sure you want to delete this?`;
+
+    const dialogDataCargo = new ConfirmDialogCargoModel("Confirm Action", message);
+
+    const dialogRef = this.dialog.open(ConfirmDialogCargoComponent, {
+      maxWidth: "400px",
+      data: dialogDataCargo
+    });
+
+    dialogRef.afterClosed().subscribe(dialogResultCargo => {
+      if (dialogResultCargo) {
+        this.api.deleteCargoOverview(id)
+          .subscribe({
+            next: () => {
+              this.ngOnInit();
+              this.snackbar.open("Deleted Successfully", 'Ok', {duration: 2000})
+            },
+            error: () => {
+              this.snackbar.open("Error while deleting the Cargo", 'Error', {duration: 2000});
+            }
+          });
+      }
+    });
   }
-
-
 
 }

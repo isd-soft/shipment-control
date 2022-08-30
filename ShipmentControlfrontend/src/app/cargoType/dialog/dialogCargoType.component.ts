@@ -41,7 +41,7 @@ export class DialogCargoTypeComponent implements OnInit {
       if (this.cargoTypeForm.valid) {
         const data: CargoTypeDto = {
           name: this.cargoTypeForm.controls['name'].value,
-          id: 1
+          id: 1 
         }
         this.api.addCargoType(data)
           .subscribe({
