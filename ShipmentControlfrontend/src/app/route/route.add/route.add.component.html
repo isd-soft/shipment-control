@@ -1,143 +1,102 @@
 <div class="container">
   <h1 mat-dialog-title class="general-title"> Route Form</h1>
   <div mat-dialog-content>
-    <form [formGroup]="routeForm" >
-      <mat-form-field appearance="outline">
-        <mat-label>Description</mat-label>
-        <textarea formControlName="description" matInput placeholder="Description"></textarea>
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Max Weight</mat-label>
-        <input formControlName="maxWeight" matInput type="number" placeholder="Max Weight"/>
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>AvailableDaysRent</mat-label>
-        <mat-select formControlName="availableDaysRent" placeholder="AvailableDaysRent" multiple>
-          <mat-option value="Monday">Monday</mat-option>
-          <mat-option value="Tuesday">Tuesday</mat-option>
-          <mat-option value="Wednesday">Wednesday</mat-option>
-          <mat-option value="Thursday">Thursday</mat-option>
-          <mat-option value="Friday">Friday</mat-option>
-          <mat-option value="Saturday">Saturday</mat-option>
-          <mat-option value="Sunday">Sunday</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <p class="general-title" >Itinerary</p>
-      <mat-form-field class="leg-time-itinerary" appearance="outline">
-        <mat-label>EstimatedDays</mat-label>
-        <input formControlName="estimatedDays" matInput type="number" placeholder="Estimated Days"/>
-      </mat-form-field>
-      <p class="mat-dialog-title">Legs <button mat-raised-button color="primary" (click)="add()">+</button></p>
-      <br>
-      <br>
-      <mat-accordion class="example-headers-align" multi>
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              Leg - Origin
-            </mat-panel-title>
-          </mat-expansion-panel-header>
+    <form [formGroup]="routeForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline">
+          <mat-label>Route description</mat-label>
+          <textarea formControlName="description" matInput placeholder="Route description"></textarea>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Max Weight</mat-label>
+          <input formControlName="maxWeight" matInput type="number" placeholder="Max Weight"/>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Max Volume</mat-label>
+          <input formControlName="maxVolume" matInput type="number" placeholder="Max Volume"/>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>AvailableDaysRent</mat-label>
+          <mat-select formControlName="availableDaysRent" placeholder="AvailableDaysRent" multiple>
+            <mat-option value="Monday">Monday</mat-option>
+            <mat-option value="Tuesday">Tuesday</mat-option>
+            <mat-option value="Wednesday">Wednesday</mat-option>
+            <mat-option value="Thursday">Thursday</mat-option>
+            <mat-option value="Friday">Friday</mat-option>
+            <mat-option value="Saturday">Saturday</mat-option>
+            <mat-option value="Sunday">Sunday</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-          <mat-form-field  class="add-input1" appearance="outline" >
-            <input  matInput placeholder="Name"/>
-          </mat-form-field>
+        <p class="general-title">Itinerary</p>
+        <mat-form-field class="leg-time-itinerary" appearance="outline" class="itineraryForm">
+          <mat-label>EstimatedDays</mat-label>
+          <input formControlName="estimatedDays" matInput type="number" placeholder="Estimated Days"/>
+        </mat-form-field>
 
-          <mat-form-field  class="add-input2" appearance="outline" >
-            <input  matInput placeholder="Address"/>
-          </mat-form-field>
+        <p class="mat-dialog-title">Legs<button mat-raised-button color="primary" (click)="add()">+</button></p><br>
+        <div class="showInputField">
+          <div *ngFor="let l of legs; let i = index ">
+            <mat-accordion  multi class="itineraryForm">
+              <mat-expansion-panel class="legForm">
+                <mat-expansion-panel-header>
+                  <mat-panel-title >
+                    Insert the Leg
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
 
-          <mat-form-field  class="add-input3" appearance="outline" >
-            <input  matInput placeholder="Country"/>
-          </mat-form-field>
+                <mat-form-field class="add-input1" appearance="outline" class="itineraryForm">
+                  <input matInput placeholder="Name" [(ngModel)]="l.name" [ngModelOptions]="{standalone: true}"/>
+                </mat-form-field>
 
-          <mat-form-field  class="add-input4" appearance="outline" >
-            <input  matInput placeholder="CountryCode"/>
-          </mat-form-field>
+                <mat-form-field class="add-input2" appearance="outline" class="itineraryForm">
+                  <input matInput placeholder="Address" [(ngModel)]="l.address" [ngModelOptions]="{standalone: true}"/>
+                </mat-form-field>
 
-        </mat-expansion-panel>
-      </mat-accordion>
-      <br>
-      <div class="showInputField" >
-        <div *ngFor="let l of legs; let i = index " >
-          <mat-accordion class="example-headers-align" multi>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  Additional - Leg
-                </mat-panel-title>
-              </mat-expansion-panel-header>
+                <mat-form-field class="add-input3" appearance="outline" class="itineraryForm">
+                  <input matInput placeholder="Country" [(ngModel)]="l.country" [ngModelOptions]="{standalone: true}"/>
+                </mat-form-field>
 
-              <mat-form-field  class="add-input1" appearance="outline" >
-                <input  matInput placeholder="Name"/>
-              </mat-form-field>
+                <mat-form-field class="add-input4" appearance="outline" class="itineraryForm">
+                  <input matInput placeholder="CountryCode" [(ngModel)]="l.countryCode" [ngModelOptions]="{standalone: true}"/>
+                </mat-form-field>
 
-              <mat-form-field  class="add-input2" appearance="outline" >
-                <input  matInput placeholder="Address"/>
-              </mat-form-field>
+                <button class="deleteLeg" mat-icon-button color="warn" (click)="clearField(i)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+        </div><br>
 
-              <mat-form-field  class="add-input3" appearance="outline" >
-                <input  matInput placeholder="Country"/>
-              </mat-form-field>
+        <p class="general-title">Transport</p>
+        <mat-form-field appearance="outline" class="leg-time-itinerary">
+          <mat-label>Transport</mat-label>
+<!--          <mat-select formControlName="transport" placeholder="Transport Type" multiple>-->
+<!--            <mat-option value="ROAD TRANSPORTATION">ROAD TRANSPORTATION</mat-option>-->
+<!--            <mat-option value="RAIL TRANSPORTATION">RAIL TRANSPORTATION</mat-option>-->
+<!--            <mat-option value="MARINE TRANSPORTATION">MARINE TRANSPORTATION</mat-option>-->
+<!--            <mat-option value="AIR TRANSPORTATION">AIR TRANSPORTATION</mat-option>-->
+<!--          </mat-select>-->
 
-              <mat-form-field  class="add-input4" appearance="outline" >
-                <input  matInput placeholder="CountryCode"/>
-              </mat-form-field>
-              <button class="deleteLeg" mat-icon-button color="warn" (click)="clearField(i)" >
-                <mat-icon>delete</mat-icon>
-              </button>
-            </mat-expansion-panel>
-          </mat-accordion>
-          <!--          <mat-form-field  class="leg-time" appearance="outline" >
-                      <input formControlName="origin" matInput placeholder="Enter please text"/>
-                      <br>
-                    </mat-form-field>-->
-        </div>
-      </div>
-      <br>
-      <br>
-      <mat-accordion class="example-headers-align" multi>
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              Leg - Destination
-            </mat-panel-title>
-          </mat-expansion-panel-header>
 
-          <mat-form-field  class="add-input1" appearance="outline" >
-            <input  matInput placeholder="Name"/>
-          </mat-form-field>
-
-          <mat-form-field  class="add-input2" appearance="outline" >
-            <input  matInput placeholder="Address"/>
-          </mat-form-field>
-
-          <mat-form-field  class="add-input3" appearance="outline" >
-            <input  matInput placeholder="Country"/>
-          </mat-form-field>
-
-          <mat-form-field  class="add-input4" appearance="outline" >
-            <input  matInput placeholder="CountryCode"/>
-          </mat-form-field>
-
-        </mat-expansion-panel>
-      </mat-accordion>
-      <br>
-      <br>
-      <p class="general-title">Transport</p>
-      <mat-form-field appearance="outline" class="leg-time-itinerary" >
-        <mat-label>Transport</mat-label >
-        <mat-select formControlName="transport" placeholder="Transport Type" multiple>
-          <mat-option value="ROAD TRANSPORTATION">ROAD TRANSPORTATION</mat-option>
-          <mat-option value="RAIL TRANSPORTATION">RAIL TRANSPORTATION</mat-option>
-          <mat-option value="MARINE TRANSPORTATION">MARINE TRANSPORTATION</mat-option>
-          <mat-option value="AIR TRANSPORTATION">AIR TRANSPORTATION</mat-option>
-        </mat-select>
-      </mat-form-field>
+          <div class="col-sm-10">
+            <mat-select name="Transport" (change)="ChangeTransport($event)" class="form-control">
+              <mat-option>--Select--</mat-option>
+              <mat-option *ngFor="let tr of transport" [value]="tr.transportId">
+                {{tr.transportName}}
+              </mat-option>
+            </mat-select>
+          </div>
+        </mat-form-field>
+      Selected Value: {{SelectedValue}}
     </form>
   </div>
-  <br>
-  <br>
-  <div class="createRouteButton">
-    <button mat-raised-button color="warn">Save</button>
-  </div>
+
+  <form>
+    <div class="createRouteButton">
+      <button mat-raised-button type="submit" color="primary" (click)="onSubmit()">Save</button>
+      <button mat-raised-button (click)="onReset()">Reset</button>
+    </div>
+  </form>
+
 </div>

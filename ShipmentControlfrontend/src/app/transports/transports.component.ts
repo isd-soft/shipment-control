@@ -90,7 +90,7 @@ export class TransportsComponent implements OnInit, AfterViewInit {
         this.dataSource.sort = this.empTbSort;
       },
       error: () => {
-        this.snackbar.open("Error while fetching the the record!!", 'Error', {duration: 2000});
+        this.snackbar.open("Error while fetching the record!!", 'Error', {duration: 2000});
       }
     });
   }

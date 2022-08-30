@@ -49,7 +49,7 @@ import { ConfirmDialogComponent } from './cargoType/dialog/confirm-dialog.compon
 
 
 import { RouteComponent } from './route/route.component';
-import { RouteAddComponent } from './route/route.add/route.add.component';
+import { RouteAddComponent} from './route/route.add/route.add.component';
 import { RouteDisplayDetailsComponent } from './route/route.display.details/route.display.details.component';
 import {MatTabsModule} from "@angular/material/tabs";
 import {ConfirmDialogCargoComponent} from "./cargo-overview/dialog/confirm-dialogCargo.component";
@@ -57,7 +57,6 @@ import {DialogCargoOverviewComponent} from "./cargo-overview/dialog/dialogCargoO
 import {CargoOverviewComponent} from "./cargo-overview/cargo-overview.component";
 import { RouteConfirmDialogComponent } from './route/route.confirm.dialog/route.confirm.dialog.component';
 
-// import RouteIcon from '@mui/icons-material/Route';
 
 @NgModule({
   declarations: [
@@ -78,7 +77,7 @@ import { RouteConfirmDialogComponent } from './route/route.confirm.dialog/route.
     ConfirmDialogCargoComponent,
     DialogCargoOverviewComponent,
     CargoOverviewComponent,
-    RouteConfirmDialogComponent
+    RouteConfirmDialogComponent,
 
   ],
   imports: [

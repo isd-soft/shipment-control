@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {AvailableDaysRentDto} from "../model/availableDaysRentDto";
 import {RouteDto} from "../model/route.dto";
+import {RouteCommand} from "./RouteCommand";
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,8 @@ export class RouteService {
   constructor(private http: HttpClient) {
   }
 
-  createRoute(data: any) {
-    return this.http.post<any>("http://localhost:8080/api/route/", data)
+  createRoute(routeCommand: RouteCommand) {
+    return this.http.post<any>("http://localhost:8080/api/route/", routeCommand)
   }
 
   getRoute() {

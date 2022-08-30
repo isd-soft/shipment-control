@@ -18,7 +18,6 @@ import com.isdmoldova.shipmentcontrolbackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
@@ -57,8 +56,8 @@ public class RouteServiceImpl implements RouteService {
                 .stream().map(transportId -> transportRepository.findById(transportId).orElseThrow(
                         () -> new EntityNotFoundException("Transport with id " + transportId + " not found")))
                 .collect(Collectors.toList());
-        List<LegCommand> legCommandList = routeCommand.getItineraryCommand().getLegList();
 
+        List<LegCommand> legCommandList = routeCommand.getItineraryCommand().getLegList();
         List<Leg> legs = legCommandList.stream()
                 .map(leg -> new Leg(leg.getCountry(), leg.getCountryCode(), leg.getAddress(), leg.getName()))
                 .collect(Collectors.toList());
@@ -106,12 +105,13 @@ public class RouteServiceImpl implements RouteService {
 
         route.setDetailedRouteDescription(command.getDetailedRouteDescription());
 
+        route.clearTransports();
         List<Transport> transportList = command.getTransportIdList()
                 .stream().map(transportId -> transportRepository.findById(transportId).orElseThrow(
                         () -> new EntityNotFoundException("Transport with id " + transportId + " not found")))
                 .collect(Collectors.toList());
 
-        route.setTransports(transportList);
+        transportList.forEach(route::addTransport);
 
         route.setAvailableDaysRent(command.getAvailableDaysRentList());
         Itinerary itinerary = route.getItinerary();
