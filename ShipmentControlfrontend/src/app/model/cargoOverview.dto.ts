@@ -3,6 +3,6 @@ export interface CargoDTO{
 
   destination : string;
 
-  cargoStatus : string[];
+  cargoStatus : string;
 
 }
