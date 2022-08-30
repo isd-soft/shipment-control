@@ -7,12 +7,10 @@ import com.isdmoldova.shipmentcontrolbackend.service.BookingRequestsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 
 @RestController
@@ -23,6 +21,14 @@ public class BookingRequestsController {
     private final BookingRequestsService bookingRequestsService;
     private final EmailService emailService;
 
+    @GetMapping
+    public ResponseEntity<List<BookingRequestsDTO>> getAllRequests(Principal principal) {
+        List<BookingRequestsDTO> bookingRequestsDTOS =
+                bookingRequestsService.getAllRequests(principal.getName());
+        return new ResponseEntity<>(bookingRequestsDTOS, HttpStatus.OK);
+    }
+
+
     @PostMapping
     public ResponseEntity<String> requestBooking(
             @RequestBody BookingRequestsCommand bookingRequestsCommand, Principal principal) {
@@ -31,4 +37,27 @@ public class BookingRequestsController {
 
         return new ResponseEntity<>(alertInfo, HttpStatus.OK);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteRequest(@PathVariable Long id) {
+        bookingRequestsService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/accept/{id}")
+    public ResponseEntity<?> deleteOnAccept(@PathVariable Long id, Principal principal) {
+        emailService.sendWhenRequestAccept(principal, id);
+        bookingRequestsService.delete(id);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/deny/{id}")
+    public ResponseEntity<?> deleteOnDeny(@PathVariable Long id, Principal principal) {
+        emailService.sendWhenRequestDeny(principal, id);
+        bookingRequestsService.delete(id);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

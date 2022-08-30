@@ -5,7 +5,6 @@ import lombok.*;
 
 import javax.persistence.*;
 
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,7 +43,7 @@ public class Route extends BaseEntity {
     private List<Transport> transports = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "route")
-    private List<BookingRequests> bookingRequests = new ArrayList<>();
+    private List<BookingRequest> bookingRequests = new ArrayList<>();
 
     public Route(String detailedRouteDescription,
                  User user,

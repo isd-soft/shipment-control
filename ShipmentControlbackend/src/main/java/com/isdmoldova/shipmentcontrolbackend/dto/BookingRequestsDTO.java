@@ -9,7 +9,9 @@ import java.time.LocalDate;
 @Setter
 public class BookingRequestsDTO {
 
+    private Long bookingRequestId;
     private Long routeId;
+    private String routeDescription;
     private String shipmentCompanyName;
     private String goodsCompanyName;
     private LocalDate localDateRequested;

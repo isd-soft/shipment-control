@@ -1,7 +1,7 @@
 package com.isdmoldova.shipmentcontrolbackend.service;
 
 import com.isdmoldova.shipmentcontrolbackend.dto.BookingRequestsDTO;
-import com.isdmoldova.shipmentcontrolbackend.entity.BookingRequests;
+import com.isdmoldova.shipmentcontrolbackend.entity.BookingRequest;
 import com.isdmoldova.shipmentcontrolbackend.entity.Route;
 import com.isdmoldova.shipmentcontrolbackend.entity.User;
 import com.isdmoldova.shipmentcontrolbackend.mapper.BookingRequestsDtoMapper;
@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -32,12 +34,28 @@ public class BookingRequestsServiceImpl implements BookingRequestsService {
         final Route route = routeRepository.findById(bookingRequestsCommand.getRouteId())
                 .orElseThrow(() -> new EntityNotFoundException("Route not found"));
 
-        final BookingRequests bookingRequests = new BookingRequests();
-        bookingRequests.setUser(user);
-        bookingRequests.setRoute(route);
-        bookingRequests.setLocalDateRequested(bookingRequestsCommand.getLocalDateRequested());
-        bookingRequestsRepository.save(bookingRequests);
+        final BookingRequest bookingRequest = new BookingRequest();
+        bookingRequest.setUser(user);
+        bookingRequest.setRoute(route);
+        bookingRequest.setLocalDateRequested(bookingRequestsCommand.getLocalDateRequested());
+        bookingRequestsRepository.save(bookingRequest);
 
-        return bookingRequestsDtoMapper.map(bookingRequests);
+        return bookingRequestsDtoMapper.map(bookingRequest);
+    }
+    @Transactional
+    @Override
+    public void delete(Long id) {
+        bookingRequestsRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("BookingRequests entity not found by specified id " + id));
+        bookingRequestsRepository.deleteById(id);
+    }
+
+    @Override
+    public List<BookingRequestsDTO> getAllRequests(String username) {
+        User user = userRepository.findUserByUsername(username).orElseThrow(
+                () -> new EntityNotFoundException("User for " + username + " not found"));
+        final List<BookingRequest> bookingRequests = bookingRequestsRepository
+                .findAllBookingRequestsForUser(user);
+        return bookingRequests.stream().map(bookingRequestsDtoMapper::map).collect(Collectors.toList());
     }
 }

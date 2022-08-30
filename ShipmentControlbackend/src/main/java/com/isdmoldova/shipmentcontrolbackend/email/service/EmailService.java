@@ -9,4 +9,6 @@ public interface EmailService {
 
     String sendBookingRequest(BookingRequestsDTO bookingRequestsDTO, Principal principal);
 
+    String sendWhenRequestAccept(Principal principal, Long id);
+    String sendWhenRequestDeny(Principal principal, Long id);
 }
