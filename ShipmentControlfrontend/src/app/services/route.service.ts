@@ -12,12 +12,12 @@ export class RouteService {
   constructor(private http: HttpClient) {
   }
 
-  createRoute(routeCommand: RouteCommand) {
-    return this.http.post<any>("http://localhost:8080/api/route/", routeCommand)
+  createRoute(routeCommand: RouteCommand){
+    return this.http.post<RouteCommand>("http://localhost:8080/api/route", routeCommand)
   }
 
   getRoute() {
-    return this.http.get<any>("http://localhost:8080/api/route/")
+    return this.http.get<any>("http://localhost:8080/api/route")
   }
 
   getRouteById(id: number) {
