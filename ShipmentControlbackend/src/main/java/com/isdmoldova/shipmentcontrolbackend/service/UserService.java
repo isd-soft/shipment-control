@@ -7,5 +7,6 @@ import com.isdmoldova.shipmentcontrolbackend.payload.request.SignupCommand;
 public interface UserService {
 
     UserDTO findUserByUsername(String username);
+    String findEmailByUsername(String username);
 }
 

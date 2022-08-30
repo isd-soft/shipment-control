@@ -11,6 +11,5 @@ public class BookingRequestsCommand {
 
     private Long routeId;
     private LocalDate localDateRequested;
-    private Long userId;
 
 }

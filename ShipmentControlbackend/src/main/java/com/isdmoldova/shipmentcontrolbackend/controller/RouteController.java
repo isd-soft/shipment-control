@@ -4,6 +4,7 @@ import com.isdmoldova.shipmentcontrolbackend.dto.AvailableDaysRentDTO;
 import com.isdmoldova.shipmentcontrolbackend.dto.RouteDTO;
 import com.isdmoldova.shipmentcontrolbackend.dto.TransportDTO;
 import com.isdmoldova.shipmentcontrolbackend.dto.TransportTypeDTO;
+import com.isdmoldova.shipmentcontrolbackend.email.service.EmailService;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.AvailableDaysRent;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.TransportType;
 import com.isdmoldova.shipmentcontrolbackend.mapper.AvailableDaysRentDtoMapper;

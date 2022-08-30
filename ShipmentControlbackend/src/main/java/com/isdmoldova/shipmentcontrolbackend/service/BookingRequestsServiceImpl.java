@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,15 +22,11 @@ public class BookingRequestsServiceImpl implements BookingRequestsService {
     private final BookingRequestsRepository bookingRequestsRepository;
     private final UserRepository userRepository;
     private final RouteRepository routeRepository;
-
-    @Override
-    public List<BookingRequestsDTO> getAllByUser(User user) {
-        return null;
-    }
+    private final BookingRequestsDtoMapper bookingRequestsDtoMapper;
 
     @Override
     @Transactional
-    public void add(BookingRequestsCommand bookingRequestsCommand, String username) {
+    public BookingRequestsDTO add(BookingRequestsCommand bookingRequestsCommand, String username) {
         final User user = userRepository.findUserByUsername(username)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
         final Route route = routeRepository.findById(bookingRequestsCommand.getRouteId())
@@ -42,5 +37,7 @@ public class BookingRequestsServiceImpl implements BookingRequestsService {
         bookingRequests.setRoute(route);
         bookingRequests.setLocalDateRequested(bookingRequestsCommand.getLocalDateRequested());
         bookingRequestsRepository.save(bookingRequests);
+
+        return bookingRequestsDtoMapper.map(bookingRequests);
     }
 }
