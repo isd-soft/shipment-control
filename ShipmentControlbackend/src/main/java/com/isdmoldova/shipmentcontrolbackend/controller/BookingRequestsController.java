@@ -19,7 +19,6 @@ import java.util.List;
 public class BookingRequestsController {
 
     private final BookingRequestsService bookingRequestsService;
-    private final EmailService emailService;
 
     @GetMapping
     public ResponseEntity<List<BookingRequestsDTO>> getAllRequests(Principal principal) {
@@ -33,9 +32,9 @@ public class BookingRequestsController {
     public ResponseEntity<String> requestBooking(
             @RequestBody BookingRequestsCommand bookingRequestsCommand, Principal principal) {
         BookingRequestsDTO bookingRequestsDTO = bookingRequestsService.add(bookingRequestsCommand, principal.getName());
-        String alertInfo = emailService.sendBookingRequest(bookingRequestsDTO, principal);
+        String emailStatus = bookingRequestsService.sendBookingRequest(bookingRequestsDTO, principal);
 
-        return new ResponseEntity<>(alertInfo, HttpStatus.OK);
+        return new ResponseEntity<>(emailStatus, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
@@ -46,7 +45,7 @@ public class BookingRequestsController {
 
     @DeleteMapping("/accept/{id}")
     public ResponseEntity<?> deleteOnAccept(@PathVariable Long id, Principal principal) {
-        emailService.sendWhenRequestAccept(principal, id);
+        bookingRequestsService.sendWhenRequestAccept(principal, id);
         bookingRequestsService.delete(id);
 
         return new ResponseEntity<>(HttpStatus.OK);
@@ -54,7 +53,7 @@ public class BookingRequestsController {
 
     @DeleteMapping("/deny/{id}")
     public ResponseEntity<?> deleteOnDeny(@PathVariable Long id, Principal principal) {
-        emailService.sendWhenRequestDeny(principal, id);
+        bookingRequestsService.sendWhenRequestDeny(principal, id);
         bookingRequestsService.delete(id);
 
         return new ResponseEntity<>(HttpStatus.OK);
