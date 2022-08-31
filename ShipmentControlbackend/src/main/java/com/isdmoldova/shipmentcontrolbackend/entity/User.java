@@ -38,7 +38,7 @@ public class User extends BaseEntity  {
     private final List<Route> routes = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    private List<BookingRequests> bookingRequests = new ArrayList<>();
+    private List<BookingRequest> bookingRequests = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     @Column(name = "user_role")
