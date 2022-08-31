@@ -20,7 +20,6 @@ export class RouteAddComponent implements OnInit  {
   routeForm !: FormGroup;
   element: any;
 
-
   transport: any;
   SelectedValue: any;
   ChangeTransport(value) {

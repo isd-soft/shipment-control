@@ -9,6 +9,7 @@ import {RouteCommand} from "./RouteCommand";
 })
 export class RouteService {
 
+  url = "http://localhost:8080/api/route";
   constructor(private http: HttpClient) {
   }
 
@@ -20,9 +21,17 @@ export class RouteService {
     return this.http.get<any>("http://localhost:8080/api/route")
   }
 
+  // getRouteById(id: number) {
+  //   return this.http.get<RouteDto>("http://localhost:8080/api/route/" + id)
+  // }
+
   getRouteById(id: number) {
-    return this.http.get<RouteDto>("http://localhost:8080/api/route/" + id)
+    return this.http.get<RouteDto>( `${this.url}/${id}` );
   }
+
+  // getTransportByRouteId(id: number){
+  //   return this.http.get<List<TransportDto>>()
+  // }
 
   putRoute(data: any, id: number) {
     return this.http.put<any>("http://localhost:8080/api/route/" + id, data)

@@ -12,6 +12,9 @@ import {
   RouteConfirmDialogComponent,
   RouteConfirmDialogModel
 } from "./route.confirm.dialog/route.confirm.dialog.component";
+import {TransportsDialogComponent} from "../transports/transports.dialog/transports.dialog.component";
+import {RouteEditComponent} from "./route.edit/route.edit.component";
+// import {RouteDialogComponent} from "./route.dialog/route.dialog.component";
 
 
 @Component({
@@ -78,16 +81,21 @@ export class RouteComponent implements OnInit {
       })
   }
 
-  /*editRoute(row: any) {
-    this.dialog.open(RouteDialogComponent, {
-      width: '30%',
-      data: row
-    }).afterClosed().subscribe(value => {
-      if (value === 'update') {
-        this.getAllRoutes();
-      }
-    })
-  }*/
+  // rowId: any;
+  public redirectToUpdate = (row: any) => {
+    // this.dialog.open(RouteEditComponent, {
+    //   width: '70%',
+    //   data: row
+    // }).afterClosed().subscribe(value => {
+    //   if (value === 'update') {
+    //     this.getAllRoutes();
+    //   }
+    // })
+    this.router.navigateByUrl('/dashboard/route/edit/' + row.routeId);
+    // this.rowId = row.routeId;
+    console.log(row.routeId);
+
+  }
 
   confirmDialog(id: number): void {
     const message = `Are you sure you want to delete this?`;

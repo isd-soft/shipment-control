@@ -1,0 +1,104 @@
+<div class="container">
+  <h1 mat-dialog-title class="general-title"> Edit your Route</h1>
+  <div mat-dialog-content>
+    <form [formGroup]="routeEditForm" (ngSubmit)="updateData()">
+      <mat-form-field appearance="outline">
+        <mat-label>Route description</mat-label>
+        <textarea formControlName="detailedRouteDescription" matInput placeholder="Route description"></textarea>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Max Weight</mat-label>
+        <input formControlName="maximalLoadWeight" matInput type="number" placeholder="Max Weight" min="1"/>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Max Volume</mat-label>
+        <input formControlName="maxLoadVolume" matInput type="number" placeholder="Max Volume" min="1"/>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Available Days for Rent</mat-label>
+        <mat-select formControlName="availableDaysRentList" placeholder="AvailableDaysRent" multiple>
+          <mat-option value="MONDAY">Monday</mat-option>
+          <mat-option value="TUESDAY">Tuesday</mat-option>
+          <mat-option value="WEDNESDAY">Wednesday</mat-option>
+          <mat-option value="THURSDAY">Thursday</mat-option>
+          <mat-option value="FRIDAY">Friday</mat-option>
+          <mat-option value="SATURDAY">Saturday</mat-option>
+          <mat-option value="SUNDAY">Sunday</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <p class="general-title">Itinerary</p>
+      <mat-form-field class="leg-time-itinerary" appearance="outline" class="itineraryForm">
+        <mat-label>Estimated Days</mat-label>
+        <input formControlName="estimatedAmountTimeShipment" matInput type="number" placeholder="Estimated Days"
+               min="1"/>
+      </mat-form-field>
+
+      <p class="mat-dialog-title">Legs
+        <button mat-raised-button color="primary" (click)="add()">+</button>
+      </p>
+      <br>
+      <div class="showInputField">
+        <div *ngFor="let l of legs; let i = index ">
+          <mat-accordion multi class="itineraryForm">
+            <mat-expansion-panel class="legForm">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Insert the Leg
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+
+              <mat-form-field class="add-input1" appearance="outline" class="itineraryForm">
+                <input matInput placeholder="Name" [(ngModel)]="l.name" [ngModelOptions]="{standalone: true}"/>
+              </mat-form-field>
+
+              <mat-form-field class="add-input2" appearance="outline" class="itineraryForm">
+                <input matInput placeholder="Address" [(ngModel)]="l.address" [ngModelOptions]="{standalone: true}"/>
+              </mat-form-field>
+
+              <mat-form-field class="add-input3" appearance="outline" class="itineraryForm">
+                <input matInput placeholder="Country" [(ngModel)]="l.country" [ngModelOptions]="{standalone: true}"/>
+              </mat-form-field>
+
+              <mat-form-field class="add-input4" appearance="outline" class="itineraryForm">
+                <input matInput placeholder="CountryCode" [(ngModel)]="l.countryCode"
+                       [ngModelOptions]="{standalone: true}"/>
+              </mat-form-field>
+
+              <button class="deleteLeg" mat-icon-button color="warn" (click)="clearField(i)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+      </div>
+      <br>
+
+      <p class="general-title">Transport</p>
+      <mat-form-field appearance="outline" class="leg-time-itinerary">
+        <mat-label>Transport</mat-label>
+
+        <div class="col-sm-10">
+          <mat-select formControlName="transportDTOList" (selectionChange)="ChangeTransport($event)"
+                      class="form-control" multiple>
+            <mat-option *ngFor="let tr of transport" [value]="tr.transportId">
+              {{tr.transportName}}
+            </mat-option>
+          </mat-select>
+        </div>
+      </mat-form-field>
+    </form>
+  </div>
+
+  <form>
+    <div class="createRouteButton">
+      <button mat-raised-button type="submit" color="primary" (click)="updateData()">Update</button>
+      <button mat-raised-button (click)="onReset()">Reset</button>
+    </div>
+  </form>
+
+</div>
+
+<!--<p>im here</p>-->
+
+

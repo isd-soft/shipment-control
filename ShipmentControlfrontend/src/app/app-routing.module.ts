@@ -9,6 +9,7 @@ import {CargoOverviewComponent} from "./cargo-overview/cargo-overview.component"
 import {RouteComponent} from "./route/route.component";
 import {RouteAddComponent} from "./route/route.add/route.add.component";
 import {RouteDisplayDetailsComponent} from "./route/route.display.details/route.display.details.component";
+import {RouteEditComponent} from "./route/route.edit/route.edit.component";
 
 
 const routes: Routes = [
@@ -21,6 +22,7 @@ const routes: Routes = [
       {path: 'transports', component: TransportsComponent},
       {path: 'route/details', component: RouteDisplayDetailsComponent},
       {path: 'route/add', component: RouteAddComponent},
+      {path: 'route/edit/:id', component: RouteEditComponent},
       {path: 'add', component: RouteAddComponent},
       {path: 'cargoType', component: CargoTypeComponent},
       {path: 'route', component: RouteComponent},
