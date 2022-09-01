@@ -23,13 +23,8 @@ import java.util.stream.Collectors;
 @Slf4j
 public class CargoOverviewServiceImpl implements CargoOverviewService {
 
-    private CargoRepository cargoRepository;
-    private CargoOverviewDTOMapper cargoOverviewDTOMapper;
-
-    @Autowired
-    public CargoOverviewServiceImpl(final CargoRepository cargoRepository){
-        this.cargoRepository = cargoRepository;
-    }
+    private final CargoRepository cargoRepository;
+    private final CargoOverviewDTOMapper cargoOverviewDTOMapper;
 
     @Transactional
     @Override
