@@ -131,6 +131,7 @@ import {DatePipe} from '@angular/common';
       useClass: TokenInterceptor,
       multi: true,
     },
+    DatePipe
   ],
 
   bootstrap: [AppComponent]
