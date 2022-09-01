@@ -28,7 +28,7 @@ export class RouteEditComponent implements OnInit {
     route: RouteDto;
     preselectedDays: string[] = [];
     preselectedTransport: number[] = [];
-    // preselectedLegsName: string[];
+    preselectedLegsName: string[];
 
     ChangeTransport(value) {
         console.log(value);
@@ -48,7 +48,6 @@ export class RouteEditComponent implements OnInit {
             availableDaysRentList: new FormControl('', [Validators.required]),
             transportDTOList: new FormControl('', [Validators.required]),
             estimatedAmountTimeShipment: new FormControl('', [Validators.required])
-
         });
     }
 
@@ -69,7 +68,7 @@ export class RouteEditComponent implements OnInit {
                 this.route = result
                 this.preselectedDays = this.route.availableDaysRentList.map(d => d.name)
                 this.preselectedTransport = this.route.transportDTOList.map(d => d.transportId)
-                // this.preselectedLegsName = this.route.itineraryDTO.legDTOS.map(d => d.name)
+                this.preselectedLegsName = this.route.itineraryDTO.legDTOS.map(d => d.name)
                 // this.preselectedLegsName = this.route.itineraryDTO.legDTOS.map(d => d.name, d.address)
                 console.log("getting the route details");
                 console.log(result);
