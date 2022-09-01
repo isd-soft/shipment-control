@@ -9,11 +9,13 @@ public class CargoDtoMapper {
 
     public CargoDTO map(Cargo cargo) {
         final CargoDTO cargoDTO = new CargoDTO();
-        cargoDTO.setRoute(cargo.getRoute());
+      //  cargoDTO.setRoute(cargo.getRoute());
         cargoDTO.setCargoStatus(cargo.getCargoStatus());
-        cargoDTO.setDestination(cargo.getDestination());
+      //  cargoDTO.setDestination(cargo.getDestination());
         cargoDTO.setTrackingNumber(cargo.getTrackingNumber());
         cargoDTO.setTotalVolume(cargo.getTotalVolume());
+        cargoDTO.setTotalWeight(cargo.getTotalWeight());
+
         return cargoDTO;
     }
 }

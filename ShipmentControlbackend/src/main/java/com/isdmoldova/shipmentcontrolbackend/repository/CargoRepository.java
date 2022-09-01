@@ -14,9 +14,18 @@ public interface CargoRepository extends JpaRepository<Cargo, Long> {
 
     Optional<Cargo> findByTrackingNumber(String trackingNumber);
 
-    Optional<Cargo> findByRoute(Route route);
-
     List<Cargo> findByCargoStatus(CargoStatus cargoStatus);
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1,19 +1,27 @@
 package com.isdmoldova.shipmentcontrolbackend.service;
 
 import com.isdmoldova.shipmentcontrolbackend.dto.CargoDTO;
-import com.isdmoldova.shipmentcontrolbackend.entity.Cargo;
-import com.isdmoldova.shipmentcontrolbackend.entity.Route;
+import com.isdmoldova.shipmentcontrolbackend.dto.CargoTypeDTO;
+import com.isdmoldova.shipmentcontrolbackend.dto.ItineraryDTO;
+import com.isdmoldova.shipmentcontrolbackend.dto.LegDTO;
+import com.isdmoldova.shipmentcontrolbackend.entity.*;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.CargoStatus;
+import com.isdmoldova.shipmentcontrolbackend.payload.request.CargoCommand;
+
 import java.util.List;
 import java.util.Optional;
 
 public interface CargoService {
 
-    Optional<Cargo> findByTrackingNumber(String trackingNumber);
+    Optional<CargoDTO> findByTrackingNumber(String trackingNumber);
 
-    Optional<Cargo> findByRoute(Route route);
+    CargoStatus findByCargoStatus(CargoDTO cargoDTO);
 
-    List<Cargo> findByCargoStatus(CargoStatus cargoStatus);
+    List<CargoTypeDTO> findAll();
+
+    CargoDTO add(CargoCommand cargoCommand, String username);
+
+
 
 
 }

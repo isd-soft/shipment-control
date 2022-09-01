@@ -17,6 +17,7 @@ public class CargoDTO {
     private Route route;
 
     private Double totalVolume;
+    private Double totalWeight;
 
     private TransportType transportationType;
 
