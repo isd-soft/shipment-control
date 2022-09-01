@@ -59,17 +59,4 @@ public class Cargo extends BaseEntity {
         cargoTypes.add(cargoType);
         cargoType.addCargo(this);
     }
-
-  /*  @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (!(obj instanceof Cargo)) return false;
-        Cargo cargo = (Cargo) obj;
-        return id != null && Objects.equals(id, cargo.getId());
-    }*/
 }
