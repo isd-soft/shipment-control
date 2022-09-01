@@ -39,7 +39,7 @@ public class Route extends BaseEntity {
     @Column(name = "max_volume")
     private Double maxLoadVolume;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "route", orphanRemoval = true)
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "route")
     private List<Transport> transports = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "route")

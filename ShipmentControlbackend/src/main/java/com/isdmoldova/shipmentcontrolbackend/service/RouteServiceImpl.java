@@ -132,6 +132,7 @@ public class RouteServiceImpl implements RouteService {
 
 
     @Override
+    @Transactional
     public void delete(Long id, String username) {
         Route route = routeRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Route not found with id " + id));
@@ -144,6 +145,7 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<AvailableDaysRentDTO> findAvailableDaysRentById(Long routeId) {
         Route route = routeRepository.findById(routeId).orElseThrow(
                 () -> new EntityNotFoundException("Route not found with id " + routeId));

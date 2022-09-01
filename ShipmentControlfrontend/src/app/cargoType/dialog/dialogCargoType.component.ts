@@ -26,7 +26,7 @@ export class DialogCargoTypeComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargoTypeForm = this.formBuilder.group({
-      legName: new FormControl('', [Validators.required])
+      name: new FormControl('', [Validators.required])
 
     });
 

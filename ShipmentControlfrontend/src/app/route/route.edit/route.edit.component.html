@@ -16,7 +16,8 @@
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Available Days for Rent</mat-label>
-        <mat-select formControlName="availableDaysRentList" placeholder="AvailableDaysRent" multiple>
+        <mat-select formControlName="availableDaysRentList" placeholder="AvailableDaysRent" multiple
+            [(ngModel)]="preselectedDays">
           <mat-option value="MONDAY">Monday</mat-option>
           <mat-option value="TUESDAY">Tuesday</mat-option>
           <mat-option value="WEDNESDAY">Wednesday</mat-option>
@@ -79,7 +80,7 @@
         <mat-label>Transport</mat-label>
 
         <div class="col-sm-10">
-          <mat-select formControlName="transportDTOList" (selectionChange)="ChangeTransport($event)"
+          <mat-select [(ngModel)]="preselectedTransport" formControlName="transportDTOList" (selectionChange)="ChangeTransport($event)"
                       class="form-control" multiple>
             <mat-option *ngFor="let tr of transport" [value]="tr.transportId">
               {{tr.transportName}}
