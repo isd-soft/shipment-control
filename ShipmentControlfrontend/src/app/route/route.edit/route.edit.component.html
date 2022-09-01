@@ -1,7 +1,7 @@
 <div class="container">
   <h1 mat-dialog-title class="general-title"> Edit your Route</h1>
   <div mat-dialog-content>
-    <form [formGroup]="routeEditForm" (ngSubmit)="updateData()">
+    <form [formGroup]="routeEditForm">
       <mat-form-field appearance="outline">
         <mat-label>Route description</mat-label>
         <textarea formControlName="detailedRouteDescription" matInput placeholder="Route description"></textarea>
@@ -36,21 +36,21 @@
       </mat-form-field>
 
       <p class="mat-dialog-title">Legs
-        <button mat-raised-button color="primary" (click)="add()">+</button>
+        <button type="button" mat-raised-button color="primary" (click)="add()">+</button>
       </p>
       <br>
+
+
       <div class="showInputField">
         <div *ngFor="let l of legs; let i = index ">
           <mat-accordion multi class="itineraryForm">
+
             <mat-expansion-panel class="legForm">
               <mat-expansion-panel-header>
-                <mat-panel-title>
-                  Insert the Leg
-                </mat-panel-title>
+                <mat-panel-title>Edit the Leg</mat-panel-title>
               </mat-expansion-panel-header>
 
               <mat-form-field class="add-input1" appearance="outline" class="itineraryForm">
-<!--                <input matInput placeholder="Name" [(ngModel)]="preselectedLegsName" [ngModelOptions]="{standalone: true}"/>-->
                 <input matInput placeholder="Name" [(ngModel)]="l.name" [ngModelOptions]="{standalone: true}"/>
               </mat-form-field>
 
@@ -75,11 +75,9 @@
         </div>
       </div>
       <br>
-
       <p class="general-title">Transport</p>
       <mat-form-field appearance="outline" class="leg-time-itinerary">
         <mat-label>Transport</mat-label>
-
         <div class="col-sm-10">
           <mat-select [(ngModel)]="preselectedTransport" formControlName="transportDTOList" (selectionChange)="ChangeTransport($event)"
                       class="form-control" multiple>
@@ -101,6 +99,5 @@
 
 </div>
 
-<!--<p>im here</p>-->
 
 
