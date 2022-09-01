@@ -37,11 +37,12 @@ export class DialogCargoTypeComponent implements OnInit {
   }
 
   addCargoType() {
+    console.debug('adding cargo type');
     if (!this.editData) {
       if (this.cargoTypeForm.valid) {
         const data: CargoTypeDto = {
           name: this.cargoTypeForm.controls['name'].value,
-          id: 1 
+          id: 1
         }
         this.api.addCargoType(data)
           .subscribe({

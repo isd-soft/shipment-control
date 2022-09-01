@@ -58,12 +58,10 @@ public class CargoServiceImpl implements CargoService {
         final User user = userRepository.findUserByUsername(username)
                 .orElseThrow(()-> new EntityNotFoundException("User not found"));
 
-
         List<CargoType> cargoTypes = cargoCommand.getCargoTypeList().stream()
                 .map(cargoTypeId -> cargoTypeRepository.findById(cargoTypeId).orElseThrow(
                         () -> new EntityNotFoundException("Cargo type with id " + cargoTypeId + " not found")))
                 .collect(Collectors.toList());
-
 
         List<LegCommand> legCommandList = cargoCommand.getItineraryCommand().getLegList();
         List<Leg> legs = legCommandList.stream()
@@ -75,9 +73,9 @@ public class CargoServiceImpl implements CargoService {
 
         final Cargo cargo = new Cargo();
         cargo.setUser(user);
-        cargo.setCargoTypes(cargoTypes);
+        cargoTypes.forEach(cargo::addCargoType);
         cargo.setTotalVolume(cargoCommand.getTotalVolume());
-        cargo.setTotalWeight(cargo.getTotalWeight());
+        cargo.setTotalWeight(cargoCommand.getTotalWeight());
 
 
         cargoRepository.save(cargo);
