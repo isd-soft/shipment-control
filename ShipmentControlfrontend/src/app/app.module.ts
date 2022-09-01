@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import {  NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { RegistrationPageComponent } from './registration-page/registration-page.component';
 import { TokenInterceptor } from './services/token.interceptor';
-import { Input, Component, Output, EventEmitter, OnInit } from '@angular/core';
 import {FormGroup, FormControl, FormsModule} from '@angular/forms';
 
 import { MatCardModule } from '@angular/material/card';
@@ -32,7 +32,7 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import {MenuItemComponent} from "./dashboard/menu-item/menu-item.component";
 import { LoginRegisterNavBarComponent } from './login-register-nav-bar/login-register-nav-bar.component';
 import { TransportsComponent } from './transports/transports.component';
-import { CargoOverviewComponent } from './cargo-overview/cargo-overview.component';
+
 import {MatTableModule} from "@angular/material/table";
 import { CargoTypeComponent } from './cargoType/cargoType.component';
 import { DialogCargoTypeComponent } from './cargoType/dialog/dialogCargoType.component';
@@ -42,16 +42,21 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 import { MatSortModule } from '@angular/material/sort';
 
-import {DialogCargoOverviewComponent} from "./cargo-overview/dialog/dialogCargoOverview.component";
 import { TransportsDialogComponent } from './transports/transports.dialog/transports.dialog.component';
 
 import { CustomMaterialModule } from './cargoType/custom-material.module';
 import { ConfirmDialogComponent } from './cargoType/dialog/confirm-dialog.component';
-import {ConfirmDialogCargoComponent} from "./cargo-overview/dialog/confirm-dialogCargo.component";
+
 
 import { RouteComponent } from './route/route.component';
+import { RouteAddComponent} from './route/route.add/route.add.component';
+import { RouteDisplayDetailsComponent } from './route/route.display.details/route.display.details.component';
+import {MatTabsModule} from "@angular/material/tabs";
+import {ConfirmDialogCargoComponent} from "./cargo-overview/dialog/confirm-dialogCargo.component";
+import {DialogCargoOverviewComponent} from "./cargo-overview/dialog/dialogCargoOverview.component";
+import {CargoOverviewComponent} from "./cargo-overview/cargo-overview.component";
+import { RouteConfirmDialogComponent } from './route/route.confirm.dialog/route.confirm.dialog.component';
 
-// import RouteIcon from '@mui/icons-material/Route';
 
 @NgModule({
   declarations: [
@@ -64,12 +69,15 @@ import { RouteComponent } from './route/route.component';
     TransportsComponent,
     CargoTypeComponent,
     DialogCargoTypeComponent,
-    CargoOverviewComponent,
-    DialogCargoOverviewComponent,
-    ConfirmDialogCargoComponent,
     TransportsDialogComponent,
     ConfirmDialogComponent,
-    RouteComponent
+    RouteComponent,
+    RouteAddComponent,
+    RouteDisplayDetailsComponent,
+    ConfirmDialogCargoComponent,
+    DialogCargoOverviewComponent,
+    CargoOverviewComponent,
+    RouteConfirmDialogComponent,
 
   ],
   imports: [
@@ -99,7 +107,10 @@ import { RouteComponent } from './route/route.component';
     MatDialogModule,
     MatPaginatorModule,
     MatSnackBarModule,
-    CustomMaterialModule
+    CustomMaterialModule,
+    NgxMatTimepickerModule,
+    MatTabsModule
+
   ],
   entryComponents: [ConfirmDialogComponent],
   exports: [

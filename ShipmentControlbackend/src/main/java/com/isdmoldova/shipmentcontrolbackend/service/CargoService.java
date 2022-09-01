@@ -11,9 +11,8 @@ public interface CargoService {
 
     Optional<Cargo> findByTrackingNumber(String trackingNumber);
 
-    Optional<Cargo> findByRoute(Route route);
-
     List<Cargo> findByCargoStatus(CargoStatus cargoStatus);
+
 
 
 }

@@ -10,7 +10,4 @@ public interface ItineraryRepository extends JpaRepository<Itinerary , Long> {
 
     Optional<Itinerary> findItineraryById(Long id);
 
-
-
-
 }

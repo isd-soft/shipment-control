@@ -33,6 +33,8 @@ export class CargoTypeComponent implements OnInit {
     this.getAllCargoType();
   }
 
+
+
   openDialog() {
     this.dialog.open(DialogCargoTypeComponent, {
       width: '30%'
@@ -52,7 +54,7 @@ export class CargoTypeComponent implements OnInit {
           this.dataSource.sort = this.sort;
         },
         error: () => {
-          this.snackbar.open("Error while fetching the the record!!", 'Error', {duration: 2000});
+          this.snackbar.open("Error while fetching  the record!!", 'Error', {duration: 2000});
         }
       })
   }

@@ -41,9 +41,6 @@ export class RegistrationPageComponent implements OnInit {
 
 
   ngOnInit(): void {
-    // this.registrationService.getUsers().subscribe(data =>{
-    //   this.users = data;
-    // })
   }
 
   onReset(): void {
@@ -72,11 +69,7 @@ export class RegistrationPageComponent implements OnInit {
 
       }
     );
-
   }
-
-
-
 }
 
 export function ConfirmedValidator(controlName: string, matchingControlName: string) {

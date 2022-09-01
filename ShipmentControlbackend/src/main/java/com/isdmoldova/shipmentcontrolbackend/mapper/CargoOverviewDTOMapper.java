@@ -12,7 +12,6 @@ public class CargoOverviewDTOMapper {
         final CargoOverviewDTO cargoOverviewDTO = new CargoOverviewDTO();
 
         cargoOverviewDTO.setCargoStatus(cargo.getCargoStatus());
-        cargoOverviewDTO.setDestination(cargo.getDestination());
         cargoOverviewDTO.setTrackingNumber(cargo.getTrackingNumber());
 
         return cargoOverviewDTO;

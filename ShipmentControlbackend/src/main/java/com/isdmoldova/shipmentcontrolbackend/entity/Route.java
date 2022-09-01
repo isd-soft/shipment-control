@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,7 +19,7 @@ import java.util.stream.Collectors;
 @Builder
 public class Route extends BaseEntity {
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "route")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "route", cascade = CascadeType.ALL,orphanRemoval = true)
     private Itinerary itinerary;
 
     @Column(name = "detail_route")
@@ -27,17 +28,11 @@ public class Route extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    @Column(name = "estimated_route_days")
-    private Long estimatedDays;
-
     @ElementCollection(targetClass = AvailableDaysRent.class)
     @JoinTable(name = "route_available_days", joinColumns = @JoinColumn(name = "route_id"))
     @Column(name = "available_day", nullable = false)
     @Enumerated(EnumType.STRING)
     private List<AvailableDaysRent> availableDaysRent;
-
-    @Column(name = "estimated_time_amount", columnDefinition = "TIME")
-    private LocalTime estimatedAmountTimeShipment;
 
     @Column(name = "max_weight")
     private Double maximalLoadValue;
@@ -45,8 +40,38 @@ public class Route extends BaseEntity {
     @Column(name = "max_volume")
     private Double maxLoadVolume;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "route", orphanRemoval = true)
+    private List<Transport> transports = new ArrayList<>();
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "route")
-    private List<Transport> transports;
+    private List<BookingRequests> bookingRequests = new ArrayList<>();
+
+    public Route(String detailedRouteDescription,
+                 User user,
+                 List<AvailableDaysRent> availableDaysRent,
+                 Double maximalLoadValue,
+                 Double maxLoadVolume) {
+        this.detailedRouteDescription = detailedRouteDescription;
+        this.user = user;
+        this.availableDaysRent = availableDaysRent;
+        this.maximalLoadValue = maximalLoadValue;
+        this.maxLoadVolume = maxLoadVolume;
+        this.transports = new ArrayList<>();
+    }
+
+    public void addItinerary(Itinerary itinerary) {
+        this.itinerary = itinerary;
+        itinerary.setRoute(this);
+    }
+
+    public void addTransport(Transport transport) {
+        transports.add(transport);
+        transport.setRoute(this);
+    }
+
+    public void clearTransports() {
+        transports.clear();
+    }
 
     public List<CargoType> getAllowedCargoTypes() {
         return this.transports.stream()

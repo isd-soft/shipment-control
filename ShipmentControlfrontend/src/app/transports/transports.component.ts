@@ -8,6 +8,10 @@ import {MatPaginator} from "@angular/material/paginator";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatDialog} from "@angular/material/dialog";
 import {TransportsDialogComponent} from "./transports.dialog/transports.dialog.component";
+import {
+  RouteConfirmDialogComponent,
+  RouteConfirmDialogModel
+} from "../route/route.confirm.dialog/route.confirm.dialog.component";
 
 @Component({
   selector: 'app-transports',
@@ -52,16 +56,29 @@ export class TransportsComponent implements OnInit, AfterViewInit {
     })
 
   }
-  public redirectToDelete = (id: number) => {
-    this.transportService.deleteTransports(id).subscribe({
-      next: () => {
-        this.snackbar.open("Deleted Successfully", 'Dismiss', {duration: 2000})
-        this.getAllTransports();
-      },
-      error: () => {
-        this.snackbar.open("Error while deleting the Transport", 'Dismiss');
+  confirmDialog(id: number): void {
+    const message = `Are you sure you want to delete this?`;
+
+    const dialogData = new RouteConfirmDialogModel("Confirm Action", message);
+
+    const dialogRef = this.dialog.open(RouteConfirmDialogComponent, {
+      maxWidth: "400px",
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (dialogResult) {
+        this.transportService.deleteTransports(id).subscribe({
+          next: () => {
+            this.snackbar.open("Deleted Successfully", 'Dismiss', {duration: 2000})
+            this.getAllTransports();
+          },
+          error: () => {
+            this.snackbar.open("Error while deleting the Transport", 'Dismiss');
+          }
+        })
       }
-    })
+    });
   }
 
   getAllTransports() {
@@ -73,7 +90,7 @@ export class TransportsComponent implements OnInit, AfterViewInit {
         this.dataSource.sort = this.empTbSort;
       },
       error: () => {
-        this.snackbar.open("Error while fetching the the record!!", 'Error', {duration: 2000});
+        this.snackbar.open("Error while fetching the record!!", 'Error', {duration: 2000});
       }
     });
   }
