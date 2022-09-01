@@ -32,7 +32,11 @@ public class Cargo extends BaseEntity {
     @Column(name = "total_weight")
     private Double totalWeight;
 
-    @OneToMany
+    @ManyToMany
+    @JoinTable(
+            name = "cargo_cargo_type",
+            joinColumns = @JoinColumn(name = "cargo_type_id"),
+            inverseJoinColumns = @JoinColumn(name = "cargo_id"))
     List<CargoType> cargoTypes = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -52,6 +56,11 @@ public class Cargo extends BaseEntity {
         this.cargoTypes = cargoTypes;
         this.itinerary = itinerary;
         this.cargoStatus = cargoStatus;
+    }
+
+    public void addCargoType(CargoType cargoType) {
+        cargoTypes.add(cargoType);
+        cargoType.addCargo(this);
     }
 
 

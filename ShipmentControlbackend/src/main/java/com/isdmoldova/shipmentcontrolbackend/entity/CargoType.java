@@ -34,4 +34,11 @@ public class CargoType extends BaseEntity {
 
     @ManyToMany(mappedBy = "cargoTypes", cascade = CascadeType.ALL)
     private List<Transport> transports;
+
+    @ManyToMany(mappedBy = "cargoTypes", cascade = CascadeType.ALL)
+    private List<Cargo> cargos;
+
+    public void addCargo(Cargo cargo) {
+        cargos.add(cargo);
+    }
 }
