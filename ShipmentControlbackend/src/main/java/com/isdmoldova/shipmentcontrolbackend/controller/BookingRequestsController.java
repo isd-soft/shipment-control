@@ -29,12 +29,12 @@ public class BookingRequestsController {
 
 
     @PostMapping
-    public ResponseEntity<String> requestBooking(
+    public ResponseEntity<?> requestBooking(
             @RequestBody BookingRequestsCommand bookingRequestsCommand, Principal principal) {
         BookingRequestsDTO bookingRequestsDTO = bookingRequestsService.add(bookingRequestsCommand, principal.getName());
-        String emailStatus = bookingRequestsService.sendBookingRequest(bookingRequestsDTO, principal);
+        bookingRequestsService.sendBookingRequest(bookingRequestsDTO, principal);
 
-        return new ResponseEntity<>(emailStatus, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
