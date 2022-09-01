@@ -45,7 +45,7 @@ public class CargoOverviewServiceImpl implements CargoOverviewService {
     public CargoOverviewDTO add(CargoOverviewCommand command){
         Cargo cargoOverviewDTO = new Cargo();
         cargoOverviewDTO.setCargoStatus(command.getCargoStatus());
-        cargoOverviewDTO.setDestination(command.getDestination());
+       // cargoOverviewDTO.setDestination(command.getDestination());
         cargoOverviewDTO.setTrackingNumber(command.getTrackingNumber());
         cargoRepository.save(cargoOverviewDTO);
         return cargoOverviewDTOMapper.map(cargoOverviewDTO);
@@ -58,7 +58,7 @@ public class CargoOverviewServiceImpl implements CargoOverviewService {
         Cargo cargoOverview = cargoRepository.findById(id).orElseThrow(() ->
                 new CargoOverviewNotFoundException("This id does not exists!"));
         cargoOverview.setCargoStatus(cargo.getCargoStatus());
-        cargoOverview.setDestination(cargo.getDestination());
+      //  cargoOverview.setDestination(cargo.getDestination());
         cargoOverview.setTrackingNumber(cargo.getTrackingNumber());
 
         return cargoOverviewDTOMapper.map(cargoOverview);
