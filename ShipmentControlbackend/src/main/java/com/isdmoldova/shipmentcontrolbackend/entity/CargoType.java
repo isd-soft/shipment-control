@@ -6,6 +6,7 @@ import javax.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,13 +33,34 @@ public class CargoType extends BaseEntity {
         this.modifiedAt = LocalDateTime.now();
     }
 
-    @ManyToMany(mappedBy = "cargoTypes", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "cargoTypes")
     private List<Transport> transports;
 
-    @ManyToMany(mappedBy = "cargoTypes", cascade = CascadeType.ALL)
+    @ManyToMany
+    @JoinTable(
+            name = "cargo_cargo_type",
+            joinColumns = @JoinColumn(name = "cargo_id"),
+            inverseJoinColumns = @JoinColumn(name = "cargo_type_id"))
     private List<Cargo> cargos;
 
     public void addCargo(Cargo cargo) {
         cargos.add(cargo);
+    }
+
+    public void removeCargo(Cargo cargo) {
+        cargos.remove(cargo);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof CargoType)) return false;
+        CargoType cargoType = (CargoType) obj;
+        return id != null && Objects.equals(id, cargoType.getId());
     }
 }

@@ -9,6 +9,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 @Getter
@@ -32,11 +33,7 @@ public class Cargo extends BaseEntity {
     @Column(name = "total_weight")
     private Double totalWeight;
 
-    @ManyToMany
-    @JoinTable(
-            name = "cargo_cargo_type",
-            joinColumns = @JoinColumn(name = "cargo_type_id"),
-            inverseJoinColumns = @JoinColumn(name = "cargo_id"))
+    @ManyToMany(mappedBy = "cargos", cascade = {CascadeType.MERGE})
     List<CargoType> cargoTypes = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -63,15 +60,16 @@ public class Cargo extends BaseEntity {
         cargoType.addCargo(this);
     }
 
+  /*  @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 
-
-
-
-
-
-
-
-
-
-
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Cargo)) return false;
+        Cargo cargo = (Cargo) obj;
+        return id != null && Objects.equals(id, cargo.getId());
+    }*/
 }

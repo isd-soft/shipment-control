@@ -1,9 +1,6 @@
 package com.isdmoldova.shipmentcontrolbackend.service;
 
-import com.isdmoldova.shipmentcontrolbackend.dto.CargoDTO;
-import com.isdmoldova.shipmentcontrolbackend.dto.CargoTypeDTO;
-import com.isdmoldova.shipmentcontrolbackend.dto.ItineraryDTO;
-import com.isdmoldova.shipmentcontrolbackend.dto.LegDTO;
+import com.isdmoldova.shipmentcontrolbackend.dto.*;
 import com.isdmoldova.shipmentcontrolbackend.entity.*;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.CargoStatus;
 import com.isdmoldova.shipmentcontrolbackend.mapper.CargoDtoMapper;
@@ -17,6 +14,7 @@ import com.isdmoldova.shipmentcontrolbackend.repository.UserRepository;
 import lombok.AllArgsConstructor;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -33,25 +31,6 @@ public class CargoServiceImpl implements CargoService {
     private final CargoRepository cargoRepository;
     private final UserRepository userRepository;
 
-
-    @Override
-    public Optional<CargoDTO> findByTrackingNumber(String trackingNumber) {
-        return Optional.empty();
-    }
-
-
-    @Override
-    public CargoStatus findByCargoStatus(CargoDTO cargoDTO) {
-        return cargoDTO.getCargoStatus();
-    }
-
-    @Override
-    public List<CargoTypeDTO> findAll() {
-        List<CargoType> cargoTypeList  = cargoTypeRepository.findAll();
-        return cargoTypeRepository.findAll().stream()
-                .map(cargoDtoMapper::map)
-                .collect(Collectors.toList());
-    }
 
     @Override
     public CargoDTO add(CargoCommand cargoCommand, String username) {
@@ -77,13 +56,52 @@ public class CargoServiceImpl implements CargoService {
         cargo.setTotalVolume(cargoCommand.getTotalVolume());
         cargo.setTotalWeight(cargoCommand.getTotalWeight());
 
-
         cargoRepository.save(cargo);
         cargo.setItinerary(itinerary);
         return cargoMapper.map(cargo);
 
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<CargoDTO> findAllCargoes(String username) {
+        User user = userRepository.findUserByUsername(username).orElseThrow(
+                () -> new EntityNotFoundException("Cargoes for user " + username + " not found"));
+        final List<Cargo> cargos = cargoRepository.findAllByUser(user);
+        return cargos.stream().map(cargoMapper::map).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public CargoDTO findById(Long id) {
+        return cargoRepository.findById(id).map(cargoMapper::map)
+                .orElseThrow(() -> new EntityNotFoundException("Cargo with id " + id + " does not exist!"));
+    }
+
+    @Override
+    public CargoDTO update(CargoCommand cargoCommand, Long id,String username) {
+        Cargo cargo = cargoRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Cargo entity not found by specified id " + id));
+        if (!cargo.getUser().getUsername().equals(username)) {
+            throw new EntityNotFoundException("User " + username + " is not allowed to update Cargo with id " + id);
+        }
+
+        cargo.setTotalVolume(cargoCommand.getTotalVolume());
+        cargo.setTotalWeight(cargoCommand.getTotalWeight());
+        cargoRepository.save(cargo);
+        return cargoMapper.map(cargo);
+    }
+
+    @Override
+    public void delete(Long id, String username) {
+        Cargo cargo = cargoRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Cargo not found with id " + id));
+        cargo.getCargoTypes().forEach(cargoType -> cargoType.removeCargo(cargo));
+        if (!cargo.getUser().getUsername().equals(username)) {
+            throw new EntityNotFoundException("User " + username + " is not allowed to delete route with id " + id);
+        }
+        cargoRepository.delete(cargo);
+    }
 
 
 }
