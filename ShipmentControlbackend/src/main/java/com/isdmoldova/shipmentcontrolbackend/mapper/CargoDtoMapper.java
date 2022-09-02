@@ -16,7 +16,6 @@ public class CargoDtoMapper {
     public CargoDTO map(Cargo cargo) {
         final CargoDTO cargoDTO = new CargoDTO();
         cargoDTO.setId(cargo.getId());
-      //  cargoDTO.setRoute(cargo.getRoute());
         cargoDTO.setCargoStatus(cargo.getCargoStatus());
         cargoDTO.setOrigin(cargo.getOrigin().getCountry());
         cargoDTO.setDestination(cargo.getDestination().getCountry());
@@ -24,6 +23,7 @@ public class CargoDtoMapper {
         cargoDTO.setCargoTypes(cargo.getCargoTypes()
                 .stream().map(cargoTypeDtoMapper::map).collect(Collectors.toList()));
         cargoDTO.setTotalVolume(cargo.getTotalVolume());
+        cargoDTO.setItineraryDTO(itineraryDtoMapper.map(cargo.getItinerary()));
         cargoDTO.setTotalWeight(cargo.getTotalWeight());
         cargoDTO.setBookingDate(cargo.getBookingDate());
         return cargoDTO;
