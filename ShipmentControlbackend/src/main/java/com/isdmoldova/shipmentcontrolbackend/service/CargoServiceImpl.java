@@ -33,6 +33,7 @@ public class CargoServiceImpl implements CargoService {
 
 
     @Override
+    @Transactional
     public CargoDTO add(CargoCommand cargoCommand, String username) {
         final User user = userRepository.findUserByUsername(username)
                 .orElseThrow(()-> new EntityNotFoundException("User not found"));
@@ -55,6 +56,7 @@ public class CargoServiceImpl implements CargoService {
         cargoTypes.forEach(cargo::addCargoType);
         cargo.setTotalVolume(cargoCommand.getTotalVolume());
         cargo.setTotalWeight(cargoCommand.getTotalWeight());
+        cargo.setBookingDate(cargoCommand.getBookingDate());
 
         cargoRepository.save(cargo);
         cargo.setItinerary(itinerary);

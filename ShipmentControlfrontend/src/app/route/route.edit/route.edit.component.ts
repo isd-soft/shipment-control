@@ -10,6 +10,7 @@ import {LegCommand} from "../../services/LegCommand";
 import {ActivatedRoute} from "@angular/router";
 import {RouteDto} from "../../model/route.dto";
 
+
 @Component({
     selector: 'app-route.edit',
     templateUrl: './route.edit.component.html',
