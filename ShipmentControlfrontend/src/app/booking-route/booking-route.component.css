@@ -1,0 +1,21 @@
+.container {
+  max-width: 600px;
+  margin: 25px 50px 75px 100px;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.form-group {
+  width: auto;
+  margin-bottom: 20px;
+}
+
+.mat-raised-button {
+  margin-left: 20px;
+}
+
+.legForm {
+  margin-bottom: 30px;
+}
