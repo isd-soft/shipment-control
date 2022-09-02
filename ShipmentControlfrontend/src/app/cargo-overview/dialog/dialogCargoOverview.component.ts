@@ -3,7 +3,6 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {FormGroup, FormBuilder, Validators, FormControl} from "@angular/forms";
 import {MatDialogRef,MAT_DIALOG_DATA} from '@angular/material/dialog'
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {CargoDTO} from "../../model/cargoOverview.dto";
 import {CargoOverviewCommand} from "../../services/CargoOverviewCommand";
 
 
@@ -26,22 +25,22 @@ export class DialogCargoOverviewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.cargoOverviewForm = this.formBuilder.group({
+/*    this.cargoOverviewForm = this.formBuilder.group({
       trackingNumber: new FormControl('', [Validators.required]),
       destination: new FormControl('', [Validators.required]),
-      cargoStatus: new FormControl('', [Validators.required]),
+      cargoStatus: new FormControl('', [Validators.required]),*/
 
-    });
+   /* });
 
     if (this.editData) {
       this.actionBtn = "Update";
       this.cargoOverviewForm.controls['trackingNumber'].setValue(this.editData.trackingNumber);
       this.cargoOverviewForm.controls['destination'].setValue(this.editData.destination);
       this.cargoOverviewForm.controls['cargoStatus'].setValue(this.editData.cargoStatus);
-    }
+    }*/
   }
 
-  addCargoOverview() {
+/*  addCargoOverview() {
     if (!this.editData) {
       if (this.cargoOverviewForm.valid) {
         const data: CargoOverviewCommand = {
@@ -64,8 +63,10 @@ export class DialogCargoOverviewComponent implements OnInit {
     } else {
       this.updateCargoOverview();
     }
-  }
-  updateCargoOverview(){
+  }*/
+
+
+  /*updateCargoOverview(){
     this.api.putCargoOverview(this.cargoOverviewForm.value, this.editData.id)
       .subscribe({
         next: () => {
@@ -77,5 +78,5 @@ export class DialogCargoOverviewComponent implements OnInit {
           this.snackBar.open("Error while updating",'Error',{duration:2000});
         }
       })
-  }
+  }*/
 }

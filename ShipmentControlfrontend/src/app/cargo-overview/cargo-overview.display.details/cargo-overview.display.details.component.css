@@ -1,0 +1,28 @@
+table {
+  width: 100%;
+}
+.mat-column-select {
+  width: 38px;
+}
+.example-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+.mat-dialog-title{
+  margin-left: 40px;
+}
+.btn-request{
+  position: fixed;
+  bottom: 60px;
+  right: 220px;
+}
+.mat-form-date-picker{
+  position: fixed;
+  width: 120px;
+  bottom: 10px;
+
+}

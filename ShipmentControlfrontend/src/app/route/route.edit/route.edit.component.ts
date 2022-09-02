@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from "@angular/core";
+import {ChangeDetectorRef, Component, OnInit, ViewChild} from "@angular/core";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {TransportsService} from "../../services/transports.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -28,7 +28,6 @@ export class RouteEditComponent implements OnInit {
     route: RouteDto;
     preselectedDays: string[] = [];
     preselectedTransport: number[] = [];
-    preselectedLegsName: string[];
 
     ChangeTransport(value) {
         console.log(value);
@@ -40,6 +39,7 @@ export class RouteEditComponent implements OnInit {
                 private snackBar: MatSnackBar,
                 private transportService: TransportsService,
                 private router: ActivatedRoute,
+                private cd: ChangeDetectorRef
     ) {
         this.routeEditForm = formBuilder.group({
             detailedRouteDescription: new FormControl('', [Validators.required]),
@@ -47,33 +47,33 @@ export class RouteEditComponent implements OnInit {
             maxLoadVolume: new FormControl('', [Validators.required]),
             availableDaysRentList: new FormControl('', [Validators.required]),
             transportDTOList: new FormControl('', [Validators.required]),
-            estimatedAmountTimeShipment: new FormControl('', [Validators.required])
+            estimatedAmountTimeShipment: new FormControl('', [Validators.required]),
         });
     }
 
     ngOnInit(): void {
-        this.legs.push({name: '', address: '', country: '', countryCode: ''});
-        this.legs.push({name: '', address: '', country: '', countryCode: ''});
-
         this.transportService.getTransports().subscribe((data: any) => {
             this.transport = data;
         });
 
-
         console.log("route id = " + this.router.snapshot.params["id"]);
-        // console.log(this.legs);
+        console.log(this.legs);
+
 
         this.routeService.getRouteById(this.router.snapshot.params["id"])
             .subscribe((result: any) => {
-                this.route = result
-                this.preselectedDays = this.route.availableDaysRentList.map(d => d.name)
-                this.preselectedTransport = this.route.transportDTOList.map(d => d.transportId)
-                this.preselectedLegsName = this.route.itineraryDTO.legDTOS.map(d => d.name)
-                // this.preselectedLegsName = this.route.itineraryDTO.legDTOS.map(d => d.name, d.address)
+                result.itineraryDTO.legDTOS.map(l => this.legs.push({
+                    name: l.name,
+                    address: l.address,
+                    country: l.country,
+                    countryCode: l.countryCode
+                }))
+
+                this.route = result;
+                this.preselectedDays = this.route.availableDaysRentList.map(d => d.name);
+                this.preselectedTransport = this.route.transportDTOList.map(d => d.transportId);
                 console.log("getting the route details");
                 console.log(result);
-                // this.currentRoute = result;
-                // this.transportDataSource = new MatTableDataSource<TransportDto>(result.transportDTOList);
                 this.routeEditForm = new FormGroup({
                     detailedRouteDescription: new FormControl(result['routeDescription']),
                     maximalLoadWeight: new FormControl(result['maximalLoadWeight']),
@@ -82,11 +82,13 @@ export class RouteEditComponent implements OnInit {
                     transportDTOList: new FormControl(result['transportDTOList']),
                     estimatedAmountTimeShipment: new FormControl(result['estimatedAmountTimeShipment'])
                 });
+                this.cd.detectChanges();
             });
+
     }
 
     add() {
-        this.legs.push({name: '', address: '', country: '', countryCode: ''});
+        this.legs.splice(this.legs.length - 1, 0, {name: '', address: '', country: '', countryCode: ''});
     }
 
     clearField(legIndex: number) {
@@ -98,7 +100,6 @@ export class RouteEditComponent implements OnInit {
     }
 
     updateData() {
-
         // console.log(this.legs);
         const itinerary: ItineraryCommand = {
             legList: this.legs,
@@ -129,10 +130,6 @@ export class RouteEditComponent implements OnInit {
                 this.snackBar.open("Unsuccessfully updated route", 'OK', {duration: 6000});
             }
         );
-    }
-
-    isDaySelected(day: string) : boolean {
-        return this.route.availableDaysRentList.some(d => d.name === day)
     }
 }
 
