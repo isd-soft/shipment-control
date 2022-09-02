@@ -9,7 +9,7 @@ import {MatAccordion} from "@angular/material/expansion";
 import {LegCommand} from "../../services/LegCommand";
 import {ActivatedRoute} from "@angular/router";
 import {RouteDto} from "../../model/route.dto";
-import {AvailableDaysRentDto} from "../../model/availableDaysRentDto";
+
 
 @Component({
     selector: 'app-route.edit',

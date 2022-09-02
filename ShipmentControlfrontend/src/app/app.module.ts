@@ -59,6 +59,7 @@ import {RouteEditComponent} from "./route/route.edit/route.edit.component";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
 import {DatePipe} from '@angular/common';
+import { BookingRequestComponent } from './booking.request/booking.request.component';
 
 
 @NgModule({
@@ -82,6 +83,7 @@ import {DatePipe} from '@angular/common';
     CargoOverviewComponent,
     RouteConfirmDialogComponent,
     RouteEditComponent,
+    BookingRequestComponent,
 
 
   ],

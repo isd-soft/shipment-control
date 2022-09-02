@@ -38,7 +38,8 @@ export class RouteDisplayDetailsComponent implements OnInit {
   @ViewChild('transportSort') transportSort = new MatSort();
   @ViewChild('legSort') legSort = new MatSort();
   dateForm!: FormGroup;
-  private arr: number[] = [1, 2, 5];
+  daysCalendar: string[] = [];
+  finalArr: (undefined | number)[] = [];
 
 
   constructor(
@@ -58,7 +59,6 @@ export class RouteDisplayDetailsComponent implements OnInit {
     this.dateForm = this.formBuilder.group({
       pickedDate: new FormControl('', [Validators.required])
     });
-
   }
 
   getCargoTypeNames(element: any): string {
@@ -72,10 +72,13 @@ export class RouteDisplayDetailsComponent implements OnInit {
 
   getAvailableDays(element: any): string {
     let days = "";
-
+    let i = 0;
     element.availableDaysRentList.forEach(name => {
       days += name.label + ", ";
+      this.daysCalendar[i] = name.label;
+      i++;
     })
+
     return days;
   }
 
@@ -109,13 +112,35 @@ export class RouteDisplayDetailsComponent implements OnInit {
       })
   }
 
-
-  dateFilter = (d: Date): boolean => {
-
-    // Prevent Saturday and Sunday from being selected.
-    return d.getDay() !== 0 && d.getDay() !== 6;
+  convert() {
+    for (let i = 0; i < 7; i++) {
+      for (let j = 0; j < 7; j++) {
+        if (this.daysCalendar[i] === this.weekDays[j].name) {
+          this.weekDays[j].id = undefined;
+        }
+      }
+      this.finalArr[i] = this.weekDays[i].id;
+    }
   }
 
+  weekDays: DaysOfWeek[] = [
+    {name: 'Sunday', id: 0},
+    {name: 'Monday', id: 1},
+    {name: 'Tuesday', id: 2},
+    {name: 'Wednesday', id: 3},
+    {name: 'Thursday', id: 4},
+    {name: 'Friday', id: 5},
+    {name: 'Saturday', id: 6}
+  ]
+
+  dateFilter = (d: Date): boolean => {
+    this.convert();
+    const day = d.getDay();
+    return day !== this.finalArr[0] && day !== this.finalArr[1]
+      && day !== this.finalArr[2] && day !== this.finalArr[3]
+      && day !== this.finalArr[4] && day !== this.finalArr[5]
+      && day !== this.finalArr[6]
+  }
 
   onSubmit() {
     console.log(this.dateForm.value);
@@ -138,4 +163,9 @@ export class RouteDisplayDetailsComponent implements OnInit {
       this.snackbar.open("Please provide a valid day!", 'Error', {duration: 2000});
     }
   }
+}
+
+export interface DaysOfWeek {
+  name: string;
+  id: number | undefined;
 }
