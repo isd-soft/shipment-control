@@ -56,6 +56,7 @@ import {ConfirmDialogCargoComponent} from "./cargo-overview/dialog/confirm-dialo
 import {DialogCargoOverviewComponent} from "./cargo-overview/dialog/dialogCargoOverview.component";
 import {CargoOverviewComponent} from "./cargo-overview/cargo-overview.component";
 import { RouteConfirmDialogComponent } from './route/route.confirm.dialog/route.confirm.dialog.component';
+import {RouteEditComponent} from "./route/route.edit/route.edit.component";
 
 
 @NgModule({
@@ -78,6 +79,7 @@ import { RouteConfirmDialogComponent } from './route/route.confirm.dialog/route.
     DialogCargoOverviewComponent,
     CargoOverviewComponent,
     RouteConfirmDialogComponent,
+    RouteEditComponent
 
   ],
   imports: [

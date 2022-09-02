@@ -56,6 +56,7 @@ public class Itinerary extends BaseEntity{
     }
 
     public void clearLegs() {
+        legs.forEach(leg -> leg.setItinerary(null));
         legs.clear();
     }
 }

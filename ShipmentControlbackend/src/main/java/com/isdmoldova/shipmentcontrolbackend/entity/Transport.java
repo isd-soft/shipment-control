@@ -24,9 +24,9 @@ public class Transport extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "route_id")
-    private Route route;
+    @ManyToMany
+//    @JoinColumn(name = "route_id")
+    private List<Route> routes;
 
     @Enumerated(EnumType.STRING)
     private TransportType transportType;

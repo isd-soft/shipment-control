@@ -1,6 +1,5 @@
 package com.isdmoldova.shipmentcontrolbackend.entity;
 
-import com.isdmoldova.shipmentcontrolbackend.entity.enums.AvailableDaysRent;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,7 +12,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
-public class BookingRequests extends BaseEntity {
+public class BookingRequest extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "route_id")
