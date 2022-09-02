@@ -9,6 +9,7 @@ import {CargoOverviewService} from "../services/cargoOverview.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {DialogCargoOverviewComponent} from "./dialog/dialogCargoOverview.component";
 import {ConfirmDialogCargoComponent , ConfirmDialogCargoModel} from "../cargo-overview/dialog/confirm-dialogCargo.component";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -18,7 +19,7 @@ import {ConfirmDialogCargoComponent , ConfirmDialogCargoModel} from "../cargo-ov
 })
 export class CargoOverviewComponent implements OnInit {
 
-  displayedColumns: string[] = ['trackingNumber', 'destination', 'cargoStatus','action'];
+  displayedColumns: string[] = ['trackingNumber','origin', 'destination', 'cargoStatus','action'];
   dataSource: MatTableDataSource<CargoDTO>;
   selection = new SelectionModel<CargoDTO>(true, []);
 
@@ -27,7 +28,8 @@ export class CargoOverviewComponent implements OnInit {
 
   constructor(private dialog :MatDialog ,
               private api : CargoOverviewService,
-              private snackbar:MatSnackBar) {
+              private snackbar:MatSnackBar,
+              private router: Router) {
 
   }
 
@@ -44,8 +46,14 @@ export class CargoOverviewComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
+  openDetails(row) {
+    this.router.navigate(['/dashboard/cargo/details'],
+      {queryParams: {'cargoId': row.cargoId}});
+    console.log('Row clicked: ', row);
+  }
 
-  openDialog() {
+
+/*  openDialog() {
     this.dialog.open(DialogCargoOverviewComponent, {
       width:'30%'
     }).afterClosed().subscribe(value => {
@@ -53,7 +61,7 @@ export class CargoOverviewComponent implements OnInit {
         this.getAllCargoOverview();
       }
     })
-  }
+  }*/
 
   getAllCargoOverview(){
     this.api.getCargoOverview()

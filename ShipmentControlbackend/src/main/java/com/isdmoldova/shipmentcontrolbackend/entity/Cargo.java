@@ -9,6 +9,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 @Getter
@@ -32,7 +33,7 @@ public class Cargo extends BaseEntity {
     @Column(name = "total_weight")
     private Double totalWeight;
 
-    @OneToMany
+    @ManyToMany(mappedBy = "cargos", cascade = {CascadeType.MERGE})
     List<CargoType> cargoTypes = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -54,15 +55,8 @@ public class Cargo extends BaseEntity {
         this.cargoStatus = cargoStatus;
     }
 
-
-
-
-
-
-
-
-
-
-
-
+    public void addCargoType(CargoType cargoType) {
+        cargoTypes.add(cargoType);
+        cargoType.addCargo(this);
+    }
 }

@@ -13,15 +13,10 @@ public class CargoDTO {
 
 
     private String trackingNumber;
-
     private Route route;
-
     private Double totalVolume;
     private Double totalWeight;
-
     private TransportType transportationType;
-
     private String destination;
-
     private CargoStatus cargoStatus;
 }
