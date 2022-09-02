@@ -59,4 +59,12 @@ public class Cargo extends BaseEntity {
         cargoTypes.add(cargoType);
         cargoType.addCargo(this);
     }
+
+    public Leg getOrigin() {
+        return itinerary.getOrigin();
+    }
+
+    public Leg getDestination() {
+        return itinerary.getDestination();
+    }
 }
