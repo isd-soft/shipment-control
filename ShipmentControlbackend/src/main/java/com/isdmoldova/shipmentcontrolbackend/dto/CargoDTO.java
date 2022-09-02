@@ -14,7 +14,7 @@ public class CargoDTO {
 
     private Long id;
     private String trackingNumber;
-    private Route route;
+    private RouteDTO routeDTO;
     private Double totalVolume;
     private Double totalWeight;
     private String origin;
