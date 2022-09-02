@@ -21,6 +21,10 @@ export class RouteEditComponent implements OnInit {
 
     @ViewChild(MatAccordion) accordion: MatAccordion;
     legs: LegCommand[] = [];
+    // leg: LegCommand;
+    // legOrigin: LegCommand[] = [];
+    // legOriginName: string[];
+    // legDestination: LegCommand[] = [];
     routeEditForm !: FormGroup;
 
     transport: any;
@@ -28,7 +32,8 @@ export class RouteEditComponent implements OnInit {
     route: RouteDto;
     preselectedDays: string[] = [];
     preselectedTransport: number[] = [];
-    preselectedLegsName: string[];
+    // private legsName: string[];
+    // private newLeg: LegCommand[];
 
     ChangeTransport(value) {
         console.log(value);
@@ -47,13 +52,17 @@ export class RouteEditComponent implements OnInit {
             maxLoadVolume: new FormControl('', [Validators.required]),
             availableDaysRentList: new FormControl('', [Validators.required]),
             transportDTOList: new FormControl('', [Validators.required]),
-            estimatedAmountTimeShipment: new FormControl('', [Validators.required])
+            estimatedAmountTimeShipment: new FormControl('', [Validators.required]),
         });
     }
 
     ngOnInit(): void {
-        this.legs.push({name: '', address: '', country: '', countryCode: ''});
-        this.legs.push({name: '', address: '', country: '', countryCode: ''});
+        // this.legs.push({name: '', address: '', country: '', countryCode: ''});
+        // this.legs.push({name: '', address: '', country: '', countryCode: ''});
+
+        // this.legOrigin.push({name: '', address: '', country: '', countryCode: ''});
+        // this.legDestination.push({name: '', address: '', country: '', countryCode: ''});
+
 
         this.transportService.getTransports().subscribe((data: any) => {
             this.transport = data;
@@ -61,19 +70,31 @@ export class RouteEditComponent implements OnInit {
 
 
         console.log("route id = " + this.router.snapshot.params["id"]);
-        // console.log(this.legs);
+        console.log(this.legs);
+
 
         this.routeService.getRouteById(this.router.snapshot.params["id"])
             .subscribe((result: any) => {
-                this.route = result
-                this.preselectedDays = this.route.availableDaysRentList.map(d => d.name)
-                this.preselectedTransport = this.route.transportDTOList.map(d => d.transportId)
-                this.preselectedLegsName = this.route.itineraryDTO.legDTOS.map(d => d.name)
-                // this.preselectedLegsName = this.route.itineraryDTO.legDTOS.map(d => d.name, d.address)
+                // result.itineraryDTO.legsDTOS.forEach(l => this.legs.push({
+                //     name: l.name,
+                //     address: l.address,
+                //     country: l.country,
+                //     countryCode: l.countryCode
+                // }))
+
+                result.itineraryDTO.legDTOS.map(l => this.legs.push({
+                    name: l.name,
+                    address: l.address,
+                    country: l.country,
+                    countryCode: l.countryCode
+                }))
+
+                this.route = result;
+                this.preselectedDays = this.route.availableDaysRentList.map(d => d.name);
+                this.preselectedTransport = this.route.transportDTOList.map(d => d.transportId);
                 console.log("getting the route details");
                 console.log(result);
                 // this.currentRoute = result;
-                // this.transportDataSource = new MatTableDataSource<TransportDto>(result.transportDTOList);
                 this.routeEditForm = new FormGroup({
                     detailedRouteDescription: new FormControl(result['routeDescription']),
                     maximalLoadWeight: new FormControl(result['maximalLoadWeight']),
@@ -83,10 +104,17 @@ export class RouteEditComponent implements OnInit {
                     estimatedAmountTimeShipment: new FormControl(result['estimatedAmountTimeShipment'])
                 });
             });
+
     }
 
     add() {
-        this.legs.push({name: '', address: '', country: '', countryCode: ''});
+
+        // this.legs.push({name: '', address: '', country: '', countryCode: ''});
+        this.legs.splice(this.legs.length-1, 0, {name: '', address: '', country: '', countryCode: ''});
+
+        // console.log(this.legs.push({name: '', address: '', country: '', countryCode: ''}));
+        // let totalLegsArray = this.legs.slice(0,this.legs.length-1).concat(newLegsArray);
+        // this.legs.splice(2, 0, this.newLeg);
     }
 
     clearField(legIndex: number) {
@@ -98,8 +126,10 @@ export class RouteEditComponent implements OnInit {
     }
 
     updateData() {
+        console.log("the leeeeeeeegs")
+        console.log(this.legs);
 
-        // console.log(this.legs);
+
         const itinerary: ItineraryCommand = {
             legList: this.legs,
             estimatedAmountTimeShipment: this.routeEditForm.controls['estimatedAmountTimeShipment'].value
@@ -131,9 +161,6 @@ export class RouteEditComponent implements OnInit {
         );
     }
 
-    isDaySelected(day: string) : boolean {
-        return this.route.availableDaysRentList.some(d => d.name === day)
-    }
 }
 
 
