@@ -35,6 +35,12 @@ export class DashboardComponent implements OnInit {
         color: '#ff7f0e',
       },
       {
+        title: 'Booking Requests',
+        icon: 'poll',
+        link: './booking-requests',
+        color: '#ff7f0e',
+      },
+      {
         title: 'Transports',
         icon: 'directions_car',
         link: './transports',
