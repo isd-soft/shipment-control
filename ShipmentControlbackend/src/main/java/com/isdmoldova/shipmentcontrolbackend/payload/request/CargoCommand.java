@@ -1,9 +1,9 @@
 package com.isdmoldova.shipmentcontrolbackend.payload.request;
 
-import com.isdmoldova.shipmentcontrolbackend.entity.CargoType;
-import com.isdmoldova.shipmentcontrolbackend.entity.enums.CargoStatus;
+
 import lombok.Getter;
 import lombok.Setter;
+import java.time.LocalDate;
 
 import java.util.List;
 
@@ -16,4 +16,6 @@ public class CargoCommand {
     private List<Long> cargoTypeList;
     //private CargoStatus cargoStatus;
     private ItineraryCommand itineraryCommand;
+    private LocalDate bookingDate;
+
 }

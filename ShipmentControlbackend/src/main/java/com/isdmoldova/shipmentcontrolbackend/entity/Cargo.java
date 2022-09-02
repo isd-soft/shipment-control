@@ -7,10 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
 
 @Getter
 @Setter
@@ -20,12 +19,18 @@ import java.util.Objects;
 @AllArgsConstructor
 public class Cargo extends BaseEntity {
 
+    @OneToOne
+    private Leg currentLeg;
+
+
     @Column(name = "tracking_number")
     private String trackingNumber;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
+
+    @Column(name = "booking_date")
+    private LocalDate bookingDate;
 
     @Column(name = "total_volume")
     private Double totalVolume;
@@ -55,8 +60,26 @@ public class Cargo extends BaseEntity {
         this.cargoStatus = cargoStatus;
     }
 
+
     public void addCargoType(CargoType cargoType) {
         cargoTypes.add(cargoType);
         cargoType.addCargo(this);
     }
+
+    public Itinerary getItinerary() {
+        return itinerary;
+    }
+
+    public void setItinerary(Itinerary itinerary) {
+        this.itinerary = itinerary;
+    }
+
+    public Leg getOrigin() {
+        return itinerary.getOrigin();
+    }
+
+
+
+
+
 }
