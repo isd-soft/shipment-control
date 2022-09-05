@@ -28,6 +28,7 @@ const routes: Routes = [
       {path: 'booking-requests', component: BookingRequestComponent},
       {path: 'route/details', component: RouteDisplayDetailsComponent},
       {path: 'cargo/details', component: CargoOverviewDisplayDetailsComponent},
+      {path: 'cargo/details/:id', component: CargoOverviewDisplayDetailsComponent},
       {path: 'route/add', component: RouteAddComponent},
       {path: 'route/edit/:id', component: RouteEditComponent},
       {path: 'add', component: RouteAddComponent},
