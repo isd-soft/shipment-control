@@ -12,32 +12,30 @@
     <div class="mat-elevation-z8">
 
       <table mat-table [dataSource]="dataSource" matSort>
-<<<<<<< HEAD
+
         <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>  Tracking Number </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Tracking Number</th>
           <td mat-cell *matCellDef="let row"> {{row.name}} </td>
-=======
+        </ng-container>
+
         <ng-container matColumnDef="trackingNumber">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Tracking Number</th>
           <td mat-cell *matCellDef="let row"> {{row.trackingNumber}} </td>
         </ng-container>
 
         <ng-container matColumnDef="origin">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>  Origin </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Origin</th>
           <td mat-cell *matCellDef="let row"> {{row.origin}} </td>
         </ng-container>
 
-
         <ng-container matColumnDef="destination">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>  Destination </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Destination</th>
           <td mat-cell *matCellDef="let row"> {{row.destination}} </td>
         </ng-container>
 
-
         <ng-container matColumnDef="cargoStatus">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Cargo Status </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Cargo Status</th>
           <td mat-cell *matCellDef="let row"> {{row.cargoStatus}} </td>
->>>>>>> 8bd757e5d45606f329931067293364225f1d4ce0
         </ng-container>
 
         <ng-container matColumnDef="action">
