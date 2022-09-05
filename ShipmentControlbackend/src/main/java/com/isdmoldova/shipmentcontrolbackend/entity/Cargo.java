@@ -67,6 +67,7 @@ public class Cargo extends BaseEntity {
     }
 
 
+
     public Leg getDestination() {
         return itinerary.getDestination();
     }

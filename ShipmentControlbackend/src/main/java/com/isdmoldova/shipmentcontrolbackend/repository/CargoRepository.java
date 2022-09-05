@@ -2,6 +2,7 @@ package com.isdmoldova.shipmentcontrolbackend.repository;
 
 import com.isdmoldova.shipmentcontrolbackend.dto.CargoDTO;
 import com.isdmoldova.shipmentcontrolbackend.entity.Cargo;
+import com.isdmoldova.shipmentcontrolbackend.entity.EventLog;
 import com.isdmoldova.shipmentcontrolbackend.entity.Route;
 import com.isdmoldova.shipmentcontrolbackend.entity.User;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.CargoStatus;
@@ -13,6 +14,7 @@ import java.util.Optional;
 @Repository
 public interface CargoRepository extends JpaRepository<Cargo, Long> {
     List<Cargo> findAllByUser(User user);
+    Optional<Cargo> findByTrackingNumber(String trackingNumber);
 
 
 
