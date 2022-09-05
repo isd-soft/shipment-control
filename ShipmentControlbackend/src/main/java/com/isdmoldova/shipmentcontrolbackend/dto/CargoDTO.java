@@ -18,6 +18,7 @@ public class CargoDTO {
     private Double totalWeight;
     private String origin;
     private String destination;
+    private Long currentLegId;
     private CargoStatus cargoStatus;
     private ItineraryDTO itineraryDTO;
     private List<CargoTypeDTO> cargoTypes;

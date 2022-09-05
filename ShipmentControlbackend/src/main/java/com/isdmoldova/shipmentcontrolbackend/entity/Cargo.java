@@ -16,7 +16,7 @@ import java.util.List;
 @Entity
 @Table(name = "cargo")
 @NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Cargo extends BaseEntity {
 
     @OneToOne
@@ -38,7 +38,10 @@ public class Cargo extends BaseEntity {
     @Column(name = "total_weight")
     private Double totalWeight;
 
+
+
     @ManyToMany(mappedBy = "cargos", cascade = {CascadeType.MERGE})
+
     List<CargoType> cargoTypes = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -66,8 +69,6 @@ public class Cargo extends BaseEntity {
         cargoType.addCargo(this);
     }
 
-
-
     public Leg getDestination() {
         return itinerary.getDestination();
     }
@@ -83,9 +84,5 @@ public class Cargo extends BaseEntity {
     public Leg getOrigin() {
         return itinerary.getOrigin();
     }
-
-
-
-
 
 }

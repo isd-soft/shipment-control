@@ -10,7 +10,9 @@ class ArrivedAtEventProcessorStrategy implements EventProcessorStrategy {
     @Override
     public void process(Cargo cargo) {
         int currentLegIndex = cargo.getItinerary().getLegs().indexOf(cargo.getCurrentLeg());
-        cargo.setCurrentLeg(cargo.getItinerary().getLegs().get(currentLegIndex + 1));
+        if (currentLegIndex != cargo.getItinerary().getLegs().size() - 1) {
+            cargo.setCurrentLeg(cargo.getItinerary().getLegs().get(currentLegIndex + 1));
+        }
     }
 
     @Override
