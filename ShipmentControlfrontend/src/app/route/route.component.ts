@@ -131,6 +131,9 @@ export class RouteComponent implements OnInit {
     console.log('Row clicked: ', row);
   }
 
+    redirectToBookedRoutes() {
+      this.router.navigateByUrl('/dashboard/cargo');
+    }
 }
 
 

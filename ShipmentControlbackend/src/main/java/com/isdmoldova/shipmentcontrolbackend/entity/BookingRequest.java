@@ -18,6 +18,7 @@ public class BookingRequest extends BaseEntity {
     @JoinColumn(name = "route_id")
     private Route route;
 
+    // goods company
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;

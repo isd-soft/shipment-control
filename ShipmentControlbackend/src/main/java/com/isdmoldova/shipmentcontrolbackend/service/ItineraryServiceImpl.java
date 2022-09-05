@@ -3,6 +3,7 @@ package com.isdmoldova.shipmentcontrolbackend.service;
 import com.isdmoldova.shipmentcontrolbackend.dto.ItineraryDTO;
 import com.isdmoldova.shipmentcontrolbackend.entity.Itinerary;
 import com.isdmoldova.shipmentcontrolbackend.mapper.ItineraryDtoMapper;
+import com.isdmoldova.shipmentcontrolbackend.payload.request.ItineraryCommand;
 import com.isdmoldova.shipmentcontrolbackend.repository.ItineraryRepository;
 import com.isdmoldova.shipmentcontrolbackend.repository.RouteRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,5 +32,8 @@ public class ItineraryServiceImpl implements ItineraryService {
                 .map(itineraryDtoMapper::map)
                 .orElseThrow();
     }
+
+
+
 }
 

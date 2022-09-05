@@ -1,9 +1,18 @@
 package com.isdmoldova.shipmentcontrolbackend.controller;
 
 import com.isdmoldova.shipmentcontrolbackend.dto.BookingRequestsDTO;
+import com.isdmoldova.shipmentcontrolbackend.dto.ItineraryDTO;
+import com.isdmoldova.shipmentcontrolbackend.dto.RouteDTO;
 import com.isdmoldova.shipmentcontrolbackend.email.service.EmailService;
+import com.isdmoldova.shipmentcontrolbackend.entity.CargoType;
+import com.isdmoldova.shipmentcontrolbackend.entity.Route;
+import com.isdmoldova.shipmentcontrolbackend.mapper.BookingRequestsDtoMapper;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.BookingRequestsCommand;
+import com.isdmoldova.shipmentcontrolbackend.payload.request.CargoCommand;
+import com.isdmoldova.shipmentcontrolbackend.payload.request.CargoOverviewCommand;
+import com.isdmoldova.shipmentcontrolbackend.payload.request.ItineraryCommand;
 import com.isdmoldova.shipmentcontrolbackend.service.BookingRequestsService;
+import com.isdmoldova.shipmentcontrolbackend.service.CargoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +28,8 @@ import java.util.List;
 public class BookingRequestsController {
 
     private final BookingRequestsService bookingRequestsService;
+    private final CargoService cargoService;
+    private final BookingRequestsDtoMapper bookingRequestsDtoMapper;
 
     @GetMapping
     public ResponseEntity<List<BookingRequestsDTO>> getAllRequests(Principal principal) {

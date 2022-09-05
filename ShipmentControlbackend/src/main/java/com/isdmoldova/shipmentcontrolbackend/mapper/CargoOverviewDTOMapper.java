@@ -15,7 +15,9 @@ public class CargoOverviewDTOMapper {
         cargoOverviewDTO.setOrigin(cargo.getOrigin().getCountry());
         cargoOverviewDTO.setDestination(cargo.getDestination().getCountry());
         cargoOverviewDTO.setCargoStatus(cargo.getCargoStatus());
+        cargoOverviewDTO.setBookingDate(cargo.getBookingDate());
         cargoOverviewDTO.setTrackingNumber(cargo.getTrackingNumber());
+        cargoOverviewDTO.setGoodsCompanyName(cargo.getUser().getUsername());
 
         return cargoOverviewDTO;
     }

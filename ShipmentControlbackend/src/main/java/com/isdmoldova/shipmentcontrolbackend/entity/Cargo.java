@@ -1,15 +1,16 @@
 package com.isdmoldova.shipmentcontrolbackend.entity;
 
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.CargoStatus;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Getter
 @Setter
@@ -84,6 +85,13 @@ public class Cargo extends BaseEntity {
     }
 
 
+    public String getTrackingNumber(){
+        String formattedDate = bookingDate.format(DateTimeFormatter.ofPattern("ddMMMyy"));
+        return formattedDate + getUser().getUsername() + getId();
+    }
+    public void setTrackingNumber(String trackingNumber){
+        this.trackingNumber = trackingNumber;
+    }
 
 
 

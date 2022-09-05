@@ -18,6 +18,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,6 +34,15 @@ public class BookingRequestsServiceImpl implements BookingRequestsService {
 
     @Value("com.isdmoldova.shipment.control.from.email")
     private String shipmentControlFromEmail;
+
+    public BookingRequestsDTO findRequestById(Long id) {
+
+        BookingRequest fromDB = bookingRequestsRepository.findBookingRequestById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+        return bookingRequestsDtoMapper.map(fromDB);
+
+    }
 
     @Override
     @Transactional

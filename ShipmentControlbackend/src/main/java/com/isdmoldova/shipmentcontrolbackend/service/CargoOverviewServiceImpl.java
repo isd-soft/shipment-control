@@ -37,26 +37,28 @@ public class CargoOverviewServiceImpl implements CargoOverviewService {
 
     @Transactional
     @Override
-    public CargoOverviewDTO add(CargoOverviewCommand command){
-        Cargo cargoOverviewDTO = new Cargo();
-        cargoOverviewDTO.setCargoStatus(command.getCargoStatus());
+    public CargoOverviewDTO add(CargoOverviewCommand cargoOverviewCommand){
+        Cargo cargo = new Cargo();
+        cargo.setCargoStatus(cargoOverviewCommand.getCargoStatus());
        // cargoOverviewDTO.setDestination(command.getDestination());
-        cargoOverviewDTO.setTrackingNumber(command.getTrackingNumber());
-        cargoRepository.save(cargoOverviewDTO);
-        return cargoOverviewDTOMapper.map(cargoOverviewDTO);
+        cargo.setTrackingNumber(cargoOverviewCommand.getTrackingNumber());
+
+
+        cargoRepository.save(cargo);
+        return cargoOverviewDTOMapper.map(cargo);
     }
 
     @Transactional
     @Override
-    public CargoOverviewDTO update(Long id, CargoOverviewCommand cargo){
+    public CargoOverviewDTO update(Long id, CargoOverviewCommand cargoOverviewCommand){
 
-        Cargo cargoOverview = cargoRepository.findById(id).orElseThrow(() ->
+        Cargo cargo = cargoRepository.findById(id).orElseThrow(() ->
                 new CargoOverviewNotFoundException("This id does not exists!"));
-        cargoOverview.setCargoStatus(cargo.getCargoStatus());
+        cargo.setCargoStatus(cargoOverviewCommand.getCargoStatus());
       //  cargoOverview.setDestination(cargo.getDestination());
-        cargoOverview.setTrackingNumber(cargo.getTrackingNumber());
+        cargo.setTrackingNumber(cargoOverviewCommand.getTrackingNumber());
 
-        return cargoOverviewDTOMapper.map(cargoOverview);
+        return cargoOverviewDTOMapper.map(cargo);
     }
 
     @Transactional

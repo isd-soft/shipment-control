@@ -31,7 +31,6 @@ public class CargoServiceImpl implements CargoService {
     private final CargoRepository cargoRepository;
     private final UserRepository userRepository;
 
-
     @Override
     @Transactional
     public CargoDTO add(CargoCommand cargoCommand, String username) {
