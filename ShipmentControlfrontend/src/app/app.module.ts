@@ -60,7 +60,7 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
 import {DatePipe} from '@angular/common';
 import { CargoOverviewDisplayDetailsComponent } from './cargo-overview/cargo-overview.display.details/cargo-overview.display.details.component';
-
+import {BookingRouteComponent} from "./booking-route/booking-route.component";
 
 @NgModule({
   declarations: [
@@ -84,7 +84,7 @@ import { CargoOverviewDisplayDetailsComponent } from './cargo-overview/cargo-ove
     RouteConfirmDialogComponent,
     RouteEditComponent,
     CargoOverviewDisplayDetailsComponent,
-
+    BookingRouteComponent
 
   ],
   imports: [

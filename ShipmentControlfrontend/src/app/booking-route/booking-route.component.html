@@ -2,37 +2,31 @@
   <h1 mat-dialog-title class="general-title"> Booking Route Form</h1>
 
   <div mat-dialog-content>
-    <form [formGroup]="bookingRouteForm"><!--(ngSubmit)="onSubmit()"-->
+    <div [formGroup]="bookingRouteForm" ><!--(ngSubmit)="onSubmit()"-->
       <mat-label class="form-title">Select your cargo type</mat-label>
       <div class="form-content">
         <div class="form-group">
           <mat-form-field appearance="outline">
+            <mat-select  formControlName="cargoType" placeholder="CargoType" multiple>
 
-          <mat-select  formControlName="cargoType" placeholder="CargoType" multiple>
-
-            <mat-option *ngFor="let cargoTypeDto of cargoTypeDtoList" [value]="cargoTypeDto.id">
-              {{cargoTypeDto.name}}
-            </mat-option>
-          </mat-select>
+              <mat-option *ngFor="let cargoTypeDto of cargoTypeDtoList" [value]="cargoTypeDto.id">
+                {{cargoTypeDto.name}}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
         </div>
-
-
-
         <div class="form-group">
           <mat-form-field appearance="outline">
             <mat-label>Cargo description</mat-label>
             <textarea formControlName="description" matInput placeholder="Cargo description"></textarea>
           </mat-form-field>
         </div>
-
         <div class="form-group">
           <mat-form-field appearance="outline">
             <mat-label>Total Weight</mat-label>
             <input formControlName="maxWeight" matInput type="number" placeholder="Max Weight" min="1"/>
           </mat-form-field>
         </div>
-
         <div class="form-group">
           <mat-form-field appearance="outline">
             <mat-label>Total Volume</mat-label>
@@ -40,9 +34,8 @@
           </mat-form-field>
         </div>
 
-        <p class="mat-dialog-title">Legs<button mat-raised-button color="primary" (click)="add()">+</button></p><br>
         <div class="showInputField">
-          <div *ngFor="let l of legs; let i = index ">
+          <div *ngFor="let l of legs; let i = index">
             <mat-accordion  multi class="itineraryForm">
               <mat-expansion-panel class="legForm">
                 <mat-expansion-panel-header>
@@ -67,39 +60,19 @@
                   <input matInput placeholder="CountryCode" [(ngModel)]="l.countryCode" [ngModelOptions]="{standalone: true}"/>
                 </mat-form-field>
 
-                <button class="deleteLeg" mat-icon-button color="warn" (click)="clearField(i)">
-                  <mat-icon>delete</mat-icon>
-                </button>
               </mat-expansion-panel>
-
-
             </mat-accordion>
-
           </div>
-          <div class="createRouteButton">
-            <button mat-raised-button type="submit" color="primary" (click)="onSubmit()">Save</button>
-            <button mat-raised-button (click)="onReset()">Reset</button>
-          </div>
-        </div><br>
+           <p class="mat-dialog-title">Remove leg<button mat-raised-button color="primary" (click)="removeLeg()">-</button></p>
+       </div>
+        <br>
       </div>
-    </form>
+    </div>
   </div>
 
+  <div class="createRouteButton">
+    <button mat-raised-button type="submit" color="primary" (click)="onSubmit()">Save</button>
+    <button mat-raised-button (click)="onReset()">Reset</button>
+  </div>
+</div>
 
-<!--
-    </div>
-
-    <form>
-      <div class="createBookRouteButton">
-        <button mat-raised-button type="submit" color="primary" (click)="onSubmit()">Save</button>
-        <button mat-raised-button type="reset" (click)="onReset()">Reset</button>
-      </div>
-    </form>&ndash;&gt;-->
-
-  <!-- <mat-option value="books">books</mat-option>
-           <mat-option value="watches">watches</mat-option>
-           <mat-option value="cups">cups</mat-option>
-           <mat-option value="laptops">laptops</mat-option>
-           <mat-option value="tablets">tablets</mat-option>
-           <mat-option value="smartphones">smartphones</mat-option>
-           <mat-option value="pens">pens</mat-option>-->

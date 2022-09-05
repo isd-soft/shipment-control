@@ -13,6 +13,7 @@ import {RouteEditComponent} from "./route/route.edit/route.edit.component";
 import {
   CargoOverviewDisplayDetailsComponent
 } from "./cargo-overview/cargo-overview.display.details/cargo-overview.display.details.component";
+import {BookingRouteComponent} from "./booking-route/booking-route.component";
 
 
 const routes: Routes = [
@@ -30,7 +31,8 @@ const routes: Routes = [
       {path: 'add', component: RouteAddComponent},
       {path: 'cargoType', component: CargoTypeComponent},
       {path: 'route', component: RouteComponent},
-      {path: 'cargo', component: CargoOverviewComponent}
+      {path: 'cargo', component: CargoOverviewComponent},
+      {path: 'book', component: BookingRouteComponent}
     ]
 
   },
