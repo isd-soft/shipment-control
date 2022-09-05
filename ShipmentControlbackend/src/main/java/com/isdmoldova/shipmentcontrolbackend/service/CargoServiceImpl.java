@@ -1,6 +1,7 @@
 package com.isdmoldova.shipmentcontrolbackend.service;
 
 
+import com.isdmoldova.shipmentcontrolbackend.email.service.EmailService;
 import com.isdmoldova.shipmentcontrolbackend.entity.Cargo;
 
 import com.isdmoldova.shipmentcontrolbackend.dto.*;
@@ -17,16 +18,20 @@ import com.isdmoldova.shipmentcontrolbackend.repository.RouteRepository;
 import com.isdmoldova.shipmentcontrolbackend.repository.UserRepository;
 import lombok.AllArgsConstructor;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
+//@AllArgsConstructor
+@RequiredArgsConstructor
 public class CargoServiceImpl implements CargoService {
 
     private final CargoTypeRepository cargoTypeRepository;
@@ -34,6 +39,9 @@ public class CargoServiceImpl implements CargoService {
     private final CargoDtoMapper cargoMapper;
     private final CargoRepository cargoRepository;
     private final UserRepository userRepository;
+    private final EmailService emailService;
+    @Value("com.isdmoldova.shipment.control.from.email")
+    private String shipmentControlFromEmail;
 
     @Override
     @Transactional
@@ -100,15 +108,47 @@ public class CargoServiceImpl implements CargoService {
 
     }
 
+//    @Override
+//    public void delete(Long id, String username) {
+//        Cargo cargo = cargoRepository.findById(id).orElseThrow(
+//                () -> new EntityNotFoundException("Cargo not found with id " + id));
+//        cargo.getCargoTypes().forEach(cargoType -> cargoType.removeCargo(cargo));
+//        if (!cargo.getUser().getUsername().equals(username)) {
+//            throw new EntityNotFoundException("User " + username + " is not allowed to delete route with id " + id);
+//        }
+//        cargoRepository.delete(cargo);
+//    }
+
+
+
+
+//delete cargo by goodsCompany userId
     @Override
     public void delete(Long id, String username) {
         Cargo cargo = cargoRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Cargo not found with id " + id));
         cargo.getCargoTypes().forEach(cargoType -> cargoType.removeCargo(cargo));
-        if (!cargo.getUser().getUsername().equals(username)) {
+        if (!cargo.getItinerary().getRoute().getUser().getUsername().equals(username)) {
             throw new EntityNotFoundException("User " + username + " is not allowed to delete route with id " + id);
         }
         cargoRepository.delete(cargo);
+    }
+
+    @Override
+    public String sendWhenCargoApproved(Principal principal, Long id) {
+        Cargo cargo = cargoRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Request with " + id + " not found"));
+        cargo.setCargoStatus(CargoStatus.PREPARING);
+        String goodsCompanyEmail = cargo.getUser().getEmail();
+        String subject = "Cargo - Approval.";
+        String content = "\nHello, your cargo on "
+                + cargo.getBookingDate() + " with the following destination "
+                + cargo.getDestination() + " executed by the "
+                + "\n- Shipment Company: " + cargo.getUser()
+                + " \n\nHas been APPROVED! \n\nClick on the link below to follow on the cargo by tracking number.\n "
+                + "http://localhost:4200/dashboard/route/details?routeId=" + cargo.getTrackingNumber()
+                + "\n\n\n\nBest regards, \nShipment Control Service Tech Team.";
+        return emailService.sendEmail(shipmentControlFromEmail, goodsCompanyEmail, subject, content);
     }
 
 

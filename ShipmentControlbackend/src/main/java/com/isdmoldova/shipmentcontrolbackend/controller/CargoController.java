@@ -60,4 +60,14 @@ public class CargoController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PatchMapping ("approve/{id}")
+    public ResponseEntity<?> updateCargoOnApprove(@RequestBody CargoCommand cargoCommand,
+                                         @PathVariable Long id,
+                                         Principal principal) {
+        cargoService.update(cargoCommand, id,principal.getName());
+        cargoService.sendWhenCargoApproved(principal, id);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

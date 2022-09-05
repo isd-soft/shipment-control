@@ -6,8 +6,8 @@
             <p>Please select your action
                 <button *ngIf="dataSource.cargoStatus.toString()===cargoStatusANALYZING" mat-raised-button color="primary" (click)="redirectToApprove()">Approve</button>
                 <button *ngIf="dataSource.cargoStatus.toString()===cargoStatusANALYZING"mat-raised-button color="warn" (click)="redirectToReject()">Reject</button>
-                <button *ngIf="dataSource.cargoStatus.toString()===cargoStatusPREPARING"mat-raised-button color="primary" (click)="redirectToReject()">Deploy</button>
-                <button *ngIf="dataSource.cargoStatus.toString()===cargoStatusPREPARING"mat-raised-button color="warn" (click)="redirectToReject()">Cancel</button>
+<!--                <button *ngIf="dataSource.cargoStatus.toString()===cargoStatusPREPARING"mat-raised-button color="primary" (click)="redirectToDeploy()">Deploy</button>-->
+<!--                <button *ngIf="dataSource.cargoStatus.toString()===cargoStatusPREPARING"mat-raised-button color="warn" (click)="redirectToCancel()">Cancel</button>-->
             </p>
         </div>
     </section>

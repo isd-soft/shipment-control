@@ -30,7 +30,6 @@ const routes: Routes = [
       {path: 'cargo/details', component: CargoOverviewDisplayDetailsComponent},
       {path: 'cargo/details/:id', component: CargoOverviewDisplayDetailsComponent},
       {path: 'route/add', component: RouteAddComponent},
-      // {path: 'route/booked', component: RouteBookedComponent},
       {path: 'route/edit/:id', component: RouteEditComponent},
       {path: 'add', component: RouteAddComponent},
       {path: 'cargoType', component: CargoTypeComponent},

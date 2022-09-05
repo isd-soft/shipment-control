@@ -43,7 +43,6 @@ public class Cargo extends BaseEntity {
 
 
     @ManyToMany(mappedBy = "cargos", cascade = {CascadeType.MERGE})
-
     List<CargoType> cargoTypes = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

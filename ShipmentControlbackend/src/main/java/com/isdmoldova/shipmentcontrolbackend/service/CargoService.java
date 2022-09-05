@@ -2,6 +2,8 @@ package com.isdmoldova.shipmentcontrolbackend.service;
 
 import com.isdmoldova.shipmentcontrolbackend.dto.*;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.CargoCommand;
+
+import java.security.Principal;
 import java.util.List;
 
 public interface CargoService {
@@ -18,4 +20,5 @@ public interface CargoService {
 
     void delete(Long id, String username);
 
+    String sendWhenCargoApproved(Principal principal, Long id);
 }

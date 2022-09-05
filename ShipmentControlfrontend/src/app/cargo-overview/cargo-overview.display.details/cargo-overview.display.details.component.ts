@@ -16,6 +16,7 @@ import {
 } from "../../route/route.confirm.dialog/route.confirm.dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {BookingRequestDto} from "../../model/bookingRequest.dto";
+import {CargoCommand} from "../../services/CargoCommand";
 
 
 export interface CargoDetails {
@@ -134,9 +135,11 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
       data: dialogData
     });
 
+    // const cargoCommand: CargoCommand;
+    //
     // dialogRef.afterClosed().subscribe(dialogResult => {
     //   if (dialogResult) {
-    //     this.cargoService.approveCargo(this.cargoId)
+    //     this.cargoService.approveCargo(this.cargoId, this.dataSource)
     //         .subscribe({
     //           next: () => {
     //             this.snackbar.open("Executed Successfully", 'Ok', {duration: 2000})
@@ -180,6 +183,58 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
     });
   }
 
+  redirectToDeploy(){
+    const message = `Are you sure you want to Deploy?`;
+
+    const dialogData = new RouteConfirmDialogModel("Confirm Action", message);
+
+    const dialogRef = this.dialog.open(RouteConfirmDialogComponent, {
+      maxWidth: "400px",
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (dialogResult) {
+        this.cargoService.rejectCargo(this.cargoId)
+            .subscribe({
+              next: () => {
+                this.snackbar.open("Executed Successfully", 'Ok', {duration: 2000})
+                this.getAllCargo();
+              },
+              error: () => {
+                this.snackbar.open("Error while executing", 'Error', {duration: 2000});
+              }
+            })
+      }
+    });
+  }
+
+
+  redirectToCancel(){
+    const message = `Are you sure you want to Cancel?`;
+
+    const dialogData = new RouteConfirmDialogModel("Confirm Action", message);
+
+    const dialogRef = this.dialog.open(RouteConfirmDialogComponent, {
+      maxWidth: "400px",
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (dialogResult) {
+        this.cargoService.rejectCargo(this.cargoId)
+            .subscribe({
+              next: () => {
+                this.snackbar.open("Executed Successfully", 'Ok', {duration: 2000})
+                this.getAllCargo();
+              },
+              error: () => {
+                this.snackbar.open("Error while executing", 'Error', {duration: 2000});
+              }
+            })
+      }
+    });
+  }
 
 
 }
