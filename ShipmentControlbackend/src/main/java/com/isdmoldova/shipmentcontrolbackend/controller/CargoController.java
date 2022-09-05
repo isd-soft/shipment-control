@@ -44,7 +44,6 @@ public class CargoController {
         return new ResponseEntity<>(cargo, HttpStatus.OK);
     }
 
-
     @PutMapping("/{id}")
     public ResponseEntity<?> updateCargo(@RequestBody CargoCommand cargoCommand,
                                              @PathVariable Long id,

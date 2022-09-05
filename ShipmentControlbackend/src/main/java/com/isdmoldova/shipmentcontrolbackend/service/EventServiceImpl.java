@@ -2,7 +2,6 @@ package com.isdmoldova.shipmentcontrolbackend.service;
 
 import com.isdmoldova.shipmentcontrolbackend.entity.Cargo;
 import com.isdmoldova.shipmentcontrolbackend.entity.EventLog;
-import com.isdmoldova.shipmentcontrolbackend.entity.enums.CargoStatus;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.EventType;
 import com.isdmoldova.shipmentcontrolbackend.exception.EventTypeNotFoundException;
 import com.isdmoldova.shipmentcontrolbackend.repository.CargoRepository;
@@ -27,8 +26,8 @@ class EventServiceImpl implements EventService {
     public void processEvent(String trackingNumber, EventType eventType) {
         final Cargo cargo = cargoRepository.findByTrackingNumber(trackingNumber)
                         .orElseThrow(()->
-                                new EntityNotFoundException("Cargo with trackingId"
-                                + trackingNumber + "not found"));
+                                new EntityNotFoundException("Cargo with trackingId "
+                                + trackingNumber + " not found "));
         strategies.stream()
                 .filter(strategy -> strategy.supports(eventType))
                 .findFirst()
