@@ -10,6 +10,10 @@ import {RouteComponent} from "./route/route.component";
 import {RouteAddComponent} from "./route/route.add/route.add.component";
 import {RouteDisplayDetailsComponent} from "./route/route.display.details/route.display.details.component";
 import {RouteEditComponent} from "./route/route.edit/route.edit.component";
+import {BookingRequestComponent} from "./booking.request/booking.request.component";
+import {
+  CargoOverviewDisplayDetailsComponent
+} from "./cargo-overview/cargo-overview.display.details/cargo-overview.display.details.component";
 
 
 const routes: Routes = [
@@ -20,7 +24,9 @@ const routes: Routes = [
     path: 'dashboard', component: DashboardComponent,
     children: [
       {path: 'transports', component: TransportsComponent},
+      {path: 'booking-requests', component: BookingRequestComponent},
       {path: 'route/details', component: RouteDisplayDetailsComponent},
+      {path: 'cargo/details', component: CargoOverviewDisplayDetailsComponent},
       {path: 'route/add', component: RouteAddComponent},
       {path: 'route/edit/:id', component: RouteEditComponent},
       {path: 'add', component: RouteAddComponent},

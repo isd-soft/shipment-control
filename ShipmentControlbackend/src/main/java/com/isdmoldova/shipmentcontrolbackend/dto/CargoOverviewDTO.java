@@ -8,7 +8,11 @@ import lombok.Setter;
 @Setter
 public class CargoOverviewDTO {
 
+    private Long id;
+
     private String trackingNumber;
+
+    private String origin;
 
     private String destination;
 

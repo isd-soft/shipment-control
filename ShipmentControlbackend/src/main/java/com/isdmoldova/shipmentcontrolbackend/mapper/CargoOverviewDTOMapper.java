@@ -11,9 +11,15 @@ public class CargoOverviewDTOMapper {
     public CargoOverviewDTO map(Cargo cargo) {
         final CargoOverviewDTO cargoOverviewDTO = new CargoOverviewDTO();
 
+        cargoOverviewDTO.setId(cargo.getId());
+        cargoOverviewDTO.setOrigin(cargo.getOrigin().getCountry());
+        cargoOverviewDTO.setDestination(cargo.getDestination().getCountry());
         cargoOverviewDTO.setCargoStatus(cargo.getCargoStatus());
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> origin/main
         cargoOverviewDTO.setTrackingNumber(cargo.getTrackingNumber());
 
         return cargoOverviewDTO;
