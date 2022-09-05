@@ -20,10 +20,7 @@ public class EventController {
     @PostMapping("/{trackingNumber}/{eventType}")
     public ResponseEntity<Void> acceptEvent(@PathVariable("trackingNumber") String trackingNumber,
                                             @PathVariable("eventType") EventType eventType) {
-        eventService.processEvent(trackingNumber,eventType);
+        eventService.processEvent(trackingNumber, eventType);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
-
-
-
     }
 }

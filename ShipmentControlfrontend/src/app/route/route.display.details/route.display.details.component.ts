@@ -163,6 +163,11 @@ export class RouteDisplayDetailsComponent implements OnInit {
       this.snackbar.open("Please provide a valid day!", 'Error', {duration: 2000});
     }
   }
+
+  bookRoute(): void {
+    this.router.navigate(['/dashboard/book'],
+      {queryParams: {routeId: this.currentRouteId['routeId']}});
+  }
 }
 
 export interface DaysOfWeek {

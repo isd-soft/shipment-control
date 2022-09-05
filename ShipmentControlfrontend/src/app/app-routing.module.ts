@@ -10,11 +10,11 @@ import {RouteComponent} from "./route/route.component";
 import {RouteAddComponent} from "./route/route.add/route.add.component";
 import {RouteDisplayDetailsComponent} from "./route/route.display.details/route.display.details.component";
 import {RouteEditComponent} from "./route/route.edit/route.edit.component";
-import {BookingRequestComponent} from "./booking.request/booking.request.component";
 import {
   CargoOverviewDisplayDetailsComponent
 } from "./cargo-overview/cargo-overview.display.details/cargo-overview.display.details.component";
-// import {RouteBookedComponent} from "./route/route.booked/route.booked.component";
+import {BookingRouteComponent} from "./booking-route/booking-route.component";
+import {BookingRequestComponent} from "./booking.request/booking.request.component";
 
 
 const routes: Routes = [
@@ -34,7 +34,8 @@ const routes: Routes = [
       {path: 'add', component: RouteAddComponent},
       {path: 'cargoType', component: CargoTypeComponent},
       {path: 'route', component: RouteComponent},
-      {path: 'cargo', component: CargoOverviewComponent}
+      {path: 'cargo', component: CargoOverviewComponent},
+      {path: 'book', component: BookingRouteComponent}
     ]
 
   },

@@ -9,7 +9,7 @@ public enum CurrencyEnum {
     USD("Dollar"),
     GBP("Pound Sterling");
 
-    private String label;
+    private final String label;
 
     CurrencyEnum(String label) {
         this.label = label;
