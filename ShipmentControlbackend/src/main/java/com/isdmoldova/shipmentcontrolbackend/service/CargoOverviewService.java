@@ -1,7 +1,6 @@
 package com.isdmoldova.shipmentcontrolbackend.service;
 
 import com.isdmoldova.shipmentcontrolbackend.dto.CargoOverviewDTO;
-import com.isdmoldova.shipmentcontrolbackend.dto.CargoTypeDTO;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.CargoOverviewCommand;
 import java.util.List;
 

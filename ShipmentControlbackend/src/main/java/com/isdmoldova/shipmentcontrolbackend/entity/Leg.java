@@ -1,5 +1,6 @@
 package com.isdmoldova.shipmentcontrolbackend.entity;
 
+import com.isdmoldova.shipmentcontrolbackend.entity.enums.CurrencyEnum;
 import lombok.*;
 
 import javax.persistence.*;
@@ -22,6 +23,13 @@ public class Leg extends BaseEntity {
 
     @Column
     private String name;
+
+    @Column(name = "price")
+    private Double price = 0.0D;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "currency")
+    private CurrencyEnum currency;
 
     @ManyToOne (fetch = FetchType.LAZY)
     private Itinerary itinerary;
