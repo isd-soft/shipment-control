@@ -14,6 +14,7 @@ import {
   CargoOverviewDisplayDetailsComponent
 } from "./cargo-overview/cargo-overview.display.details/cargo-overview.display.details.component";
 import {BookingRouteComponent} from "./booking-route/booking-route.component";
+import {BookingRequestComponent} from "./booking.request/booking.request.component";
 
 
 const routes: Routes = [
@@ -24,6 +25,7 @@ const routes: Routes = [
     path: 'dashboard', component: DashboardComponent,
     children: [
       {path: 'transports', component: TransportsComponent},
+      {path: 'booking-requests', component: BookingRequestComponent},
       {path: 'route/details', component: RouteDisplayDetailsComponent},
       {path: 'cargo/details', component: CargoOverviewDisplayDetailsComponent},
       {path: 'route/add', component: RouteAddComponent},
