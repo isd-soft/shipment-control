@@ -1,7 +1,11 @@
 package com.isdmoldova.shipmentcontrolbackend.service;
 
+
+import com.isdmoldova.shipmentcontrolbackend.entity.Cargo;
+
 import com.isdmoldova.shipmentcontrolbackend.dto.*;
 import com.isdmoldova.shipmentcontrolbackend.entity.*;
+
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.CargoStatus;
 import com.isdmoldova.shipmentcontrolbackend.mapper.CargoDtoMapper;
 import com.isdmoldova.shipmentcontrolbackend.mapper.CargoTypeDtoMapper;
@@ -31,8 +35,8 @@ public class CargoServiceImpl implements CargoService {
     private final CargoRepository cargoRepository;
     private final UserRepository userRepository;
 
-
     @Override
+    @Transactional
     public CargoDTO add(CargoCommand cargoCommand, String username) {
         final User user = userRepository.findUserByUsername(username)
                 .orElseThrow(()-> new EntityNotFoundException("User not found"));
@@ -55,6 +59,7 @@ public class CargoServiceImpl implements CargoService {
         cargoTypes.forEach(cargo::addCargoType);
         cargo.setTotalVolume(cargoCommand.getTotalVolume());
         cargo.setTotalWeight(cargoCommand.getTotalWeight());
+        cargo.setBookingDate(cargoCommand.getBookingDate());
 
         cargoRepository.save(cargo);
         cargo.setItinerary(itinerary);
@@ -71,7 +76,8 @@ public class CargoServiceImpl implements CargoService {
         return cargos.stream().map(cargoMapper::map).collect(Collectors.toList());
     }
 
-    @Override
+
+
     @Transactional(readOnly = true)
     public CargoDTO findById(Long id) {
         return cargoRepository.findById(id).map(cargoMapper::map)
@@ -90,6 +96,8 @@ public class CargoServiceImpl implements CargoService {
         cargo.setTotalWeight(cargoCommand.getTotalWeight());
         cargoRepository.save(cargo);
         return cargoMapper.map(cargo);
+
+
     }
 
     @Override

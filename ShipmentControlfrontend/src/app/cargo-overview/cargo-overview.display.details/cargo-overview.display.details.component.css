@@ -8,10 +8,12 @@ table {
   max-width: 1100px;
   margin: 0 auto;
 }
+
 .mat-form-field {
   font-size: 14px;
   width: 100%;
 }
+
 .mat-dialog-title{
   margin-left: 40px;
 }
@@ -25,4 +27,19 @@ table {
   width: 120px;
   bottom: 10px;
 
+}
+
+section {
+  display: table;
+  margin-left: 40px;
+}
+
+.example-button-row {
+  display: table-cell;
+  width: 490px;
+
+}
+
+.example-button-row .mat-button-base {
+  margin: 8px 8px 8px 0;
 }

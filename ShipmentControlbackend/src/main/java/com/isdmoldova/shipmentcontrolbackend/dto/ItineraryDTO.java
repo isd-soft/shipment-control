@@ -15,6 +15,4 @@ public class ItineraryDTO {
     private List<LegDTO> legDTOS;
     private Long executionTime;
 
-
-
 }

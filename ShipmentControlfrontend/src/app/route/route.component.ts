@@ -12,8 +12,9 @@ import {
   RouteConfirmDialogComponent,
   RouteConfirmDialogModel
 } from "./route.confirm.dialog/route.confirm.dialog.component";
-import {TransportsDialogComponent} from "../transports/transports.dialog/transports.dialog.component";
-import {RouteEditComponent} from "./route.edit/route.edit.component";
+
+import {ItineraryDto} from "../model/itinerary.dto";
+
 // import {RouteDialogComponent} from "./route.dialog/route.dialog.component";
 
 
@@ -54,12 +55,12 @@ export class RouteComponent implements OnInit {
     this.getAllRoutes();
   }
 
-  getOrigin(element: any): string {
-    return element.legDTOS.at(0).address;
+  getOrigin(element: ItineraryDto): string {
+    return element.legDTOS[0].address;
   }
 
-  getDestination(element: any): string {
-    return element.legDTOS.at(-1).address;
+  getDestination(element: ItineraryDto): string {
+    return element.legDTOS[element.legDTOS.length - 1].address;
   }
 
   routeAddClick = () => {
@@ -81,16 +82,7 @@ export class RouteComponent implements OnInit {
       })
   }
 
-  // rowId: any;
   public redirectToUpdate = (row: any) => {
-    // this.dialog.open(RouteEditComponent, {
-    //   width: '70%',
-    //   data: row
-    // }).afterClosed().subscribe(value => {
-    //   if (value === 'update') {
-    //     this.getAllRoutes();
-    //   }
-    // })
     this.router.navigateByUrl('/dashboard/route/edit/' + row.routeId);
     // this.rowId = row.routeId;
     console.log(row.routeId);
@@ -107,22 +99,22 @@ export class RouteComponent implements OnInit {
       data: dialogData
     });
 
-      dialogRef.afterClosed().subscribe(dialogResult => {
-        if (dialogResult) {
-          this.routeService.deleteRoute(id)
-            .subscribe({
-              next: (res) => {
-                this.snackbar.open("Deleted Successfully", 'Ok', {duration: 2000})
-                this.getAllRoutes();
-              },
-              error: () => {
-                this.snackbar.open("Error while deleting the Route", 'Error', {duration: 2000});
-              }
-            })
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (dialogResult) {
+        this.routeService.deleteRoute(id)
+          .subscribe({
+            next: (res) => {
+              this.snackbar.open("Deleted Successfully", 'Ok', {duration: 2000})
+              this.getAllRoutes();
+            },
+            error: () => {
+              this.snackbar.open("Error while deleting the Route", 'Error', {duration: 2000});
+            }
+          })
 
-        }
-      });
-    }
+      }
+    });
+  }
 
 
   applyFilter(event: Event) {
@@ -139,6 +131,9 @@ export class RouteComponent implements OnInit {
     console.log('Row clicked: ', row);
   }
 
+    redirectToBookedRoutes() {
+      this.router.navigateByUrl('/dashboard/cargo');
+    }
 }
 
 

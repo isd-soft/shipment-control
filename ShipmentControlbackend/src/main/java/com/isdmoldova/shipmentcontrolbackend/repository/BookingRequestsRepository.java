@@ -20,4 +20,6 @@ public interface BookingRequestsRepository extends JpaRepository<BookingRequest,
             "where u = :user ")
     List<BookingRequest> findAllBookingRequestsForUser(@Param("user") User user);
 
+    Optional<BookingRequest> findBookingRequestById(Long id);
+
 }

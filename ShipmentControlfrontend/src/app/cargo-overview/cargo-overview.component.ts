@@ -1,15 +1,18 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {MatTableDataSource} from "@angular/material/table";
+import {MatTable, MatTableDataSource} from "@angular/material/table";
 import {SelectionModel} from "@angular/cdk/collections";
 import {MatSort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
-import {CargoDTO} from "../model/cargoOverview.dto";
+import {CargoOverviewDTO} from "../model/cargoOverview.dto";
 import {MatDialog} from "@angular/material/dialog";
 import {CargoOverviewService} from "../services/cargoOverview.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {DialogCargoOverviewComponent} from "./dialog/dialogCargoOverview.component";
 import {ConfirmDialogCargoComponent , ConfirmDialogCargoModel} from "../cargo-overview/dialog/confirm-dialogCargo.component";
 import {Router} from "@angular/router";
+import {CargoDto} from "../model/cargo.dto";
+import {CargoService} from "../services/cargoService";
+import {MatInput} from "@angular/material/input";
 
 
 @Component({
@@ -19,25 +22,29 @@ import {Router} from "@angular/router";
 })
 export class CargoOverviewComponent implements OnInit {
 
-  displayedColumns: string[] = ['trackingNumber','origin', 'destination', 'cargoStatus','action'];
-  dataSource: MatTableDataSource<CargoDTO>;
-  selection = new SelectionModel<CargoDTO>(true, []);
+  displayedColumns: string[] = ['id','goodsCompanyName', 'bookingDate', 'trackingNumber','origin', 'destination', 'cargoStatus','action'];
+  dataSource: MatTableDataSource<CargoOverviewDTO>;
+  // dataSource2: MatTableDataSource<CargoDto>;
+  selection = new SelectionModel<CargoOverviewDTO>(true, []);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private dialog :MatDialog ,
               private api : CargoOverviewService,
+              private cargoService: CargoService,
               private snackbar:MatSnackBar,
               private router: Router) {
 
   }
 
   ngOnInit(): void {
+    // this.getCargoInfo();
     this.getAllCargoOverview();
   }
 
   reload() {
+    // this.getCargoInfo();
     this.getAllCargoOverview();
   }
 
@@ -47,9 +54,8 @@ export class CargoOverviewComponent implements OnInit {
   }
 
   openDetails(row) {
-    this.router.navigate(['/dashboard/cargo/details'],
-      {queryParams: {'cargoId': row.cargoId}});
-    console.log('Row clicked: ', row);
+    this.router.navigateByUrl('/dashboard/cargo/details/' + row.id);
+    console.log('selected cargo: ', row);
   }
 
 
@@ -67,15 +73,44 @@ export class CargoOverviewComponent implements OnInit {
     this.api.getCargoOverview()
       .subscribe({
         next:(res)=>{
-          this.dataSource =new MatTableDataSource<CargoDTO>(res);
+          this.dataSource =new MatTableDataSource<CargoOverviewDTO>(res);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
+          // console.log("res =")
+          // console.log(res);
         },
         error : ()=>{
           this.snackbar.open("Error while fetching the record!!",'Error',{duration:2000});
         }
       })
+    // this.cargoService.findAllCargoes()
+    //     .subscribe({
+    //       next:(res2)=>{
+    //         this.dataSource2 = new MatTableDataSource<CargoDto>(res2);
+    //         // console.log("res2 =")
+    //         // console.log(res2);
+    //       },
+    //       error:()=>{
+    //         console.log("cant fetch cargoDto");
+    //         this.snackbar.open("error while fetching cargoDTO", "Error", {duration:2000});
+    //       }
+    //     })
   }
+
+  // getCargoInfo(){
+  //   this.cargoService.findAllCargoes()
+  //       .subscribe({
+  //         next:(res2)=>{
+  //           this.dataSource2 = new MatTableDataSource<CargoDto>(res2);
+  //           // console.log("res2 =")
+  //           // console.log(res2);
+  //         },
+  //         error:()=>{
+  //           console.log("cant fetch cargoDto");
+  //           this.snackbar.open("error while fetching cargoDTO", "Error", {duration:2000});
+  //         }
+  //       })
+  // }
 
   editCargoOverview(row :any){
     this.dialog.open(DialogCargoOverviewComponent,{

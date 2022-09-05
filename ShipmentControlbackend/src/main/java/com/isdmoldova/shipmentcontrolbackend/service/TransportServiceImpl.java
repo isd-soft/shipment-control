@@ -1,32 +1,21 @@
 package com.isdmoldova.shipmentcontrolbackend.service;
 
-import com.isdmoldova.shipmentcontrolbackend.dto.CargoTypeDTO;
 import com.isdmoldova.shipmentcontrolbackend.dto.TransportDTO;
 import com.isdmoldova.shipmentcontrolbackend.entity.CargoType;
-import com.isdmoldova.shipmentcontrolbackend.entity.Route;
 import com.isdmoldova.shipmentcontrolbackend.entity.Transport;
 import com.isdmoldova.shipmentcontrolbackend.entity.User;
-import com.isdmoldova.shipmentcontrolbackend.exception.*;
-import com.isdmoldova.shipmentcontrolbackend.mapper.CargoTypeDtoMapper;
 import com.isdmoldova.shipmentcontrolbackend.mapper.TransportDtoMapper;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.TransportCommand;
 import com.isdmoldova.shipmentcontrolbackend.repository.CargoTypeRepository;
 import com.isdmoldova.shipmentcontrolbackend.repository.RouteRepository;
 import com.isdmoldova.shipmentcontrolbackend.repository.TransportRepository;
 import com.isdmoldova.shipmentcontrolbackend.repository.UserRepository;
-import com.sun.xml.bind.v2.TODO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-
 import javax.persistence.EntityNotFoundException;
-import javax.transaction.TransactionalException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @Service

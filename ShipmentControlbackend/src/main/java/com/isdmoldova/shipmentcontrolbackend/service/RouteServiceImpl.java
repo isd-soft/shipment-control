@@ -99,20 +99,19 @@ public class RouteServiceImpl implements RouteService {
     @Override
     @Transactional
     public RouteDTO update(RouteCommand command, Long id) {
+
         editRouteValidation.validate(command);
+
         Route route = routeRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Route with this " + id + " does not found!"));
-
         route.setDetailedRouteDescription(command.getDetailedRouteDescription());
-
         route.clearTransports();
+
         List<Transport> transportList = command.getTransportIdList()
                 .stream().map(transportId -> transportRepository.findById(transportId).orElseThrow(
                         () -> new EntityNotFoundException("Transport with id " + transportId + " not found")))
                 .collect(Collectors.toList());
-
         transportList.forEach(route::addTransport);
-
         route.setAvailableDaysRent(command.getAvailableDaysRentList());
         Itinerary itinerary = route.getItinerary();
         itinerary.clearLegs();
@@ -121,7 +120,6 @@ public class RouteServiceImpl implements RouteService {
                 .map(leg -> new Leg(leg.getCountry(), leg.getCountryCode(), leg.getAddress(), leg.getName()))
                 .collect(Collectors.toList());
         legs.forEach(itinerary::addLeg);
-
         itinerary.setDaysOfExecution(command.getItineraryCommand().getEstimatedAmountTimeShipment());
         route.setMaxLoadVolume(command.getMaxLoadVolume());
         route.setMaximalLoadValue(command.getMaxLoadWeight());

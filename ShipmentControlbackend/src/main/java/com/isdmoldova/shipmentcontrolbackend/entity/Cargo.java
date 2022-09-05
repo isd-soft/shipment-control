@@ -7,9 +7,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 
 @Getter
@@ -17,15 +18,21 @@ import java.util.Objects;
 @Entity
 @Table(name = "cargo")
 @NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Cargo extends BaseEntity {
+
+    @OneToOne
+    private Leg currentLeg;
+
 
     @Column(name = "tracking_number")
     private String trackingNumber;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
+
+    @Column(name = "booking_date")
+    private LocalDate bookingDate;
 
     @Column(name = "total_volume")
     private Double totalVolume;
@@ -33,7 +40,10 @@ public class Cargo extends BaseEntity {
     @Column(name = "total_weight")
     private Double totalWeight;
 
+
+
     @ManyToMany(mappedBy = "cargos", cascade = {CascadeType.MERGE})
+
     List<CargoType> cargoTypes = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -55,8 +65,37 @@ public class Cargo extends BaseEntity {
         this.cargoStatus = cargoStatus;
     }
 
+
     public void addCargoType(CargoType cargoType) {
         cargoTypes.add(cargoType);
         cargoType.addCargo(this);
     }
+
+    public Leg getDestination() {
+        return itinerary.getDestination();
+    }
+
+    public Itinerary getItinerary() {
+        return itinerary;
+    }
+
+    public void setItinerary(Itinerary itinerary) {
+        this.itinerary = itinerary;
+    }
+
+    public Leg getOrigin() {
+        return itinerary.getOrigin();
+    }
+
+
+    public String getTrackingNumber(){
+        String formattedDate = bookingDate.format(DateTimeFormatter.ofPattern("ddMMMyy"));
+        return formattedDate + getUser().getUsername() + getId();
+    }
+    public void setTrackingNumber(String trackingNumber){
+        this.trackingNumber = trackingNumber;
+    }
+
+
+
 }

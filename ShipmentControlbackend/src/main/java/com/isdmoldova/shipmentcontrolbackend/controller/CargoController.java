@@ -3,6 +3,7 @@ package com.isdmoldova.shipmentcontrolbackend.controller;
 import com.isdmoldova.shipmentcontrolbackend.dto.CargoDTO;
 import com.isdmoldova.shipmentcontrolbackend.dto.CargoTypeDTO;
 import com.isdmoldova.shipmentcontrolbackend.dto.RouteDTO;
+import com.isdmoldova.shipmentcontrolbackend.entity.BookingRequest;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.CargoCommand;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.CargoTypeCommand;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.RouteCommand;
@@ -31,6 +32,7 @@ public class CargoController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+
     @GetMapping()
     public ResponseEntity<List<CargoDTO>> getAllCargoes(Principal principal) {
         List<CargoDTO> cargoDTOS = cargoService.findAllCargoes(principal.getName());
@@ -43,7 +45,6 @@ public class CargoController {
         CargoDTO cargo = cargoService.findById(id);
         return new ResponseEntity<>(cargo, HttpStatus.OK);
     }
-
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateCargo(@RequestBody CargoCommand cargoCommand,
