@@ -25,13 +25,13 @@ class EventServiceImpl implements EventService {
     @Transactional
     public void processEvent(String trackingNumber, EventType eventType) {
         final Cargo cargo = cargoRepository.findByTrackingNumber(trackingNumber)
-                        .orElseThrow(()->
-                                new EntityNotFoundException("Cargo with trackingId "
+                .orElseThrow(() ->
+                        new EntityNotFoundException("Cargo with trackingId "
                                 + trackingNumber + " not found "));
         strategies.stream()
                 .filter(strategy -> strategy.supports(eventType))
                 .findFirst()
-                .orElseThrow(()->
+                .orElseThrow(() ->
                         new EventTypeNotFoundException("EventType + " + eventType + " not found"))
                 .process(cargo);
 
@@ -41,6 +41,7 @@ class EventServiceImpl implements EventService {
         eventLog.setTrackingNumber(cargo.getTrackingNumber());
         eventLog.setEventType(eventType);
         eventLog.setCargoStatus(cargo.getCargoStatus());
+        eventLog.setLeg(cargo.getCurrentLeg().getCountry() + cargo.getCurrentLeg().getAddress());
 
         eventLogRepository.save(eventLog);
     }

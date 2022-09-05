@@ -11,7 +11,7 @@ public enum CargoStatus {
     IN_ROUTE("in-route"),
     UNLOADED_DESTINATION("unloaded_at_destination");
 
-    private String label;
+    private final String label;
 
     CargoStatus(String label) {
         this.label = label;
