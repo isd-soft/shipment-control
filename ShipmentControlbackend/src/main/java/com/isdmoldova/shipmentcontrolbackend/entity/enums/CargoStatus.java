@@ -7,7 +7,8 @@ public enum CargoStatus {
 
     ANALYZING ("analyzing"),
     PREPARING("preparing") ,
-    DELIVERED("delivered");
+    DELIVERED("delivered"),
+    UNLOADED_DESTINATION("unloaded_at_destination");
 
     private String label;
 
