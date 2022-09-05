@@ -8,6 +8,7 @@ public enum CargoStatus {
     ANALYZING ("analyzing"),
     PREPARING("preparing") ,
     DELIVERED("delivered"),
+    IN_ROUTE("in-route"),
     UNLOADED_DESTINATION("unloaded_at_destination");
 
     private String label;
