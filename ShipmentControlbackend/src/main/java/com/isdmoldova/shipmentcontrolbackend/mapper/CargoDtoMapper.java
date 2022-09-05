@@ -15,18 +15,17 @@ public class CargoDtoMapper {
 
     public CargoDTO map(Cargo cargo) {
         final CargoDTO cargoDTO = new CargoDTO();
-<<<<<<< HEAD
+
 
         cargoDTO.setCargoStatus(cargo.getCargoStatus());
 
         cargoDTO.setCargoStatus(cargo.getCargoStatus());
 
-=======
+
         cargoDTO.setId(cargo.getId());
         cargoDTO.setCargoStatus(cargo.getCargoStatus());
         cargoDTO.setOrigin(cargo.getOrigin().getCountry());
         cargoDTO.setDestination(cargo.getDestination().getCountry());
->>>>>>> origin/main
         cargoDTO.setTrackingNumber(cargo.getTrackingNumber());
         cargoDTO.setCargoTypes(cargo.getCargoTypes()
                 .stream().map(cargoTypeDtoMapper::map).collect(Collectors.toList()));

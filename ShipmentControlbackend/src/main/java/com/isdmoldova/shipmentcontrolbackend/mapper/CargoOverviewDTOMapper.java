@@ -1,6 +1,5 @@
 package com.isdmoldova.shipmentcontrolbackend.mapper;
 
-import com.isdmoldova.shipmentcontrolbackend.dto.CargoDTO;
 import com.isdmoldova.shipmentcontrolbackend.dto.CargoOverviewDTO;
 import com.isdmoldova.shipmentcontrolbackend.entity.Cargo;
 import org.springframework.stereotype.Component;
@@ -15,11 +14,6 @@ public class CargoOverviewDTOMapper {
         cargoOverviewDTO.setOrigin(cargo.getOrigin().getCountry());
         cargoOverviewDTO.setDestination(cargo.getDestination().getCountry());
         cargoOverviewDTO.setCargoStatus(cargo.getCargoStatus());
-<<<<<<< HEAD
-
-
-=======
->>>>>>> origin/main
         cargoOverviewDTO.setTrackingNumber(cargo.getTrackingNumber());
 
         return cargoOverviewDTO;
