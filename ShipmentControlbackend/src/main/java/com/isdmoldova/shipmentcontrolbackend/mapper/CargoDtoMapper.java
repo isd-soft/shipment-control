@@ -15,6 +15,13 @@ public class CargoDtoMapper {
 
     public CargoDTO map(Cargo cargo) {
         final CargoDTO cargoDTO = new CargoDTO();
+
+
+        cargoDTO.setCargoStatus(cargo.getCargoStatus());
+
+        cargoDTO.setCargoStatus(cargo.getCargoStatus());
+
+
         cargoDTO.setId(cargo.getId());
         cargoDTO.setCargoStatus(cargo.getCargoStatus());
         cargoDTO.setOrigin(cargo.getOrigin().getAddress());

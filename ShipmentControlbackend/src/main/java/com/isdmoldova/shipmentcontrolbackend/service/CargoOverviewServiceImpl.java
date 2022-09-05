@@ -1,17 +1,13 @@
 package com.isdmoldova.shipmentcontrolbackend.service;
 
 import com.isdmoldova.shipmentcontrolbackend.dto.CargoOverviewDTO;
-import com.isdmoldova.shipmentcontrolbackend.dto.CargoTypeDTO;
 import com.isdmoldova.shipmentcontrolbackend.entity.Cargo;
-import com.isdmoldova.shipmentcontrolbackend.entity.CargoType;
 import com.isdmoldova.shipmentcontrolbackend.exception.CargoOverviewNotFoundException;
-import com.isdmoldova.shipmentcontrolbackend.exception.CargoTypeNotFoundException;
 import com.isdmoldova.shipmentcontrolbackend.mapper.CargoOverviewDTOMapper;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.CargoOverviewCommand;
 import com.isdmoldova.shipmentcontrolbackend.repository.CargoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
@@ -40,7 +36,7 @@ public class CargoOverviewServiceImpl implements CargoOverviewService {
     public CargoOverviewDTO add(CargoOverviewCommand command){
         Cargo cargoOverviewDTO = new Cargo();
         cargoOverviewDTO.setCargoStatus(command.getCargoStatus());
-       // cargoOverviewDTO.setDestination(command.getDestination());
+
         cargoOverviewDTO.setTrackingNumber(command.getTrackingNumber());
         cargoRepository.save(cargoOverviewDTO);
         return cargoOverviewDTOMapper.map(cargoOverviewDTO);
@@ -53,7 +49,7 @@ public class CargoOverviewServiceImpl implements CargoOverviewService {
         Cargo cargoOverview = cargoRepository.findById(id).orElseThrow(() ->
                 new CargoOverviewNotFoundException("This id does not exists!"));
         cargoOverview.setCargoStatus(cargo.getCargoStatus());
-      //  cargoOverview.setDestination(cargo.getDestination());
+
         cargoOverview.setTrackingNumber(cargo.getTrackingNumber());
 
         return cargoOverviewDTOMapper.map(cargoOverview);
