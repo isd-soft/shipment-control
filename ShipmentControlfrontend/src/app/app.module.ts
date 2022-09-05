@@ -61,6 +61,7 @@ import {MatNativeDateModule} from "@angular/material/core";
 import {DatePipe} from '@angular/common';
 import { BookingRequestComponent } from './booking.request/booking.request.component';
 import { CargoOverviewDisplayDetailsComponent } from './cargo-overview/cargo-overview.display.details/cargo-overview.display.details.component';
+// import {RouteBookedComponent} from "./route/route.booked/route.booked.component";
 
 
 @NgModule({
@@ -86,6 +87,7 @@ import { CargoOverviewDisplayDetailsComponent } from './cargo-overview/cargo-ove
     RouteEditComponent,
     BookingRequestComponent,
     CargoOverviewDisplayDetailsComponent,
+    // RouteBookedComponent,
 
 
   ],

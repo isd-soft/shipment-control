@@ -1,4 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute, Router} from "@angular/router";
+import {MatTableDataSource} from "@angular/material/table";
+import {LegDto} from "../../model/leg.dto";
+import {CargoDto} from "../../model/cargo.dto";
+import {MatPaginator} from "@angular/material/paginator";
+import {MatSort} from "@angular/material/sort";
+import {RouteService} from "../../services/route.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {FormControl, FormGroup} from "@angular/forms";
+import {CargoService} from "../../services/cargoService";
+import {LegCommand} from "../../services/LegCommand";
+import {
+  RouteConfirmDialogComponent,
+  RouteConfirmDialogModel
+} from "../../route/route.confirm.dialog/route.confirm.dialog.component";
+import {MatDialog} from "@angular/material/dialog";
+import {BookingRequestDto} from "../../model/bookingRequest.dto";
+
+
+export interface CargoDetails {
+  name: string;
+  content: string;
+}
+
 
 @Component({
   selector: 'app-cargo-overview.display.details',
@@ -7,9 +31,156 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CargoOverviewDisplayDetailsComponent implements OnInit {
 
-  constructor() { }
+  cargoDetails: CargoDetails[];
+  cargoDetailsDisplayedColumns: string[] = ['name', 'content'];
+  legDisplayedColumns: string [] = ['name', 'address', 'country', 'countryCode'];
+  legDataSource: MatTableDataSource<LegDto>;
+  dataSource: CargoDto;
+  matTableDataSource: MatTableDataSource<CargoDto>;
+  @ViewChild('paginator') paginator: MatPaginator;
+  @ViewChild('empTbSort') sort = new MatSort();
+
+  @ViewChild('legPaginator') legPaginator: MatPaginator;
+  @ViewChild('legSort') legSort = new MatSort();
+
+  cargoStatusANALYZING = "ANALYZING";
+  cargoStatusPREPARING = "PREPARING";
+
+  constructor(
+      private routeService: RouteService,
+      private cargoService: CargoService,
+      private snackbar: MatSnackBar,
+      private router: ActivatedRoute,
+      private dialog: MatDialog,
+      // private cd: ChangeDetectorRef,
+  )  {
+    this.legDataSource = new MatTableDataSource();
+
+  }
+  cargoId = this.router.snapshot.params["id"];
+
 
   ngOnInit(): void {
+    // console.log("cargo id = " + this.router.snapshot.params["id"]);
+    console.log("cargo id = " + this.cargoId);
+    this.getCargoById();
+
   }
 
+  getCargoTypeNames(element: any): string {
+    let cargoTypes = "";
+
+   element.forEach(name => {
+      cargoTypes += name.name + ", ";
+    })
+    return cargoTypes;
+  }
+
+  getCargoById() {
+    this.cargoService.getCargoById(this.router.snapshot.params["id"])
+        .subscribe({
+          next: (res) => {
+            this.dataSource = res;
+            console.log("cargoDTO");
+            console.log(res);
+            // console.log(this.getCargoTypeNames(this.dataSource.cargoTypes));
+            this.cargoDetails = [
+              {name: "Cargo Status", content: this.dataSource.cargoStatus.toString()},
+              {name: "Tracking Number", content: this.dataSource.trackingNumber},
+              {name: "Booking Date", content: this.dataSource.bookingDate.toString()},
+              {name: "Total Volume", content: this.dataSource.totalVolume.toString()},
+              {name: "Total Weight", content: this.dataSource.totalWeight.toString()},
+              {name: "Cargo Types", content: this.getCargoTypeNames(this.dataSource.cargoTypes)},
+              {name: "Origin", content: this.dataSource.origin},
+              {name: "Destination", content: this.dataSource.destination},
+              {name: "Estimate time for delivering", content: res.itineraryDTO.executionTime.toString()}
+            ];
+            this.legDataSource = new MatTableDataSource<LegDto>(res.itineraryDTO.legDTOS);
+            this.legDataSource.paginator = this.legPaginator;
+            this.legDataSource.sort = this.legSort;
+
+          },
+          error: () => {
+            this.snackbar.open("Error while fetching the the record!!", 'Error', {duration: 2000});
+
+          }
+        })
+  }
+  getAllCargo() {
+    return this.cargoService.getCargo().subscribe({
+      next: (data) => {
+
+        this.matTableDataSource = new MatTableDataSource<CargoDto>(data);
+        this.matTableDataSource.paginator = this.paginator;
+        this.matTableDataSource.sort = this.sort;
+      },
+      error: () => {
+        this.snackbar.open("Error while fetching the record!!", 'Error', {duration: 2000});
+      }
+    });
+  }
+
+
+  redirectToApprove(){
+    console.log("status Analyizing you click Approve");
+
+
+    const message = `Are you sure you want to Approve?`;
+
+    const dialogData = new RouteConfirmDialogModel("Confirm Action", message);
+
+    const dialogRef = this.dialog.open(RouteConfirmDialogComponent, {
+      maxWidth: "400px",
+      data: dialogData
+    });
+
+    // dialogRef.afterClosed().subscribe(dialogResult => {
+    //   if (dialogResult) {
+    //     this.cargoService.approveCargo(this.cargoId)
+    //         .subscribe({
+    //           next: () => {
+    //             this.snackbar.open("Executed Successfully", 'Ok', {duration: 2000})
+    //             this.getAllCargo();
+    //           },
+    //           error: () => {
+    //             this.snackbar.open("Error while executing", 'Error', {duration: 2000});
+    //           }
+    //         })
+    //
+    //   }
+    // });
+
+  }
+
+
+  redirectToReject(){
+    console.log("status Analyizing you click Reject");
+    const message = `Are you sure you want to Reject?`;
+
+    const dialogData = new RouteConfirmDialogModel("Confirm Action", message);
+
+    const dialogRef = this.dialog.open(RouteConfirmDialogComponent, {
+      maxWidth: "400px",
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (dialogResult) {
+        this.cargoService.rejectCargo(this.cargoId)
+            .subscribe({
+              next: () => {
+                this.snackbar.open("Executed Successfully", 'Ok', {duration: 2000})
+                this.getAllCargo();
+              },
+              error: () => {
+                this.snackbar.open("Error while executing", 'Error', {duration: 2000});
+              }
+            })
+      }
+    });
+  }
+
+
+
 }
+

@@ -14,6 +14,7 @@ import {BookingRequestComponent} from "./booking.request/booking.request.compone
 import {
   CargoOverviewDisplayDetailsComponent
 } from "./cargo-overview/cargo-overview.display.details/cargo-overview.display.details.component";
+// import {RouteBookedComponent} from "./route/route.booked/route.booked.component";
 
 
 const routes: Routes = [
@@ -27,7 +28,9 @@ const routes: Routes = [
       {path: 'booking-requests', component: BookingRequestComponent},
       {path: 'route/details', component: RouteDisplayDetailsComponent},
       {path: 'cargo/details', component: CargoOverviewDisplayDetailsComponent},
+      {path: 'cargo/details/:id', component: CargoOverviewDisplayDetailsComponent},
       {path: 'route/add', component: RouteAddComponent},
+      // {path: 'route/booked', component: RouteBookedComponent},
       {path: 'route/edit/:id', component: RouteEditComponent},
       {path: 'add', component: RouteAddComponent},
       {path: 'cargoType', component: CargoTypeComponent},

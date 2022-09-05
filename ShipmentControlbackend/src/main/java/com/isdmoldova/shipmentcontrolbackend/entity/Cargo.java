@@ -8,8 +8,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Getter
 @Setter
@@ -84,5 +86,16 @@ public class Cargo extends BaseEntity {
     public Leg getOrigin() {
         return itinerary.getOrigin();
     }
+
+
+    public String getTrackingNumber(){
+        String formattedDate = bookingDate.format(DateTimeFormatter.ofPattern("ddMMMyy"));
+        return formattedDate + getUser().getUsername() + getId();
+    }
+    public void setTrackingNumber(String trackingNumber){
+        this.trackingNumber = trackingNumber;
+    }
+
+
 
 }

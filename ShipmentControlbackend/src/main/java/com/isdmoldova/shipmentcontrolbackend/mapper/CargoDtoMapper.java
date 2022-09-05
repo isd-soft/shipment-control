@@ -29,9 +29,9 @@ public class CargoDtoMapper {
         cargoDTO.setTrackingNumber(cargo.getTrackingNumber());
         cargoDTO.setCargoTypes(cargo.getCargoTypes()
                 .stream().map(cargoTypeDtoMapper::map).collect(Collectors.toList()));
+        cargoDTO.setItineraryDTO(itineraryDtoMapper.map(cargo.getItinerary()));
         cargoDTO.setTotalVolume(cargo.getTotalVolume());
         cargoDTO.setCurrentLegId(cargo.getCurrentLeg().getId());
-        cargoDTO.setItineraryDTO(itineraryDtoMapper.map(cargo.getItinerary()));
         cargoDTO.setTotalWeight(cargo.getTotalWeight());
         cargoDTO.setBookingDate(cargo.getBookingDate());
         return cargoDTO;
