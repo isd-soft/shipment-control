@@ -6,7 +6,8 @@ import lombok.Getter;
 public enum CargoStatus {
 
     ANALYZING ("analyzing"),
-    PREPARING("preparing") ,
+    PREPARING("preparing"),
+    IN_ROUTE("in-route"),
     DELIVERED("delivered");
 
     private String label;

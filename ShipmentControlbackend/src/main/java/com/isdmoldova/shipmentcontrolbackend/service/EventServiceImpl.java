@@ -37,12 +37,11 @@ class EventServiceImpl implements EventService {
                 .process(cargo);
 
 
-
         EventLog eventLog = new EventLog();
 
         eventLog.setTrackingNumber(cargo.getTrackingNumber());
         eventLog.setEventType(eventType);
-        eventLog.setCargoStatus(cargo.getCargoStatus().);
+        eventLog.setCargoStatus(cargo.getCargoStatus());
 
         eventLogRepository.save(eventLog);
     }
