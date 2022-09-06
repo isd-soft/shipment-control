@@ -12,6 +12,7 @@ import com.isdmoldova.shipmentcontrolbackend.service.CargoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +26,7 @@ public class CargoController {
 
     private final CargoService cargoService;
 
+   // @PreAuthorize("hasRole('GOODS_COMPANY')")
     @PostMapping
     public ResponseEntity<Void> addCargo(@Validated @RequestBody CargoCommand cargoCommand,
                                          Principal principal) {

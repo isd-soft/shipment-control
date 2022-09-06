@@ -25,7 +25,7 @@ public class EventController {
     }
 
     @GetMapping("/{trackingNumber}")
-    public ResponseEntity<List<EventLogDTO>> getAllByTrackingId(
+    public ResponseEntity<List<EventLogDTO>> getAllByTrackingNumber(
             @PathVariable("trackingNumber") String trackingNumber){
        List<EventLogDTO> eventLogDTOS = eventService.findAllEventsByTrackNumber(trackingNumber);
         return new ResponseEntity<>(eventLogDTOS,HttpStatus.OK);
