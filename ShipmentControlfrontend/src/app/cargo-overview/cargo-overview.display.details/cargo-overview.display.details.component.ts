@@ -88,7 +88,7 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
 
   getTrackingNumber(){
     if(this.dataSource.trackingNumber === "" || this.dataSource.trackingNumber === null){
-      console.log("No tracking number provided")
+      console.log("No tracking number provided");
       this.trackingNumber = "No tracking number provided";
     } else {
       console.log("there is a tracking number");
@@ -107,7 +107,7 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
           // console.log(this.getCargoTypeNames(this.dataSource.cargoTypes));
           this.cargoDetails = [
             {name: "Cargo Status", content: this.dataSource.cargoStatus.toString()},
-            {name: "Tracking Number", content: this.dataSource.trackingNumber},
+            {name: "Tracking Number", content: this.getTrackingNumber()},
             {name: "Booking Date", content: this.dataSource.bookingDate.toString()},
             {name: "Total Volume", content: this.dataSource.totalVolume.toString()},
             {name: "Total Weight", content: this.dataSource.totalWeight.toString()},
@@ -160,11 +160,8 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
 
   redirectToApprove(){
     console.log("status Analyzing you clicked Approve");
-
     const message = `Are you sure you want to Approve?`;
-
     const dialogData = new RouteConfirmDialogModel("Confirm Action", message);
-
     const dialogRef = this.dialog.open(RouteConfirmDialogComponent, {
       maxWidth: "400px",
       data: dialogData
@@ -198,9 +195,7 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
   redirectToReject(){
     console.log("status Analyzing you clicked Reject");
     const message = `Are you sure you want to Reject?`;
-
     const dialogData = new RouteConfirmDialogModel("Confirm Action", message);
-
     const dialogRef = this.dialog.open(RouteConfirmDialogComponent, {
       maxWidth: "400px",
       data: dialogData
@@ -213,7 +208,7 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
               next: () => {
                 this.snackbar.open("Executed Successfully, the cargo was rejected", 'Ok', {duration: 2000})
                 // this.getAllCargo();
-                this.redirectToCargoOverview();
+                // this.redirectToCargoOverview();
               },
               error: () => {
                 this.snackbar.open("Error while executing", 'Error', {duration: 2000});

@@ -24,8 +24,8 @@ export class CargoOverviewComponent implements OnInit {
 
   displayedColumns: string[] = ['goodsCompanyName', 'bookingDate', 'trackingNumber','origin', 'destination', 'cargoStatus','action'];
   dataSource: MatTableDataSource<CargoOverviewDTO>;
-  // dataSource2: MatTableDataSource<CargoDto>;
   selection = new SelectionModel<CargoOverviewDTO>(true, []);
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -57,7 +57,17 @@ export class CargoOverviewComponent implements OnInit {
     console.log('selected cargo: ', row);
   }
 
-
+  // trackingNumber: string;
+  // getTrackingNumber(){
+  //   if(this.dataSource['trackingNumber'] === "" || this.dataSource['trackingNumber'] === null){
+  //     console.log("No tracking number provided");
+  //     this.trackingNumber = "No tracking number provided";
+  //   } else {
+  //     console.log("there is a tracking number");
+  //     this.trackingNumber = this.dataSource['trackingNumber'];
+  //   }
+    // return this.trackingNumber;
+  // }
 
 /*  openDialog() {
     this.dialog.open(DialogCargoOverviewComponent, {
@@ -133,9 +143,7 @@ export class CargoOverviewComponent implements OnInit {
   result: boolean;
   confirmDialog(id: number): void {
     const message = `Are you sure you want to delete this?`;
-
     const dialogDataCargo = new ConfirmDialogCargoModel("Confirm Action", message);
-
     const dialogRef = this.dialog.open(ConfirmDialogCargoComponent, {
       maxWidth: "400px",
       data: dialogDataCargo
