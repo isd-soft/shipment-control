@@ -40,6 +40,7 @@ export class RouteDisplayDetailsComponent implements OnInit {
   dateForm!: FormGroup;
   daysCalendar: string[] = [];
   finalArr: (undefined | number)[] = [];
+  itineraryExecutionTime: number;
 
 
   constructor(
@@ -94,6 +95,7 @@ export class RouteDisplayDetailsComponent implements OnInit {
           this.transportDataSource = new MatTableDataSource<TransportDto>(res.transportDTOList);
           this.transportDataSource.sort = this.transportSort;
           this.transportDataSource.paginator = this.transportPaginator;
+          this.itineraryExecutionTime=res.itineraryDTO.executionTime;
           this.routeDetails = [
             {name: "Route Description", content: this.dataSource.routeDescription},
             {name: "Available days", content: this.getAvailableDays(this.dataSource)},
@@ -141,6 +143,7 @@ export class RouteDisplayDetailsComponent implements OnInit {
       && day !== this.finalArr[4] && day !== this.finalArr[5]
       && day !== this.finalArr[6]
   }
+
 
   onSubmit() {
     console.log(this.dateForm.value);

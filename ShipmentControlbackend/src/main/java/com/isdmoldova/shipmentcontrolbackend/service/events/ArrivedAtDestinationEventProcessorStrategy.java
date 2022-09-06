@@ -14,6 +14,7 @@ public class ArrivedAtDestinationEventProcessorStrategy implements EventProcesso
     @Override
     public void process(Cargo cargo) {
         cargo.setCurrentLeg(cargo.getDestination());
+        cargo.setCargoStatus(CargoStatus.ARRIVED);
     }
 
     @Override
