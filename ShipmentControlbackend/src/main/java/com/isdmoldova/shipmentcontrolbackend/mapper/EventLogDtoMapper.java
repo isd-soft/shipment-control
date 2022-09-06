@@ -11,13 +11,14 @@ import org.springframework.stereotype.Component;
 
 public class EventLogDtoMapper {
 
-    public EventLogDTO eventLogDTO(EventLog eventLog){
+    public EventLogDTO map(EventLog eventLog){
 
         EventLogDTO eventLogDTO = new EventLogDTO();
 
-        eventLogDTO.setTrackingNumber(eventLog.getTrackingNumber());
+        eventLogDTO.setCreatedAt(eventLog.getCreatedAt());
         eventLogDTO.setEventType(eventLog.getEventType());
         eventLogDTO.setCargoStatus(eventLog.getCargoStatus());
+        eventLogDTO.setLeg(eventLog.getLeg());
 
         return eventLogDTO;
 
