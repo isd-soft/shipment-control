@@ -4,6 +4,6 @@ export interface CargoOverviewDTO {
   trackingNumber : string;
   origin : string;
   destination : string;
-  cargoStatus : string[];
+  cargoStatus : string;
 
 }

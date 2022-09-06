@@ -4,7 +4,7 @@ import {MatTableDataSource} from "@angular/material/table";
 import {LegDto} from "../../model/leg.dto";
 import {CargoDto} from "../../model/cargo.dto";
 import {MatPaginator} from "@angular/material/paginator";
-import {MatSort} from "@angular/material/sort";
+import {MatSort, MatSortable} from "@angular/material/sort";
 import {RouteService} from "../../services/route.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {FormControl, FormGroup} from "@angular/forms";
@@ -16,6 +16,8 @@ import {
 } from "../../route/route.confirm.dialog/route.confirm.dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {BookingRequestDto} from "../../model/bookingRequest.dto";
+import {EventLogDto} from "../../model/eventLog.Dto";
+import {EventLogService} from "../../services/eventLog.service";
 
 
 export interface CargoDetails {
@@ -34,29 +36,35 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
   cargoDetails: CargoDetails[];
   cargoDetailsDisplayedColumns: string[] = ['name', 'content'];
   legDisplayedColumns: string [] = ['name', 'address', 'country', 'countryCode'];
+  eventLogDisplayColumns: string [] = ['createdAt', 'eventType', 'cargoStatus', 'leg'];
   legDataSource: MatTableDataSource<LegDto>;
   dataSource: CargoDto;
   matTableDataSource: MatTableDataSource<CargoDto>;
+  eventLogDataSource: MatTableDataSource<EventLogDto>;
   @ViewChild('paginator') paginator: MatPaginator;
   @ViewChild('empTbSort') sort = new MatSort();
-
   @ViewChild('legPaginator') legPaginator: MatPaginator;
   @ViewChild('legSort') legSort = new MatSort();
+  @ViewChild('eventPaginator') eventPaginator: MatPaginator;
+  @ViewChild('eventSort') eventSort: MatSort;
 
   cargoStatusANALYZING = "ANALYZING";
   cargoStatusPREPARING = "PREPARING";
+  eventLogTrackingNumber: string;
 
   constructor(
-      private routeService: RouteService,
-      private cargoService: CargoService,
-      private snackbar: MatSnackBar,
-      private router: ActivatedRoute,
-      private dialog: MatDialog,
-      // private cd: ChangeDetectorRef,
-  )  {
+    private routeService: RouteService,
+    private cargoService: CargoService,
+    private snackbar: MatSnackBar,
+    private router: ActivatedRoute,
+    private dialog: MatDialog,
+    private eventLogService: EventLogService
+    // private cd: ChangeDetectorRef,
+  ) {
     this.legDataSource = new MatTableDataSource();
 
   }
+
   cargoId = this.router.snapshot.params["id"];
 
 
@@ -65,12 +73,13 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
     console.log("cargo id = " + this.cargoId);
     this.getCargoById();
 
+
   }
 
   getCargoTypeNames(element: any): string {
     let cargoTypes = "";
 
-   element.forEach(name => {
+    element.forEach(name => {
       cargoTypes += name.name + ", ";
     })
     return cargoTypes;
@@ -78,35 +87,37 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
 
   getCargoById() {
     this.cargoService.getCargoById(this.router.snapshot.params["id"])
-        .subscribe({
-          next: (res) => {
-            this.dataSource = res;
-            console.log("cargoDTO");
-            console.log(res);
-            // console.log(this.getCargoTypeNames(this.dataSource.cargoTypes));
-            this.cargoDetails = [
-              {name: "Cargo Status", content: this.dataSource.cargoStatus.toString()},
-              {name: "Tracking Number", content: this.dataSource.trackingNumber},
-              {name: "Booking Date", content: this.dataSource.bookingDate.toString()},
-              {name: "Total Volume", content: this.dataSource.totalVolume.toString()},
-              {name: "Total Weight", content: this.dataSource.totalWeight.toString()},
-              {name: "Cargo Types", content: this.getCargoTypeNames(this.dataSource.cargoTypes)},
-              {name: "Origin", content: this.dataSource.origin},
-              {name: "Destination", content: this.dataSource.destination},
-              {name: "Estimate time for delivering", content: res.itineraryDTO.executionTime.toString()}
-            ];
-            this.legDataSource = new MatTableDataSource<LegDto>(res.itineraryDTO.legDTOS);
-            this.legDataSource.paginator = this.legPaginator;
-            this.legDataSource.sort = this.legSort;
+      .subscribe({
+        next: (res) => {
+          this.dataSource = res;
+          console.log("cargoDTO");
+          console.log(res);
+          // console.log(this.getCargoTypeNames(this.dataSource.cargoTypes));
+          this.cargoDetails = [
+            {name: "Cargo Status", content: this.dataSource.cargoStatus.toString()},
+            {name: "Tracking Number", content: this.dataSource.trackingNumber},
+            {name: "Booking Date", content: this.dataSource.bookingDate.toString()},
+            {name: "Total Volume", content: this.dataSource.totalVolume.toString()},
+            {name: "Total Weight", content: this.dataSource.totalWeight.toString()},
+            {name: "Cargo Types", content: this.getCargoTypeNames(this.dataSource.cargoTypes)},
+            {name: "Origin", content: this.dataSource.origin},
+            {name: "Destination", content: this.dataSource.destination},
+            {name: "Estimate time for delivering", content: res.itineraryDTO.executionTime.toString()}
+          ];
+          this.legDataSource = new MatTableDataSource<LegDto>(res.itineraryDTO.legDTOS);
+          this.legDataSource.paginator = this.legPaginator;
+          this.legDataSource.sort = this.legSort;
+          this.getAllEventTypeLogs(this.dataSource.trackingNumber);
+        },
+        error: () => {
+          this.snackbar.open("Error while fetching the the record!!", 'Error', {duration: 2000});
 
-          },
-          error: () => {
-            this.snackbar.open("Error while fetching the the record!!", 'Error', {duration: 2000});
-
-          }
-        })
+        }
+      })
   }
+
   getAllCargo() {
+
     return this.cargoService.getCargo().subscribe({
       next: (data) => {
 
@@ -120,8 +131,23 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
     });
   }
 
+  getAllEventTypeLogs(trackingNumber: string) {
+    return this.eventLogService.getEventLogs(trackingNumber).subscribe({
+      next: (res) => {
 
-  redirectToApprove(){
+        this.eventLogDataSource = new MatTableDataSource<EventLogDto>(res);
+        this.eventLogDataSource.paginator = this.eventPaginator;
+        this.eventLogDataSource.sort = this.eventSort;
+
+      },
+      error: () => {
+        this.snackbar.open("Error while fetching the record!!", 'Error', {duration: 2000});
+      }
+    });
+  }
+
+
+  redirectToApprove() {
     console.log("status Analyizing you click Approve");
 
 
@@ -153,7 +179,7 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
   }
 
 
-  redirectToReject(){
+  redirectToReject() {
     console.log("status Analyizing you click Reject");
     const message = `Are you sure you want to Reject?`;
 
@@ -167,19 +193,18 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(dialogResult => {
       if (dialogResult) {
         this.cargoService.rejectCargo(this.cargoId)
-            .subscribe({
-              next: () => {
-                this.snackbar.open("Executed Successfully", 'Ok', {duration: 2000})
-                this.getAllCargo();
-              },
-              error: () => {
-                this.snackbar.open("Error while executing", 'Error', {duration: 2000});
-              }
-            })
+          .subscribe({
+            next: () => {
+              this.snackbar.open("Executed Successfully", 'Ok', {duration: 2000})
+              this.getAllCargo();
+            },
+            error: () => {
+              this.snackbar.open("Error while executing", 'Error', {duration: 2000});
+            }
+          })
       }
     });
   }
-
 
 
 }

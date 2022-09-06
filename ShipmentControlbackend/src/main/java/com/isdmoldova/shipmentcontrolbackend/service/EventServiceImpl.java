@@ -46,7 +46,7 @@ class EventServiceImpl implements EventService {
         eventLog.setTrackingNumber(cargo.getTrackingNumber());
         eventLog.setEventType(eventType);
         eventLog.setCargoStatus(cargo.getCargoStatus());
-        eventLog.setLeg(cargo.getCurrentLeg().getCountry() + cargo.getCurrentLeg().getAddress());
+        eventLog.setLeg(cargo.getCurrentLeg().getCountry() + "_" + cargo.getCurrentLeg().getAddress());
 
         eventLogRepository.save(eventLog);
     }
@@ -55,7 +55,7 @@ class EventServiceImpl implements EventService {
     @Transactional
     public List<EventLogDTO> findAllEventsByTrackNumber(String trackingNumber) {
         return eventLogRepository.findAllByTrackingNumber(trackingNumber).orElseThrow(
-                        ()-> new EntityNotFoundException("Event Log with trackingNumber" + trackingNumber +
+                        () -> new EntityNotFoundException("Event Log with trackingNumber" + trackingNumber +
                                 " is not found")
                 )
                 .stream().map(eventLogDtoMapper::map)

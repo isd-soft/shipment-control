@@ -8,7 +8,7 @@ export interface CargoDto{
     totalWeight: number;
     origin: string;
     destination: string;
-    cargoStatus: string[];
+    cargoStatus: string;
     itineraryDTO: ItineraryDto;
     cargoTypes: CargoTypeDto[];
     bookingDate: string;
