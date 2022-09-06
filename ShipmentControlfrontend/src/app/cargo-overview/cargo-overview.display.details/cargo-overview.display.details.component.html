@@ -2,10 +2,10 @@
     <h1 mat-dialog-title>Cargo details</h1>
     <section >
         <div class="example-button-row">
-            <h3> The cargo status is {{dataSource.cargoStatus}} </h3>
-            <p *ngIf="dataSource.cargoStatus===cargoStatusANALYZING">Please select your action
-                <button *ngIf="dataSource.cargoStatus===cargoStatusANALYZING" mat-raised-button color="primary" (click)="redirectToApprove()">Approve</button>
-                <button *ngIf="dataSource.cargoStatus===cargoStatusANALYZING" mat-raised-button color="warn" (click)="redirectToReject()">Reject</button>
+            <h3> The cargo status is {{cargoStatusString}} </h3>
+            <p *ngIf="cargoStatusString===cargoStatusANALYZING">Please select your action
+                <button *ngIf="cargoStatusString===cargoStatusANALYZING" mat-raised-button color="primary" (click)="redirectToApprove()">Approve</button>
+                <button *ngIf="cargoStatusString===cargoStatusANALYZING" mat-raised-button color="warn" (click)="redirectToReject()">Reject</button>
 <!--                <button *ngIf="dataSource.cargoStatus.toString()===cargoStatusPREPARING"mat-raised-button color="primary" (click)="redirectToDeploy()">Deploy</button>-->
 <!--                <button *ngIf="dataSource.cargoStatus.toString()===cargoStatusPREPARING"mat-raised-button color="warn" (click)="redirectToCancel()">Cancel</button>-->
             </p>

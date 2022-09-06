@@ -151,7 +151,7 @@ public class CargoServiceImpl implements CargoService {
                 + "\n your cargo booked for the date " + cargo.getBookingDate()
                 + "\n from the origin " + cargo.getOrigin().getAddress()
                 + "\n to the destination " + cargo.getDestination().getAddress()
-                + "\n has been APPROVED. Click on the tracking number below to follow on your cargo.\n "
+                + "\n has been APPROVED. Follow the tracking number below to see the status of your cargo.\n "
                 + cargo.getTrackingNumber()
                 + "\nPlease check the required information to deliver the cargo to " + cargo.getOrigin().getAddress()
                 + "\n\n\n\nBest regards, \nShipment Control Service Tech Team.";

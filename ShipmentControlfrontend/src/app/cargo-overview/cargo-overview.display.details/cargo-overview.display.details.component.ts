@@ -38,6 +38,7 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
   eventLogDisplayColumns: string [] = ['createdAt', 'eventType', 'cargoStatus', 'leg'];
   legDataSource: MatTableDataSource<LegDto>;
   dataSource: CargoDto;
+  cargoStatusString : string;
   matTableDataSource: MatTableDataSource<CargoDto>;
   eventLogDataSource: MatTableDataSource<EventLogDto>;
   @ViewChild('paginator') paginator: MatPaginator;
@@ -120,6 +121,8 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
           this.legDataSource.paginator = this.legPaginator;
           this.legDataSource.sort = this.legSort;
           this.getAllEventTypeLogs(this.dataSource.trackingNumber);
+          this.cargoStatusString = this.dataSource.cargoStatus;
+          console.log(res);
         },
         error: () => {
           this.snackbar.open("Error while fetching the the record!!", 'Error', {duration: 2000});
@@ -174,7 +177,7 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
         this.cargoService.approveCargo(this.cargoId)
             .subscribe({
               next: () => {
-                this.snackbar.open("Executed Successfully, the cargo status changed to PREPARING", 'Ok', {duration: 2000})
+                this.snackbar.open("Executed Successfully, the cargo status changed to PREPARING", 'Ok', {duration: 6000})
                 this.getAllCargo();
                 location.reload();
               },
@@ -189,7 +192,7 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
   }
   redirectToCargoOverview() {
     // @ts-ignore
-    this.router.navigateByUrl('/dashboard/cargo');
+    this.route.navigate(['dashboard', 'cargo']);
   }
 
   redirectToReject(){
@@ -206,9 +209,9 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
         this.cargoService.rejectCargo(this.cargoId)
             .subscribe({
               next: () => {
-                this.snackbar.open("Executed Successfully, the cargo was rejected", 'Ok', {duration: 2000})
-                // this.getAllCargo();
-                // this.redirectToCargoOverview();
+                this.snackbar.open("Executed Successfully, the cargo was rejected", 'Ok', {duration: 6000})
+                this.getAllCargo();
+                this.redirectToCargoOverview();
               },
               error: () => {
                 this.snackbar.open("Error while executing", 'Error', {duration: 2000});
