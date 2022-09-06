@@ -22,11 +22,10 @@ import {MatInput} from "@angular/material/input";
 })
 export class CargoOverviewComponent implements OnInit {
 
-  displayedColumns: string[] = ['id','goodsCompanyName', 'bookingDate', 'trackingNumber','origin', 'destination', 'cargoStatus','action'];
+  displayedColumns: string[] = ['goodsCompanyName', 'bookingDate', 'trackingNumber','origin', 'destination', 'cargoStatus','action'];
   dataSource: MatTableDataSource<CargoOverviewDTO>;
   // dataSource2: MatTableDataSource<CargoDto>;
   selection = new SelectionModel<CargoOverviewDTO>(true, []);
-
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -57,6 +56,7 @@ export class CargoOverviewComponent implements OnInit {
     this.router.navigateByUrl('/dashboard/cargo/details/' + row.id);
     console.log('selected cargo: ', row);
   }
+
 
 
 /*  openDialog() {

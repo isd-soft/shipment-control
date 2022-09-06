@@ -2,16 +2,15 @@
     <h1 mat-dialog-title>Cargo details</h1>
     <section >
         <div class="example-button-row">
-            <h3> The cargo status is {{dataSource.cargoStatus}} </h3>
-            <p>Please select your action
+            <h3> The cargo status is {{dataSource.cargoStatus.toString()}} </h3>
+            <p *ngIf="dataSource.cargoStatus.toString()===cargoStatusANALYZING">Please select your action
                 <button *ngIf="dataSource.cargoStatus.toString()===cargoStatusANALYZING" mat-raised-button color="primary" (click)="redirectToApprove()">Approve</button>
-                <button *ngIf="dataSource.cargoStatus.toString()===cargoStatusANALYZING"mat-raised-button color="warn" (click)="redirectToReject()">Reject</button>
+                <button *ngIf="dataSource.cargoStatus.toString()===cargoStatusANALYZING" mat-raised-button color="warn" (click)="redirectToReject()">Reject</button>
 <!--                <button *ngIf="dataSource.cargoStatus.toString()===cargoStatusPREPARING"mat-raised-button color="primary" (click)="redirectToDeploy()">Deploy</button>-->
 <!--                <button *ngIf="dataSource.cargoStatus.toString()===cargoStatusPREPARING"mat-raised-button color="warn" (click)="redirectToCancel()">Cancel</button>-->
             </p>
         </div>
     </section>
-
 
     <mat-tab-group dynamicHeight>
         <mat-tab label="General Cargo Information">

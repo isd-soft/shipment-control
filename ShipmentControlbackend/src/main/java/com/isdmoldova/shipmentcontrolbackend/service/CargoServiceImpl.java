@@ -18,6 +18,7 @@ import com.isdmoldova.shipmentcontrolbackend.repository.RouteRepository;
 import com.isdmoldova.shipmentcontrolbackend.repository.UserRepository;
 import lombok.AllArgsConstructor;
 
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.security.Principal;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -85,7 +87,7 @@ public class CargoServiceImpl implements CargoService {
     }
 
 
-
+    @Override
     @Transactional(readOnly = true)
     public CargoDTO findById(Long id) {
         return cargoRepository.findById(id).map(cargoMapper::map)
@@ -93,6 +95,7 @@ public class CargoServiceImpl implements CargoService {
     }
 
     @Override
+    @Transactional
     public CargoDTO update(CargoCommand cargoCommand, Long id,String username) {
         Cargo cargo = cargoRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Cargo entity not found by specified id " + id));
@@ -124,6 +127,7 @@ public class CargoServiceImpl implements CargoService {
 
 //delete cargo by goodsCompany userId
     @Override
+    @Transactional
     public void delete(Long id, String username) {
         Cargo cargo = cargoRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Cargo not found with id " + id));
@@ -135,22 +139,46 @@ public class CargoServiceImpl implements CargoService {
     }
 
     @Override
+    @Transactional
     public String sendWhenCargoApproved(Principal principal, Long id) {
         Cargo cargo = cargoRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Request with " + id + " not found"));
         cargo.setCargoStatus(CargoStatus.PREPARING);
+        cargo.setTrackingNumber(generateTrackingNumber(cargo));
         String goodsCompanyEmail = cargo.getUser().getEmail();
-        String subject = "Cargo - Approval.";
-        String content = "\nHello, your cargo on "
-                + cargo.getBookingDate() + " with the following destination "
-                + cargo.getDestination() + " executed by the "
-                + "\n- Shipment Company: " + cargo.getUser()
-                + " \n\nHas been APPROVED! \n\nClick on the link below to follow on the cargo by tracking number.\n "
-                + "http://localhost:4200/dashboard/route/details?routeId=" + cargo.getTrackingNumber()
+        String subject = "Shipment Control Notification";
+        String content = "\nHello, " + cargo.getUser().getUsername()
+                + "\n your cargo booked for the date " + cargo.getBookingDate()
+                + "\n from the origin " + cargo.getOrigin().getAddress()
+                + "\n to the destination " + cargo.getDestination().getAddress()
+                + "\n has been APPROVED. Click on the tracking number below to follow on your cargo.\n "
+                + cargo.getTrackingNumber()
+                + "\nPlease check the required information to deliver the cargo to " + cargo.getOrigin().getAddress()
                 + "\n\n\n\nBest regards, \nShipment Control Service Tech Team.";
         return emailService.sendEmail(shipmentControlFromEmail, goodsCompanyEmail, subject, content);
     }
 
+    private String generateTrackingNumber(Cargo cargo) {
+        return cargo.getId().toString() + cargo.getUser().getUsername()
+                + cargo.getBookingDate().format(DateTimeFormatter.ofPattern("ddMMMyy"));
+    }
+
+    @Override
+    @Transactional
+    public String sendWhenCargoRejected(Principal principal, Long id) {
+        Cargo cargo = cargoRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Request with " + id + " not found"));
+        String goodsCompanyEmail = cargo.getUser().getEmail();
+        String subject = "Shipment Control Notification";
+        String content = "\nHello, " + cargo.getUser().getUsername()
+                + "\n your cargo booked for the date " + cargo.getBookingDate()
+                + "\n from the origin " + cargo.getOrigin().getAddress()
+                + "\n to the destination " + cargo.getDestination().getAddress()
+                + "\n has been REJECTED, due to technical reason. We're sorry for the inconvenience\n "
+                + "\n\n\n\nBest regards, \nShipment Control Service Tech Team.";
+
+        return emailService.sendEmail(shipmentControlFromEmail, goodsCompanyEmail, subject, content);
+    }
 
 }
 

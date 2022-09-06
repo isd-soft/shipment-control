@@ -88,8 +88,7 @@ public class Cargo extends BaseEntity {
 
 
     public String getTrackingNumber(){
-        String formattedDate = bookingDate.format(DateTimeFormatter.ofPattern("ddMMMyy"));
-        return formattedDate + getUser().getUsername() + getId();
+        return trackingNumber;
     }
     public void setTrackingNumber(String trackingNumber){
         this.trackingNumber = trackingNumber;

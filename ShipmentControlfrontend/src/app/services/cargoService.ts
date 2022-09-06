@@ -21,11 +21,11 @@ export class CargoService {
         return this.http.get<CargoDto>( `${this.url}/${id}` );
     }
 
-    approveCargo(data: any, id: number){
-        return this.http.put<any>("http://localhost:8080/api/cargo/approve/" + id, data);
+    approveCargo(id: number){
+        return this.http.post<any>("http://localhost:8080/api/cargo/" + id + "/approve", null);
     }
 
     rejectCargo(id: number){
-        return this.http.delete("http://localhost:8080/api/cargo/" + id);
+        return this.http.delete("http://localhost:8080/api/cargo/" + id + "/reject");
     }
 }

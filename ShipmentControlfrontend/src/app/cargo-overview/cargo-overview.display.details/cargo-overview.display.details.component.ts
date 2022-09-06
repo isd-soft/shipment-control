@@ -9,14 +9,11 @@ import {RouteService} from "../../services/route.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {FormControl, FormGroup} from "@angular/forms";
 import {CargoService} from "../../services/cargoService";
-import {LegCommand} from "../../services/LegCommand";
 import {
   RouteConfirmDialogComponent,
   RouteConfirmDialogModel
 } from "../../route/route.confirm.dialog/route.confirm.dialog.component";
 import {MatDialog} from "@angular/material/dialog";
-import {BookingRequestDto} from "../../model/bookingRequest.dto";
-import {CargoCommand} from "../../services/CargoCommand";
 
 
 export interface CargoDetails {
@@ -32,6 +29,7 @@ export interface CargoDetails {
 })
 export class CargoOverviewDisplayDetailsComponent implements OnInit {
 
+  cargoForm !: FormGroup;
   cargoDetails: CargoDetails[];
   cargoDetailsDisplayedColumns: string[] = ['name', 'content'];
   legDisplayedColumns: string [] = ['name', 'address', 'country', 'countryCode'];
@@ -52,6 +50,7 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
       private cargoService: CargoService,
       private snackbar: MatSnackBar,
       private router: ActivatedRoute,
+      private route: Router,
       private dialog: MatDialog,
       // private cd: ChangeDetectorRef,
   )  {
@@ -59,6 +58,7 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
 
   }
   cargoId = this.router.snapshot.params["id"];
+  trackingNumber: string;
 
 
   ngOnInit(): void {
@@ -77,6 +77,17 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
     return cargoTypes;
   }
 
+  getTrackingNumber(){
+    if(this.dataSource.trackingNumber === "" || this.dataSource.trackingNumber === null){
+      console.log("No tracking number provided")
+      this.trackingNumber = "No tracking number provided";
+    } else {
+      console.log("there is a tracking number");
+      this.trackingNumber = this.dataSource.trackingNumber;
+    }
+    return this.trackingNumber;
+  }
+
   getCargoById() {
     this.cargoService.getCargoById(this.router.snapshot.params["id"])
         .subscribe({
@@ -87,12 +98,13 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
             // console.log(this.getCargoTypeNames(this.dataSource.cargoTypes));
             this.cargoDetails = [
               {name: "Cargo Status", content: this.dataSource.cargoStatus.toString()},
-              {name: "Tracking Number", content: this.dataSource.trackingNumber},
+              {name: "Tracking Number", content: this.getTrackingNumber()},
               {name: "Booking Date", content: this.dataSource.bookingDate.toString()},
               {name: "Total Volume", content: this.dataSource.totalVolume.toString()},
               {name: "Total Weight", content: this.dataSource.totalWeight.toString()},
               {name: "Cargo Types", content: this.getCargoTypeNames(this.dataSource.cargoTypes)},
               {name: "Origin", content: this.dataSource.origin},
+              {name: "Current Leg", content: this.dataSource.origin},
               {name: "Destination", content: this.dataSource.destination},
               {name: "Estimate time for delivering", content: res.itineraryDTO.executionTime.toString()}
             ];
@@ -123,8 +135,7 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
 
 
   redirectToApprove(){
-    console.log("status Analyizing you click Approve");
-
+    console.log("status Analyzing you clicked Approve");
 
     const message = `Are you sure you want to Approve?`;
 
@@ -135,29 +146,33 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
       data: dialogData
     });
 
-    // const cargoCommand: CargoCommand;
-    //
-    // dialogRef.afterClosed().subscribe(dialogResult => {
-    //   if (dialogResult) {
-    //     this.cargoService.approveCargo(this.cargoId, this.dataSource)
-    //         .subscribe({
-    //           next: () => {
-    //             this.snackbar.open("Executed Successfully", 'Ok', {duration: 2000})
-    //             this.getAllCargo();
-    //           },
-    //           error: () => {
-    //             this.snackbar.open("Error while executing", 'Error', {duration: 2000});
-    //           }
-    //         })
-    //
-    //   }
-    // });
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (dialogResult) {
+        console.log("analyzing -> preparing1");
+
+        this.cargoService.approveCargo(this.cargoId)
+            .subscribe({
+              next: () => {
+                this.snackbar.open("Executed Successfully, the cargo status changed to PREPARING", 'Ok', {duration: 2000})
+                this.getAllCargo();
+                location.reload();
+              },
+              error: () => {
+                this.snackbar.open("Error while executing", 'Error', {duration: 2000});
+              }
+            })
+
+      }
+    });
 
   }
-
+  redirectToCargoOverview() {
+    // @ts-ignore
+    this.router.navigateByUrl('/dashboard/cargo');
+  }
 
   redirectToReject(){
-    console.log("status Analyizing you click Reject");
+    console.log("status Analyzing you clicked Reject");
     const message = `Are you sure you want to Reject?`;
 
     const dialogData = new RouteConfirmDialogModel("Confirm Action", message);
@@ -172,8 +187,9 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
         this.cargoService.rejectCargo(this.cargoId)
             .subscribe({
               next: () => {
-                this.snackbar.open("Executed Successfully", 'Ok', {duration: 2000})
-                this.getAllCargo();
+                this.snackbar.open("Executed Successfully, the cargo was rejected", 'Ok', {duration: 2000})
+                // this.getAllCargo();
+                this.redirectToCargoOverview();
               },
               error: () => {
                 this.snackbar.open("Error while executing", 'Error', {duration: 2000});

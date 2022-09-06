@@ -60,14 +60,18 @@ public class CargoController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PatchMapping ("approve/{id}")
-    public ResponseEntity<?> updateCargoOnApprove(@RequestBody CargoCommand cargoCommand,
-                                         @PathVariable Long id,
-                                         Principal principal) {
-        cargoService.update(cargoCommand, id,principal.getName());
+    @PostMapping("/{id}/approve")
+    public ResponseEntity<Void> approve(@PathVariable Long id, Principal principal){
         cargoService.sendWhenCargoApproved(principal, id);
-
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @DeleteMapping ("/{id}/reject")
+    public ResponseEntity<Void> reject(@PathVariable Long id, Principal principal){
+        cargoService.sendWhenCargoRejected(principal, id);
+        cargoService.delete(id, principal.getName());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
 }

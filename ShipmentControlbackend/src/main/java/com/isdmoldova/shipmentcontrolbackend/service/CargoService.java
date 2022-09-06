@@ -21,4 +21,6 @@ public interface CargoService {
     void delete(Long id, String username);
 
     String sendWhenCargoApproved(Principal principal, Long id);
+
+    String sendWhenCargoRejected(Principal principal, Long id);
 }
