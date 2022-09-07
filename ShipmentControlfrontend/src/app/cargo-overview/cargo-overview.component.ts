@@ -13,9 +13,7 @@ import {
   ConfirmDialogCargoModel
 } from "../cargo-overview/dialog/confirm-dialogCargo.component";
 import {Router} from "@angular/router";
-import {CargoDto} from "../model/cargo.dto";
 import {CargoService} from "../services/cargoService";
-import {MatInput} from "@angular/material/input";
 import decode from "jwt-decode";
 
 
@@ -43,12 +41,10 @@ export class CargoOverviewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.getCargoInfo();
     this.getAllCargoOverview();
   }
 
   reload() {
-    // this.getCargoInfo();
     this.getAllCargoOverview();
   }
 
@@ -61,28 +57,6 @@ export class CargoOverviewComponent implements OnInit {
     this.router.navigateByUrl('/dashboard/cargo/details/' + row.id);
     console.log('selected cargo: ', row);
   }
-
-  // trackingNumber: string;
-  // getTrackingNumber(){
-  //   if(this.dataSource['trackingNumber'] === "" || this.dataSource['trackingNumber'] === null){
-  //     console.log("No tracking number provided");
-  //     this.trackingNumber = "No tracking number provided";
-  //   } else {
-  //     console.log("there is a tracking number");
-  //     this.trackingNumber = this.dataSource['trackingNumber'];
-  //   }
-  // return this.trackingNumber;
-  // }
-
-  /*  openDialog() {
-      this.dialog.open(DialogCargoOverviewComponent, {
-        width:'30%'
-      }).afterClosed().subscribe(value => {
-        if(value === 'save'){
-          this.getAllCargoOverview();
-        }
-      })
-    }*/
 
   getAllCargoOverview() {
     this.api.getCargoOverview()
@@ -98,34 +72,7 @@ export class CargoOverviewComponent implements OnInit {
           this.snackbar.open("Error while fetching the record!!", 'Error', {duration: 2000});
         }
       })
-    // this.cargoService.findAllCargoes()
-    //     .subscribe({
-    //       next:(res2)=>{
-    //         this.dataSource2 = new MatTableDataSource<CargoDto>(res2);
-    //         // console.log("res2 =")
-    //         // console.log(res2);
-    //       },
-    //       error:()=>{
-    //         console.log("cant fetch cargoDto");
-    //         this.snackbar.open("error while fetching cargoDTO", "Error", {duration:2000});
-    //       }
-    //     })
   }
-
-  // getCargoInfo(){
-  //   this.cargoService.findAllCargoes()
-  //       .subscribe({
-  //         next:(res2)=>{
-  //           this.dataSource2 = new MatTableDataSource<CargoDto>(res2);
-  //           // console.log("res2 =")
-  //           // console.log(res2);
-  //         },
-  //         error:()=>{
-  //           console.log("cant fetch cargoDto");
-  //           this.snackbar.open("error while fetching cargoDTO", "Error", {duration:2000});
-  //         }
-  //       })
-  // }
 
   editCargoOverview(row: any) {
     this.dialog.open(DialogCargoOverviewComponent, {
@@ -138,11 +85,9 @@ export class CargoOverviewComponent implements OnInit {
     })
   }
 
-
   deleteCargoOverview(id: number) {
     this.confirmDialog(id);
   }
-
 
   result: boolean;
 
@@ -170,4 +115,7 @@ export class CargoOverviewComponent implements OnInit {
     });
   }
 
+  isUserShipment() {
+    return this.userRole === '[ROLE_SHIPMENT_COMPANY]';
+  }
 }
