@@ -59,7 +59,7 @@ public class RouteServiceImpl implements RouteService {
 
         List<LegCommand> legCommandList = routeCommand.getItineraryCommand().getLegList();
         List<Leg> legs = legCommandList.stream()
-                .map(leg -> new Leg(leg.getCountry(), leg.getCountryCode(), leg.getAddress(), leg.getName()))
+                .map(leg -> new Leg(leg.getCountry(), leg.getCountryCode(), leg.getAddress(), leg.getName(), leg.getPrice()))
                 .collect(Collectors.toList());
 
         Long estimatedAmountTimeShipment = routeCommand.getItineraryCommand().getEstimatedAmountTimeShipment();
@@ -117,7 +117,7 @@ public class RouteServiceImpl implements RouteService {
         itinerary.clearLegs();
 
         List<Leg> legs = command.getItineraryCommand().getLegList().stream()
-                .map(leg -> new Leg(leg.getCountry(), leg.getCountryCode(), leg.getAddress(), leg.getName()))
+                .map(leg -> new Leg(leg.getCountry(), leg.getCountryCode(), leg.getAddress(), leg.getName(), leg.getPrice()))
                 .collect(Collectors.toList());
         legs.forEach(itinerary::addLeg);
         itinerary.setDaysOfExecution(command.getItineraryCommand().getEstimatedAmountTimeShipment());

@@ -58,7 +58,7 @@ public class CargoServiceImpl implements CargoService {
 
         List<LegCommand> legCommandList = cargoCommand.getItineraryCommand().getLegList();
         List<Leg> legs = legCommandList.stream()
-                .map(leg -> new Leg(leg.getCountry(), leg.getCountryCode(), leg.getAddress(), leg.getName()))
+                .map(leg -> new Leg(leg.getCountry(), leg.getCountryCode(), leg.getAddress(), leg.getName(), leg.getPrice()))
                 .collect(Collectors.toList());
         Long estimatedAmountTimeShipment = cargoCommand.getItineraryCommand().getEstimatedAmountTimeShipment();
         Itinerary itinerary = new Itinerary(estimatedAmountTimeShipment);

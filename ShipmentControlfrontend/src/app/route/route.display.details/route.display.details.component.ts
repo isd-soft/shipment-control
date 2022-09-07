@@ -28,7 +28,7 @@ export class RouteDisplayDetailsComponent implements OnInit {
 
   transportDisplayedColumns: string[] = ['transportName', 'transportType', 'cargoTypes'];
   routeDetailsDisplayedColumns: string[] = ['name', 'content'];
-  legDisplayedColumns: string [] = ['name', 'address', 'country', 'countryCode'];
+  legDisplayedColumns: string [] = ['name', 'address', 'country', 'countryCode', 'price'];
   dataSource: RouteDto;
   transportDataSource: MatTableDataSource<TransportDto>;
   legDataSource: MatTableDataSource<LegDto>;
