@@ -122,9 +122,6 @@ public class CargoServiceImpl implements CargoService {
 //        cargoRepository.delete(cargo);
 //    }
 
-
-
-
 //delete cargo by goodsCompany userId
     @Override
     @Transactional
@@ -132,10 +129,10 @@ public class CargoServiceImpl implements CargoService {
         Cargo cargo = cargoRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Cargo not found with id " + id));
         cargo.getCargoTypes().forEach(cargoType -> cargoType.removeCargo(cargo));
-        if (!cargo.getItinerary().getRoute().getUser().getUsername().equals(username)) {
+        if (!cargo.getUser().getUsername().equals(username)) {
             throw new EntityNotFoundException("User " + username + " is not allowed to delete route with id " + id);
         }
-        cargoRepository.delete(cargo);
+       cargoRepository.delete(cargo);
     }
 
     @Override
