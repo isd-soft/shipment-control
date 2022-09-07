@@ -17,5 +17,6 @@ public class CargoOverviewDTO {
     private LocalDate bookingDate;
     private CargoStatus cargoStatus;
     private String goodsCompanyName;
+    private String shipmentCompanyName;
 
 }

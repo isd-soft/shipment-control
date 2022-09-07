@@ -86,7 +86,7 @@
     </mat-tab>
   </mat-tab-group>
 </div>
-<div>
+<div *ngIf="show()">
   <form class="mat-form-date-picker" [formGroup]="dateForm" (ngSubmit)="onSubmit()">
     <mat-form-field (click)="picker.open()">
       <input matInput formControlName="pickedDate" [matDatepickerFilter]="dateFilter" [matDatepicker]="picker">
