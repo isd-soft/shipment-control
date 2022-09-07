@@ -11,6 +11,7 @@ import {
 
 import {Menu} from './menu.model';
 import {Router} from "@angular/router";
+import decode from "jwt-decode";
 
 
 @Component({
@@ -25,8 +26,12 @@ export class DashboardComponent implements OnInit {
 
   myMenu: Menu;
   user: string | null;
+  // @ts-ignore
+  userRole = decode(localStorage.getItem('token')).sub;
 
   constructor(private router: Router) {
+    if (this.userRole === '[ROLE_SHIPMENT_COMPANY]') {
+
       this.myMenu = [
         {
           title: 'Routes',
@@ -61,6 +66,23 @@ export class DashboardComponent implements OnInit {
         },
 
       ];
+    } else if (this.userRole === '[ROLE_GOODS_COMPANY]') {
+      this.myMenu = [
+        {
+          title: 'Routes',
+          icon: 'directions',
+          link: './route',
+          color: '#ff7f0e',
+        },
+        {
+          title: 'Cargo',
+          icon: 'add_shopping_cart',
+          link: './cargo',
+          color: '#ff7f0e',
+        },
+      ];
+    }
+
 
     this.user = localStorage.getItem('username');
   }

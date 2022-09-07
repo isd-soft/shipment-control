@@ -8,11 +8,15 @@ import {MatDialog} from "@angular/material/dialog";
 import {CargoOverviewService} from "../services/cargoOverview.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {DialogCargoOverviewComponent} from "./dialog/dialogCargoOverview.component";
-import {ConfirmDialogCargoComponent , ConfirmDialogCargoModel} from "../cargo-overview/dialog/confirm-dialogCargo.component";
+import {
+  ConfirmDialogCargoComponent,
+  ConfirmDialogCargoModel
+} from "../cargo-overview/dialog/confirm-dialogCargo.component";
 import {Router} from "@angular/router";
 import {CargoDto} from "../model/cargo.dto";
 import {CargoService} from "../services/cargoService";
 import {MatInput} from "@angular/material/input";
+import decode from "jwt-decode";
 
 
 @Component({
@@ -22,17 +26,18 @@ import {MatInput} from "@angular/material/input";
 })
 export class CargoOverviewComponent implements OnInit {
 
-  displayedColumns: string[] = ['goodsCompanyName', 'bookingDate', 'trackingNumber','origin', 'destination', 'cargoStatus','action'];
+  displayedColumns: string[] = ['goodsCompanyName', 'bookingDate', 'trackingNumber', 'origin', 'destination', 'cargoStatus', 'action'];
   dataSource: MatTableDataSource<CargoOverviewDTO>;
   selection = new SelectionModel<CargoOverviewDTO>(true, []);
-
+  // @ts-ignore
+  userRole = decode(localStorage.getItem('token')).sub;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog :MatDialog ,
-              private api : CargoOverviewService,
+  constructor(private dialog: MatDialog,
+              private api: CargoOverviewService,
               private cargoService: CargoService,
-              private snackbar:MatSnackBar,
+              private snackbar: MatSnackBar,
               private router: Router) {
 
   }
@@ -66,31 +71,31 @@ export class CargoOverviewComponent implements OnInit {
   //     console.log("there is a tracking number");
   //     this.trackingNumber = this.dataSource['trackingNumber'];
   //   }
-    // return this.trackingNumber;
+  // return this.trackingNumber;
   // }
 
-/*  openDialog() {
-    this.dialog.open(DialogCargoOverviewComponent, {
-      width:'30%'
-    }).afterClosed().subscribe(value => {
-      if(value === 'save'){
-        this.getAllCargoOverview();
-      }
-    })
-  }*/
+  /*  openDialog() {
+      this.dialog.open(DialogCargoOverviewComponent, {
+        width:'30%'
+      }).afterClosed().subscribe(value => {
+        if(value === 'save'){
+          this.getAllCargoOverview();
+        }
+      })
+    }*/
 
-  getAllCargoOverview(){
+  getAllCargoOverview() {
     this.api.getCargoOverview()
       .subscribe({
-        next:(res)=>{
-          this.dataSource =new MatTableDataSource<CargoOverviewDTO>(res);
+        next: (res) => {
+          this.dataSource = new MatTableDataSource<CargoOverviewDTO>(res);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
           // console.log("res =")
           // console.log(res);
         },
-        error : ()=>{
-          this.snackbar.open("Error while fetching the record!!",'Error',{duration:2000});
+        error: () => {
+          this.snackbar.open("Error while fetching the record!!", 'Error', {duration: 2000});
         }
       })
     // this.cargoService.findAllCargoes()
@@ -122,12 +127,12 @@ export class CargoOverviewComponent implements OnInit {
   //       })
   // }
 
-  editCargoOverview(row :any){
-    this.dialog.open(DialogCargoOverviewComponent,{
-      width:'30%',
-      data:row
+  editCargoOverview(row: any) {
+    this.dialog.open(DialogCargoOverviewComponent, {
+      width: '30%',
+      data: row
     }).afterClosed().subscribe(value => {
-      if(value === 'update'){
+      if (value === 'update') {
         this.getAllCargoOverview();
       }
     })
@@ -139,8 +144,8 @@ export class CargoOverviewComponent implements OnInit {
   }
 
 
-
   result: boolean;
+
   confirmDialog(id: number): void {
     const message = `Are you sure you want to delete this?`;
     const dialogDataCargo = new ConfirmDialogCargoModel("Confirm Action", message);
