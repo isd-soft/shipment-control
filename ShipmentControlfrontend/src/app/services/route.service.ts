@@ -10,10 +10,11 @@ import {RouteCommand} from "./RouteCommand";
 export class RouteService {
 
   url = "http://localhost:8080/api/route";
+
   constructor(private http: HttpClient) {
   }
 
-  createRoute(routeCommand: RouteCommand){
+  createRoute(routeCommand: RouteCommand) {
     return this.http.post<RouteCommand>("http://localhost:8080/api/route", routeCommand)
   }
 
@@ -26,7 +27,7 @@ export class RouteService {
   // }
 
   getRouteById(id: number) {
-    return this.http.get<RouteDto>( `${this.url}/${id}` );
+    return this.http.get<RouteDto>(`${this.url}/${id}`);
   }
 
   // getTransportByRouteId(id: number){
@@ -43,5 +44,6 @@ export class RouteService {
 
   getAvailableDaysRent() {
     return this.http.get<AvailableDaysRentDto[]>("http://localhost:8080/api/route/available-days");
+    //maybe delete.
   }
 }

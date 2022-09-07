@@ -14,6 +14,7 @@ import {
 } from "./route.confirm.dialog/route.confirm.dialog.component";
 
 import {ItineraryDto} from "../model/itinerary.dto";
+import decode from "jwt-decode";
 
 // import {RouteDialogComponent} from "./route.dialog/route.dialog.component";
 
@@ -29,6 +30,8 @@ export class RouteComponent implements OnInit {
   selection = new SelectionModel<RouteDto>(true, []);
   @ViewChild('paginator') paginator: MatPaginator;
   @ViewChild('empTbSort') sort = new MatSort();
+  // @ts-ignore
+  userRole = decode(localStorage.getItem('token')).sub;
 
   constructor(private dialog: MatDialog,
               private routeService: RouteService,
@@ -39,6 +42,7 @@ export class RouteComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllRoutes();
+
 
   }
 
@@ -53,6 +57,10 @@ export class RouteComponent implements OnInit {
 
   reload() {
     this.getAllRoutes();
+  }
+
+  show(): boolean {
+    return this.userRole === '[ROLE_SHIPMENT_COMPANY]';
   }
 
   getOrigin(element: ItineraryDto): string {
@@ -88,6 +96,7 @@ export class RouteComponent implements OnInit {
     console.log(row.routeId);
 
   }
+
 
   confirmDialog(id: number): void {
     const message = `Are you sure you want to delete this?`;
@@ -130,10 +139,6 @@ export class RouteComponent implements OnInit {
       {queryParams: {'routeId': row.routeId}});
     console.log('Row clicked: ', row);
   }
-
-    redirectToBookedRoutes() {
-      this.router.navigateByUrl('/dashboard/cargo');
-    }
 }
 
 
