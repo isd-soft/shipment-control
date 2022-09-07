@@ -7,6 +7,7 @@ import {
 
 } from '@angular/router';
 import {AuthService} from "../services/auth.service";
+import decode from "jwt-decode";
 
 @Injectable({
   providedIn: 'root'
@@ -18,12 +19,18 @@ export class AuthGuard implements CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (!Boolean( localStorage.getItem('isAuth'))) {
-      this.router.navigate((['login']));
+    const token = localStorage.getItem('token');
+    const expectedRole = route.data['expectedRole'] as Array<string>;
+    // @ts-ignore;
+    const tokenPayload = decode(token).sub;
+
+    if (
+      !this.authService.isAuthenticated() ||
+      !expectedRole.includes(tokenPayload)
+    ) {
+      this.router.navigate(['login']);
       return false;
     }
     return true;
   }
-
-
 }
