@@ -3,4 +3,5 @@ export interface LegCommand {
   countryCode: string,
   address: string,
   name: string,
+  price:number,
 }
