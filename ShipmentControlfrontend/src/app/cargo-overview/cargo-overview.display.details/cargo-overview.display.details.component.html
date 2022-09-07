@@ -56,6 +56,11 @@
             <td mat-cell *matCellDef="let element">{{element.countryCode}}</td>
           </ng-container>
 
+          <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Price for Leg</th>
+            <td mat-cell *matCellDef="let element">{{element.price}}</td>
+          </ng-container>
+
           <tr mat-header-row *matHeaderRowDef="legDisplayedColumns; sticky:true"></tr>
           <tr mat-row *matRowDef="let row; columns: legDisplayedColumns;"></tr>
         </table>

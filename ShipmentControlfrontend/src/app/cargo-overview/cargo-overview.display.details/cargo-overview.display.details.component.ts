@@ -33,7 +33,7 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
 
   cargoDetails: CargoDetails[];
   cargoDetailsDisplayedColumns: string[] = ['name', 'content'];
-  legDisplayedColumns: string [] = ['name', 'address', 'country', 'countryCode'];
+  legDisplayedColumns: string [] = ['name', 'address', 'country', 'countryCode', 'price'];
   eventLogDisplayColumns: string [] = ['createdAt', 'eventType', 'cargoStatus', 'leg'];
   legDataSource: MatTableDataSource<LegDto>;
   dataSource: CargoDto;

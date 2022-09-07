@@ -34,10 +34,11 @@ public class Leg extends BaseEntity {
     @ManyToOne (fetch = FetchType.LAZY)
     private Itinerary itinerary;
 
-    public Leg(String country, String countryCode, String address, String name) {
+    public Leg(String country, String countryCode, String address, String name, Double price) {
         this.country = country;
         this.countryCode = countryCode;
         this.address = address;
         this.name = name;
+        this.price=price;
     }
 }
