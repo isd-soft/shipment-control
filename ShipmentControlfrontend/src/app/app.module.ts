@@ -63,6 +63,7 @@ import { CargoOverviewDisplayDetailsComponent } from './cargo-overview/cargo-ove
 import {BookingRouteComponent} from "./booking-route/booking-route.component";
 import {BookingRequestComponent} from "./booking.request/booking.request.component";
 import { SharedModule } from './shared/shared.module';
+import {JWT_OPTIONS, JwtHelperService} from "@auth0/angular-jwt";
 
 @NgModule({
   declarations: [
@@ -137,6 +138,8 @@ import { SharedModule } from './shared/shared.module';
       useClass: TokenInterceptor,
       multi: true,
     },
+    { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
+    JwtHelperService,
     DatePipe
   ],
 

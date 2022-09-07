@@ -35,7 +35,7 @@ public class JWTTokenProvider {
         claimsMap.put("username", userCustomDetail.getUsername());
 
         return Jwts.builder()
-                .setSubject(userCustomDetail.getUsername())
+                .setSubject(userCustomDetail.getAuthorities().toString())
                 .addClaims(claimsMap)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)

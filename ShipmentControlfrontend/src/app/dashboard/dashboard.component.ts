@@ -27,7 +27,6 @@ export class DashboardComponent implements OnInit {
   user: string | null;
 
   constructor(private router: Router) {
-    if(localStorage.getItem('role') === "SHIPMENT_COMPANY") {
       this.myMenu = [
         {
           title: 'Routes',
@@ -62,22 +61,7 @@ export class DashboardComponent implements OnInit {
         },
 
       ];
-    } else if (localStorage.getItem('role') === "GOODS_COMPANY"){
-      this.myMenu = [
-        {
-          title: 'Routes',
-          icon: 'directions',
-          link: './route',
-          color: '#ff7f0e',
-        },
-        {
-          title: 'Cargo',
-          icon: 'add_shopping_cart',
-          link: './cargo',
-          color: '#ff7f0e',
-        }
-        ]
-    }
+
     this.user = localStorage.getItem('username');
   }
 

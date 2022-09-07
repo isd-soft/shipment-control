@@ -5,6 +5,7 @@ import {LoginCommand} from "../services/LoginCommand";
 import {AuthService} from "../services/auth.service";
 import {Router} from "@angular/router";
 import {error} from "@angular/compiler-cli/src/transformers/util";
+import {JwtHelperService} from "@auth0/angular-jwt";
 
 @Component({
   selector: 'app-login-page',
@@ -19,11 +20,11 @@ export class LoginPageComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private authService: AuthService,
               private router: Router,
+              private jwtHelper:JwtHelperService,
               private _snackBar: MatSnackBar) {
     this.loginForm = fb.group({
       username: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required]),
-      role: new FormControl('', [Validators.required])
     });
   }
 
@@ -34,7 +35,7 @@ export class LoginPageComponent implements OnInit {
     const loginCommand = new LoginCommand(
         this.loginForm.controls['username'].value,
         this.loginForm.controls['password'].value,
-        this.loginForm.controls['role'].value
+
     );
     console.log(this.loginForm.value);
 
@@ -42,8 +43,6 @@ export class LoginPageComponent implements OnInit {
       (result) => {
         localStorage.setItem('token', result.token);
         localStorage.setItem('username', result.username);
-        localStorage.setItem('role', "GOODS_COMPANY");
-        localStorage.setItem('isAuth',String(true));
         this._snackBar.open("Successfully logged in",'OK',{duration:1000});
         this.router.navigateByUrl('/dashboard');
       },
@@ -85,4 +84,5 @@ export class LoginPageComponent implements OnInit {
       }
     )
   }
+
 }
