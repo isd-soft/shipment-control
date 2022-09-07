@@ -15,6 +15,8 @@ import {
 } from "./cargo-overview/cargo-overview.display.details/cargo-overview.display.details.component";
 import {BookingRouteComponent} from "./booking-route/booking-route.component";
 import {BookingRequestComponent} from "./booking.request/booking.request.component";
+import {RoleGuardGuard} from "./guards/RoleGuardGuard";
+import {AuthGuard} from "./guards/auth.guard";
 
 
 const routes: Routes = [
@@ -24,15 +26,27 @@ const routes: Routes = [
 
     path: 'dashboard', component: DashboardComponent,
     children: [
-      {path: 'transports', component: TransportsComponent},
-      {path: 'booking-requests', component: BookingRequestComponent},
+      {path: 'transports', component: TransportsComponent,
+        canActivate: [AuthGuard, RoleGuardGuard],
+        data:{
+          expectedRoles: ['SHIPMENT_COMPANY']
+      }},
+      {path: 'booking-requests', component: BookingRequestComponent,
+        canActivate: [AuthGuard, RoleGuardGuard],
+        data:{
+          expectedRoles: ['SHIPMENT_COMPANY']
+        }},
       {path: 'route/details', component: RouteDisplayDetailsComponent},
       {path: 'cargo/details', component: CargoOverviewDisplayDetailsComponent},
       {path: 'cargo/details/:id', component: CargoOverviewDisplayDetailsComponent},
       {path: 'route/add', component: RouteAddComponent},
       {path: 'route/edit/:id', component: RouteEditComponent},
       {path: 'add', component: RouteAddComponent},
-      {path: 'cargoType', component: CargoTypeComponent},
+      {path: 'cargoType', component: CargoTypeComponent,
+        canActivate: [AuthGuard, RoleGuardGuard],
+        data:{
+          expectedRoles: ['SHIPMENT_COMPANY']
+        }},
       {path: 'route', component: RouteComponent},
       {path: 'cargo', component: CargoOverviewComponent},
       {path: 'book', component: BookingRouteComponent}

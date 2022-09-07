@@ -22,7 +22,8 @@ export class LoginPageComponent implements OnInit {
               private _snackBar: MatSnackBar) {
     this.loginForm = fb.group({
       username: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required])
+      password: new FormControl('', [Validators.required]),
+      role: new FormControl('', [Validators.required])
     });
   }
 
@@ -30,14 +31,19 @@ export class LoginPageComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const loginCommand = new LoginCommand(this.loginForm.controls['username'].value,
-      this.loginForm.controls['password'].value);
+    const loginCommand = new LoginCommand(
+        this.loginForm.controls['username'].value,
+        this.loginForm.controls['password'].value,
+        this.loginForm.controls['role'].value
+    );
     console.log(this.loginForm.value);
 
     this.authService.login(loginCommand).subscribe(
       (result) => {
         localStorage.setItem('token', result.token);
         localStorage.setItem('username', result.username);
+        localStorage.setItem('role', "GOODS_COMPANY");
+        localStorage.setItem('isAuth',String(true));
         this._snackBar.open("Successfully logged in",'OK',{duration:1000});
         this.router.navigateByUrl('/dashboard');
       },

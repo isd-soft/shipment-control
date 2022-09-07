@@ -62,6 +62,7 @@ import {DatePipe} from '@angular/common';
 import { CargoOverviewDisplayDetailsComponent } from './cargo-overview/cargo-overview.display.details/cargo-overview.display.details.component';
 import {BookingRouteComponent} from "./booking-route/booking-route.component";
 import {BookingRequestComponent} from "./booking.request/booking.request.component";
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -121,7 +122,8 @@ import {BookingRequestComponent} from "./booking.request/booking.request.compone
     MatTabsModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    DatePipe
+    DatePipe,
+    SharedModule
 
   ],
   entryComponents: [ConfirmDialogComponent],
