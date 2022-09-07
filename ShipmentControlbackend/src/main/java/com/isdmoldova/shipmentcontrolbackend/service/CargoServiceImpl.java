@@ -42,7 +42,6 @@ public class CargoServiceImpl implements CargoService {
     private final CargoRepository cargoRepository;
     private final UserRepository userRepository;
     private final EmailService emailService;
-    private final RouteRepository routeRepository;
     @Value("com.isdmoldova.shipment.control.from.email")
     private String shipmentControlFromEmail;
 
@@ -65,16 +64,12 @@ public class CargoServiceImpl implements CargoService {
         Itinerary itinerary = new Itinerary(estimatedAmountTimeShipment);
         legs.forEach(itinerary::addLeg);
 
-        final Route route = routeRepository.findById(cargoCommand.getRouteId())
-                .orElseThrow();
-
         final Cargo cargo = new Cargo();
         cargo.setUser(user);
         cargoTypes.forEach(cargo::addCargoType);
         cargo.setTotalVolume(cargoCommand.getTotalVolume());
         cargo.setTotalWeight(cargoCommand.getTotalWeight());
         cargo.setBookingDate(cargoCommand.getBookingDate());
-        cargo.setProvider(route.getUser());
 
         cargoRepository.save(cargo);
         cargo.setItinerary(itinerary);
@@ -116,16 +111,28 @@ public class CargoServiceImpl implements CargoService {
 
     }
 
+//    @Override
+//    public void delete(Long id, String username) {
+//        Cargo cargo = cargoRepository.findById(id).orElseThrow(
+//                () -> new EntityNotFoundException("Cargo not found with id " + id));
+//        cargo.getCargoTypes().forEach(cargoType -> cargoType.removeCargo(cargo));
+//        if (!cargo.getUser().getUsername().equals(username)) {
+//            throw new EntityNotFoundException("User " + username + " is not allowed to delete route with id " + id);
+//        }
+//        cargoRepository.delete(cargo);
+//    }
+
+//delete cargo by goodsCompany userId
     @Override
     @Transactional
     public void delete(Long id, String username) {
         Cargo cargo = cargoRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Cargo not found with id " + id));
         cargo.getCargoTypes().forEach(cargoType -> cargoType.removeCargo(cargo));
-        if (!cargo.getItinerary().getRoute().getUser().getUsername().equals(username)) {
+        if (!cargo.getUser().getUsername().equals(username)) {
             throw new EntityNotFoundException("User " + username + " is not allowed to delete route with id " + id);
         }
-        cargoRepository.delete(cargo);
+       cargoRepository.delete(cargo);
     }
 
     @Override
