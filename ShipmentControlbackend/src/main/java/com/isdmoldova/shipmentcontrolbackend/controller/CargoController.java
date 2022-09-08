@@ -34,7 +34,6 @@ public class CargoController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasRole('GOODS_COMPANY')")
     @GetMapping()
     public ResponseEntity<List<CargoDTO>> getAllCargoes(Principal principal) {
         List<CargoDTO> cargoDTOS = cargoService.findAllCargoes(principal.getName());
