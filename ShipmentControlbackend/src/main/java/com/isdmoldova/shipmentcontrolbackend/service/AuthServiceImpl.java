@@ -5,24 +5,29 @@ import com.isdmoldova.shipmentcontrolbackend.payload.request.LoginCommand;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.SignupCommand;
 import com.isdmoldova.shipmentcontrolbackend.payload.response.JWTTokenSuccessResponse;
 import com.isdmoldova.shipmentcontrolbackend.repository.UserRepository;
-import com.isdmoldova.shipmentcontrolbackend.security.jwt.JWTAuthenticationFilter;
+import com.isdmoldova.shipmentcontrolbackend.security.UserCustomDetail;
+
 import com.isdmoldova.shipmentcontrolbackend.security.jwt.JWTTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class AuthServiceImpl implements AuthService{
+public class AuthServiceImpl implements AuthService {
 
     private final JWTTokenProvider jwtTokenProvider;
     private final AuthenticationManager authenticationManager;
@@ -31,6 +36,7 @@ public class AuthServiceImpl implements AuthService{
 
 
     @Override
+    @Transactional
     public void createUser(SignupCommand userIn) {
         Optional<User> userByUsername = userRepository.findUserByUsername(userIn.getUserName());
         if (userByUsername.isPresent()) {
@@ -48,17 +54,27 @@ public class AuthServiceImpl implements AuthService{
     }
 
     @Override
-    public JWTTokenSuccessResponse authenticateUser(LoginCommand loginRequest)  {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                loginRequest.getUsername(),
-                loginRequest.getPassword()
-        ));
+    @Transactional
+    public JWTTokenSuccessResponse authenticateUser(LoginCommand loginRequest) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt =  jwtTokenProvider.generateToken(authentication);
+        String jwt = jwtTokenProvider.generateToken(authentication);
 
-        return new JWTTokenSuccessResponse(true, jwt, authentication.getName());
+        UserCustomDetail userDetails = (UserCustomDetail) authentication.getPrincipal();
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList());
+        return new JWTTokenSuccessResponse(
+                userDetails.getId(),
+                userDetails.getEmail(),
+                userDetails.getUsername(),
+                roles,
+                jwt
+               );
     }
-
-
 }
+
+
 

@@ -62,6 +62,7 @@ import {DatePipe} from '@angular/common';
 import { CargoOverviewDisplayDetailsComponent } from './cargo-overview/cargo-overview.display.details/cargo-overview.display.details.component';
 import {BookingRouteComponent} from "./booking-route/booking-route.component";
 import {BookingRequestComponent} from "./booking.request/booking.request.component";
+import {JWT_OPTIONS, JwtHelperService} from "@auth0/angular-jwt";
 
 @NgModule({
   declarations: [
@@ -135,6 +136,8 @@ import {BookingRequestComponent} from "./booking.request/booking.request.compone
       useClass: TokenInterceptor,
       multi: true,
     },
+    { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
+    JwtHelperService,
     DatePipe
   ],
 
@@ -142,4 +145,3 @@ import {BookingRequestComponent} from "./booking.request/booking.request.compone
 })
 export class AppModule {
 }
-

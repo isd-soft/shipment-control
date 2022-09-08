@@ -7,16 +7,15 @@ import {MatPaginator} from "@angular/material/paginator";
 import {MatSort, MatSortable} from "@angular/material/sort";
 import {RouteService} from "../../services/route.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {FormControl, FormGroup} from "@angular/forms";
 import {CargoService} from "../../services/cargoService";
 import {
   RouteConfirmDialogComponent,
   RouteConfirmDialogModel
 } from "../../route/route.confirm.dialog/route.confirm.dialog.component";
 import {MatDialog} from "@angular/material/dialog";
-import {BookingRequestDto} from "../../model/bookingRequest.dto";
 import {EventLogDto} from "../../model/eventLog.Dto";
 import {EventLogService} from "../../services/eventLog.service";
+import decode from "jwt-decode";
 
 
 export interface CargoDetails {
@@ -34,11 +33,11 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
 
   cargoDetails: CargoDetails[];
   cargoDetailsDisplayedColumns: string[] = ['name', 'content'];
-  legDisplayedColumns: string [] = ['name', 'address', 'country', 'countryCode'];
+  legDisplayedColumns: string [] = ['name', 'address', 'country', 'countryCode', 'price'];
   eventLogDisplayColumns: string [] = ['createdAt', 'eventType', 'cargoStatus', 'leg'];
   legDataSource: MatTableDataSource<LegDto>;
   dataSource: CargoDto;
-  cargoStatusString : string;
+  cargoStatusString: string;
   matTableDataSource: MatTableDataSource<CargoDto>;
   eventLogDataSource: MatTableDataSource<EventLogDto>;
   @ViewChild('paginator') paginator: MatPaginator;
@@ -47,21 +46,21 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
   @ViewChild('legSort') legSort = new MatSort();
   @ViewChild('eventPaginator') eventPaginator: MatPaginator;
   @ViewChild('eventSort') eventSort: MatSort;
-
+  // @ts-ignore
+  userRole = decode(localStorage.getItem('token')).sub;
   cargoStatusANALYZING = "ANALYZING";
   cargoStatusPREPARING = "PREPARING";
-  eventLogTrackingNumber: string;
 
   constructor(
-      private routeService: RouteService,
-      private cargoService: CargoService,
-      private snackbar: MatSnackBar,
-      private router: ActivatedRoute,
-      private route: Router,
-      private dialog: MatDialog,
-      private eventLogService: EventLogService
-      // private cd: ChangeDetectorRef,
-  )  {
+    private routeService: RouteService,
+    private cargoService: CargoService,
+    private snackbar: MatSnackBar,
+    private router: ActivatedRoute,
+    private route: Router,
+    private dialog: MatDialog,
+    private eventLogService: EventLogService
+    // private cd: ChangeDetectorRef,
+  ) {
     this.legDataSource = new MatTableDataSource();
 
   }
@@ -75,7 +74,6 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
     console.log("cargo id = " + this.cargoId);
     this.getCargoById();
 
-
   }
 
   getCargoTypeNames(element: any): string {
@@ -87,8 +85,13 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
     return cargoTypes;
   }
 
-  getTrackingNumber(){
-    if(this.dataSource.trackingNumber === "" || this.dataSource.trackingNumber === null){
+  show(): boolean {
+    return this.userRole === '[ROLE_SHIPMENT_COMPANY]'
+      && this.cargoStatusANALYZING === this.cargoStatusString;
+  }
+
+  getTrackingNumber() {
+    if (this.dataSource.trackingNumber === "" || this.dataSource.trackingNumber === null) {
       console.log("No tracking number provided");
       this.trackingNumber = "No tracking number provided";
     } else {
@@ -161,7 +164,7 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
   }
 
 
-  redirectToApprove(){
+  redirectToApprove() {
     console.log("status Analyzing you clicked Approve");
     const message = `Are you sure you want to Approve?`;
     const dialogData = new RouteConfirmDialogModel("Confirm Action", message);
@@ -175,27 +178,28 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
         console.log("analyzing -> preparing1");
 
         this.cargoService.approveCargo(this.cargoId)
-            .subscribe({
-              next: () => {
-                this.snackbar.open("Executed Successfully, the cargo status changed to PREPARING", 'Ok', {duration: 6000})
-                this.getAllCargo();
-                location.reload();
-              },
-              error: () => {
-                this.snackbar.open("Error while executing", 'Error', {duration: 2000});
-              }
-            })
+          .subscribe({
+            next: () => {
+              this.snackbar.open("Executed Successfully, the cargo status changed to PREPARING", 'Ok', {duration: 6000})
+              this.getAllCargo();
+              location.reload();
+            },
+            error: () => {
+              this.snackbar.open("Error while executing", 'Error', {duration: 2000});
+            }
+          })
 
       }
     });
 
   }
+
   redirectToCargoOverview() {
     // @ts-ignore
     this.route.navigate(['dashboard', 'cargo']);
   }
 
-  redirectToReject(){
+  redirectToReject() {
     console.log("status Analyzing you clicked Reject");
     const message = `Are you sure you want to Reject?`;
     const dialogData = new RouteConfirmDialogModel("Confirm Action", message);
@@ -207,21 +211,21 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(dialogResult => {
       if (dialogResult) {
         this.cargoService.rejectCargo(this.cargoId)
-            .subscribe({
-              next: () => {
-                this.snackbar.open("Executed Successfully, the cargo was rejected", 'Ok', {duration: 6000})
-                this.getAllCargo();
-                this.redirectToCargoOverview();
-              },
-              error: () => {
-                this.snackbar.open("Error while executing", 'Error', {duration: 2000});
-              }
-            })
+          .subscribe({
+            next: () => {
+              this.snackbar.open("Executed Successfully, the cargo was rejected", 'Ok', {duration: 6000})
+              this.getAllCargo();
+              this.redirectToCargoOverview();
+            },
+            error: () => {
+              this.snackbar.open("Error while executing", 'Error', {duration: 2000});
+            }
+          })
       }
     });
   }
 
-  redirectToDeploy(){
+  redirectToDeploy() {
     const message = `Are you sure you want to Deploy?`;
 
     const dialogData = new RouteConfirmDialogModel("Confirm Action", message);
@@ -234,21 +238,21 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(dialogResult => {
       if (dialogResult) {
         this.cargoService.rejectCargo(this.cargoId)
-            .subscribe({
-              next: () => {
-                this.snackbar.open("Executed Successfully", 'Ok', {duration: 2000})
-                this.getAllCargo();
-              },
-              error: () => {
-                this.snackbar.open("Error while executing", 'Error', {duration: 2000});
-              }
-            })
+          .subscribe({
+            next: () => {
+              this.snackbar.open("Executed Successfully", 'Ok', {duration: 2000})
+              this.getAllCargo();
+            },
+            error: () => {
+              this.snackbar.open("Error while executing", 'Error', {duration: 2000});
+            }
+          })
       }
     });
   }
 
 
-  redirectToCancel(){
+  redirectToCancel() {
     const message = `Are you sure you want to Cancel?`;
 
     const dialogData = new RouteConfirmDialogModel("Confirm Action", message);
@@ -261,15 +265,15 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(dialogResult => {
       if (dialogResult) {
         this.cargoService.rejectCargo(this.cargoId)
-            .subscribe({
-              next: () => {
-                this.snackbar.open("Executed Successfully", 'Ok', {duration: 2000})
-                this.getAllCargo();
-              },
-              error: () => {
-                this.snackbar.open("Error while executing", 'Error', {duration: 2000});
-              }
-            })
+          .subscribe({
+            next: () => {
+              this.snackbar.open("Executed Successfully", 'Ok', {duration: 2000})
+              this.getAllCargo();
+            },
+            error: () => {
+              this.snackbar.open("Error while executing", 'Error', {duration: 2000});
+            }
+          })
       }
     });
   }

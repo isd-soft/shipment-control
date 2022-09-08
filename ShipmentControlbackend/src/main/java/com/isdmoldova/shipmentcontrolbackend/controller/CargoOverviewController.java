@@ -20,8 +20,6 @@ import java.util.List;
 @RequestMapping("/api/cargoOverview")
 @RequiredArgsConstructor
 public class CargoOverviewController {
-
-
     private final CargoOverviewService cargoOverviewService;
 
     @PostMapping

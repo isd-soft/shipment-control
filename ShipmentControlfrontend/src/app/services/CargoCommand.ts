@@ -1,5 +1,5 @@
-import {ItineraryDto} from "../model/itinerary.dto";
 import {CargoTypeDto} from "../model/cargoType.dto";
+import {ItineraryCommand} from "./ItineraryCommand";
 
 export interface CargoCommand{
 
@@ -8,10 +8,10 @@ export interface CargoCommand{
     totalWeight: number;
     origin: string;
     destination: string;
-    cargoStatus: string[];
-    itineraryDTO: ItineraryDto;
+    cargoStatus: string;
+    itineraryCommand: ItineraryCommand;
     cargoTypes: CargoTypeDto[];
     bookingDate: string;
-
+    routeId:number;
 
 }

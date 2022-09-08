@@ -1,7 +1,3 @@
-<!--<mat-toolbar>
-  <button mat-raised-button color="warn" (click)="openDialog()">Create</button>
-</mat-toolbar>-->
-
 <div class="container">
   <div style="margin-top: 10px">
     <mat-form-field appearance="standard">
@@ -13,46 +9,41 @@
 
 
       <table mat-table [dataSource]="dataSource" matSort>
-<!--&lt;!&ndash;        cargoID&ndash;&gt;-->
-<!--&lt;!&ndash;        <ng-container matColumnDef="id">&ndash;&gt;-->
-<!--&lt;!&ndash;          <th mat-header-cell *matHeaderCellDef mat-sort-header> Cargo ID</th>&ndash;&gt;-->
-<!--&lt;!&ndash;          <td mat-cell *matCellDef="let row"> {{row.id}} </td>&ndash;&gt;-->
-<!--&lt;!&ndash;        </ng-container>&ndash;&gt;-->
-
-<!--        <ng-container matColumnDef="id">-->
-<!--          <th mat-header-cell *matHeaderCellDef mat-sort-header>Booked route</th>-->
-<!--          <td mat-cell *matCellDef="let row"> {{row.id}} </td>-->
-<!--        </ng-container>-->
 
         <ng-container matColumnDef="goodsCompanyName">
-           <th mat-header-cell *matHeaderCellDef mat-sort-header>Company Name(Goods)</th>
-           <td mat-cell *matCellDef="let row"> {{row.goodsCompanyName}} </td>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Company Name</th>
+          <div *ngIf="isUserShipment() ">
+            <td mat-cell *matCellDef="let row"> {{row.goodsCompanyName}} </td>
+          </div>
+          <div *ngIf="!isUserShipment() ">
+            <td mat-cell *matCellDef="let row"> {{row.shipmentCompanyName}} </td>
+          </div>
         </ng-container>
 
         <ng-container matColumnDef="bookingDate">
-           <th mat-header-cell *matHeaderCellDef mat-sort-header>Booking Date</th>
-           <td mat-cell *matCellDef="let row"> {{row.bookingDate}} </td>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Booking Date</th>
+          <td mat-cell *matCellDef="let row"> {{row.bookingDate}} </td>
         </ng-container>
 
         <ng-container matColumnDef="trackingNumber">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header > Tracking Number</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Tracking Number</th>
           <td mat-cell *matCellDef="let row"> {{row.trackingNumber || "Not provided"}} </td>
         </ng-container>
 
         <ng-container matColumnDef="origin">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>  Origin </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Origin</th>
           <td mat-cell *matCellDef="let row"> {{row.origin}} </td>
         </ng-container>
 
 
         <ng-container matColumnDef="destination">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>  Destination </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Destination</th>
           <td mat-cell *matCellDef="let row"> {{row.destination}} </td>
         </ng-container>
 
 
         <ng-container matColumnDef="cargoStatus">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Cargo Status </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Cargo Status</th>
           <td mat-cell *matCellDef="let row"> {{row.cargoStatus}} </td>
         </ng-container>
 
@@ -63,15 +54,9 @@
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Details</th>
           <td mat-cell *matCellDef="let row">
-<!--            <button mat-icon-button (click)="editCargoOverview(row)" color="primary">-->
-<!--              <mat-icon>edit</mat-icon>-->
-<!--            </button>-->
             <button mat-icon-button (click)="openDetails(row)" color="accent">
               <mat-icon class="mat-18">dehaze</mat-icon>
             </button>
-<!--            <button (click)="deleteCargoOverview(row.id)" mat-icon-button color="warn">-->
-<!--              <mat-icon>delete</mat-icon>-->
-<!--            </button>-->
           </td>
         </ng-container>
 

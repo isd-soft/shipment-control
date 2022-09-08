@@ -1,11 +1,8 @@
 package com.isdmoldova.shipmentcontrolbackend.entity;
 
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.CargoStatus;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -18,17 +15,18 @@ import java.util.List;
 @Entity
 @Table(name = "cargo")
 @NoArgsConstructor
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 public class Cargo extends BaseEntity {
 
     @OneToOne
     private Leg currentLeg;
 
-
     @Column(name = "tracking_number")
     private String trackingNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Column(name = "booking_date")
@@ -40,8 +38,6 @@ public class Cargo extends BaseEntity {
     @Column(name = "total_weight")
     private Double totalWeight;
 
-
-
     @ManyToMany(mappedBy = "cargos", cascade = {CascadeType.MERGE})
     List<CargoType> cargoTypes = new ArrayList<>();
 
@@ -51,6 +47,11 @@ public class Cargo extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "cargo_status")
     private CargoStatus cargoStatus;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "provider_id")
+    private User provider;
+
 
     public Cargo(Double totalVolume,
                  Double totalWeight,
@@ -63,7 +64,6 @@ public class Cargo extends BaseEntity {
         this.itinerary = itinerary;
         this.cargoStatus = cargoStatus;
     }
-
 
     public void addCargoType(CargoType cargoType) {
         cargoTypes.add(cargoType);
@@ -85,7 +85,6 @@ public class Cargo extends BaseEntity {
     public Leg getOrigin() {
         return itinerary.getOrigin();
     }
-
 
     public String getTrackingNumber(){
         return trackingNumber;
