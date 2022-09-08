@@ -39,7 +39,9 @@ import java.util.stream.Collectors;
 public class CargoServiceImpl implements CargoService {
 
     private final CargoTypeRepository cargoTypeRepository;
+
     private final CargoTypeDtoMapper cargoDtoMapper;
+    private final RouteRepository routeRepository;
     private final CargoDtoMapper cargoMapper;
     private final CargoRepository cargoRepository;
     private final UserRepository userRepository;
@@ -58,6 +60,8 @@ public class CargoServiceImpl implements CargoService {
                         () -> new EntityNotFoundException("Cargo type with id " + cargoTypeId + " not found")))
                 .collect(Collectors.toList());
 
+        final Route route = routeRepository.findById(cargoCommand.getRouteId())
+                .orElseThrow(()->new EntityNotFoundException("Route not found"));
         Double maxWeight = cargoCommand.getTotalWeight();
         Double maxVolume = cargoCommand.getTotalVolume();
         LocalDate bookingDate = cargoCommand.getBookingDate();
@@ -76,9 +80,12 @@ public class CargoServiceImpl implements CargoService {
         cargo.setTotalVolume(cargoCommand.getTotalVolume());
         cargo.setTotalWeight(cargoCommand.getTotalWeight());
         cargo.setBookingDate(cargoCommand.getBookingDate());
+        cargo.setProvider(route.getUser());
+        cargo.setCargoStatus(CargoStatus.ANALYZING);
+        cargo.setItinerary(itinerary);
 
         cargoRepository.save(cargo);
-        cargo.setItinerary(itinerary);
+
         return cargoMapper.map(cargo);
 
     }

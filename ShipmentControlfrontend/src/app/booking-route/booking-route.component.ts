@@ -38,7 +38,7 @@ export class BookingRouteComponent implements OnInit {
   finalArr: (undefined | number)[] = [];
   daysCalendar: string[] = [];
   availableDaysRents: AvailableDaysRentDto[];
-
+  estimatedAmountTimeShipment:number;
   constructor(private formBuilder: FormBuilder,
               private routeService: RouteService,
               private snackBar: MatSnackBar,
@@ -76,7 +76,8 @@ export class BookingRouteComponent implements OnInit {
     this.routeService.getRouteById(this.currentRouteId['routeId'])
       .subscribe({
         next: (res) => {
-          this.availableDaysRents = res.availableDaysRentList
+          this.availableDaysRents = res.availableDaysRentList;
+            this.estimatedAmountTimeShipment=res.estimatedAmountTimeShipment;
         }
       })
   }
@@ -97,8 +98,6 @@ export class BookingRouteComponent implements OnInit {
       }
       this.finalArr[u] = this.weekDays[u].id;
     }
-    console.log(this.finalArr);
-    console.log(this.daysCalendar);
 
   }
 
@@ -141,7 +140,7 @@ export class BookingRouteComponent implements OnInit {
 
     const itineraryCommand: ItineraryCommand = {
       legList: legCommands,
-      estimatedAmountTimeShipment: null
+      estimatedAmountTimeShipment: this.estimatedAmountTimeShipment,
     }
 
     const bookingRouteCommand: BookingRouteCommand = {
@@ -150,7 +149,8 @@ export class BookingRouteComponent implements OnInit {
       totalVolume: this.bookingRouteForm.controls['maxVolume'].value,
       cargoTypeList: this.bookingRouteForm.controls['cargoType'].value,
       itineraryCommand: itineraryCommand,
-      bookingDate: this.datePipe.transform(date, "yyyy-MM-dd")
+      bookingDate: this.datePipe.transform(date, "yyyy-MM-dd"),
+      routeId:this.currentRouteId['routeId'],
     }
     console.log(bookingRouteCommand);
     this.bookingService.createBookingRoute(bookingRouteCommand).subscribe(

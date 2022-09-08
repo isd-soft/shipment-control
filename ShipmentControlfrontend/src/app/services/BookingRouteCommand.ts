@@ -6,4 +6,5 @@ export interface BookingRouteCommand {
   cargoTypeList: number[];
   itineraryCommand: ItineraryCommand;
   bookingDate: string|null;
+  routeId:number;
 }
