@@ -9,7 +9,7 @@ import {TransportsService} from "../services/transports.service";
 import {ItineraryCommand} from "../services/ItineraryCommand";
 import {RouteCommand} from "../services/RouteCommand";
 import {CargoTypeDto} from "../model/cargoType.dto";
-import {ActivatedRoute, Params} from "@angular/router";
+import {ActivatedRoute, Params, Route, Router} from "@angular/router";
 import {BookingService} from "../services/booking.service";
 import {CargoTypeService} from "../services/cargoType.service";
 import {LegDto} from "../model/leg.dto";
@@ -47,7 +47,8 @@ export class BookingRouteComponent implements OnInit {
               private bookingService: BookingService,
               private cargoTypeService: CargoTypeService,
               private changeDetectorRef: ChangeDetectorRef,
-              private datePipe: DatePipe
+              private datePipe: DatePipe,
+              private router: Router
   ) {
   }
 
@@ -132,7 +133,10 @@ export class BookingRouteComponent implements OnInit {
 
     const legCommands: LegCommand[] = this.legs.map(leg => ({
       country: leg.country,
-      countryCode: leg.countryCode, name: leg.name, address: leg.address
+      countryCode: leg.countryCode,
+      name: leg.name,
+      address: leg.address,
+      price: leg.price
     }));
 
     const itineraryCommand: ItineraryCommand = {
@@ -151,9 +155,8 @@ export class BookingRouteComponent implements OnInit {
     console.log(bookingRouteCommand);
     this.bookingService.createBookingRoute(bookingRouteCommand).subscribe(
       response => {
-        console.log("Hurray!");
         this.snackBar.open("Successfully added", 'OK', {duration: 6000});
-
+        this.router.navigate(['dashboard', 'cargo']);
       },
       error => {
         console.log(error);
