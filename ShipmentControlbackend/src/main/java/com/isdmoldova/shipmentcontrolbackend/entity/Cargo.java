@@ -1,11 +1,8 @@
 package com.isdmoldova.shipmentcontrolbackend.entity;
 
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.CargoStatus;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -18,7 +15,8 @@ import java.util.List;
 @Entity
 @Table(name = "cargo")
 @NoArgsConstructor
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 public class Cargo extends BaseEntity {
 
     @OneToOne
@@ -54,6 +52,7 @@ public class Cargo extends BaseEntity {
     @JoinColumn(name = "provider_id")
     private User provider;
 
+
     public Cargo(Double totalVolume,
                  Double totalWeight,
                  List<CargoType> cargoTypes,
@@ -65,7 +64,6 @@ public class Cargo extends BaseEntity {
         this.itinerary = itinerary;
         this.cargoStatus = cargoStatus;
     }
-
 
     public void addCargoType(CargoType cargoType) {
         cargoTypes.add(cargoType);
@@ -87,7 +85,6 @@ public class Cargo extends BaseEntity {
     public Leg getOrigin() {
         return itinerary.getOrigin();
     }
-
 
     public String getTrackingNumber(){
         return trackingNumber;
