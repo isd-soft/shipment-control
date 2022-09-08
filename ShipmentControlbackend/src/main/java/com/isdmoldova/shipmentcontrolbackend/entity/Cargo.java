@@ -7,9 +7,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 
 @Getter
@@ -17,21 +18,29 @@ import java.util.Objects;
 @Entity
 @Table(name = "cargo")
 @NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Cargo extends BaseEntity {
+
+    @OneToOne
+    private Leg currentLeg;
+
 
     @Column(name = "tracking_number")
     private String trackingNumber;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
+
+    @Column(name = "booking_date")
+    private LocalDate bookingDate;
 
     @Column(name = "total_volume")
     private Double totalVolume;
 
     @Column(name = "total_weight")
     private Double totalWeight;
+
+
 
     @ManyToMany(mappedBy = "cargos", cascade = {CascadeType.MERGE})
     List<CargoType> cargoTypes = new ArrayList<>();
@@ -55,21 +64,36 @@ public class Cargo extends BaseEntity {
         this.cargoStatus = cargoStatus;
     }
 
+
     public void addCargoType(CargoType cargoType) {
         cargoTypes.add(cargoType);
         cargoType.addCargo(this);
     }
 
-  /*  @Override
-    public int hashCode() {
-        return getClass().hashCode();
+    public Leg getDestination() {
+        return itinerary.getDestination();
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (!(obj instanceof Cargo)) return false;
-        Cargo cargo = (Cargo) obj;
-        return id != null && Objects.equals(id, cargo.getId());
-    }*/
+    public Itinerary getItinerary() {
+        return itinerary;
+    }
+
+    public void setItinerary(Itinerary itinerary) {
+        this.itinerary = itinerary;
+    }
+
+    public Leg getOrigin() {
+        return itinerary.getOrigin();
+    }
+
+
+    public String getTrackingNumber(){
+        return trackingNumber;
+    }
+    public void setTrackingNumber(String trackingNumber){
+        this.trackingNumber = trackingNumber;
+    }
+
+
+
 }

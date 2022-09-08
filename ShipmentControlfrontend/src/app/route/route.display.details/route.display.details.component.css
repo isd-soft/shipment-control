@@ -15,3 +15,14 @@ table {
 .mat-dialog-title{
   margin-left: 40px;
 }
+.btn-request{
+  position: fixed;
+  bottom: 60px;
+  right: 220px;
+}
+.mat-form-date-picker{
+  position: fixed;
+  width: 120px;
+  bottom: 10px;
+
+}

@@ -1,0 +1,78 @@
+<div class="container">
+  <h1 mat-dialog-title class="general-title"> Booking Route Form</h1>
+
+  <div mat-dialog-content>
+    <div [formGroup]="bookingRouteForm" ><!--(ngSubmit)="onSubmit()"-->
+      <mat-label class="form-title">Select your cargo type</mat-label>
+      <div class="form-content">
+        <div class="form-group">
+          <mat-form-field appearance="outline">
+            <mat-select  formControlName="cargoType" placeholder="CargoType" multiple>
+
+              <mat-option *ngFor="let cargoTypeDto of cargoTypeDtoList" [value]="cargoTypeDto.id">
+                {{cargoTypeDto.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field appearance="outline">
+            <mat-label>Cargo description</mat-label>
+            <textarea formControlName="description" matInput placeholder="Cargo description"></textarea>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field appearance="outline">
+            <mat-label>Total Weight</mat-label>
+            <input formControlName="maxWeight" matInput type="number" placeholder="Max Weight" min="1"/>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field appearance="outline">
+            <mat-label>Total Volume</mat-label>
+            <input formControlName="maxVolume" matInput type="number" placeholder="Max Volume" min="1"/>
+          </mat-form-field>
+        </div>
+
+        <div class="showInputField">
+          <div *ngFor="let l of legs; let i = index">
+            <mat-accordion  multi class="itineraryForm">
+              <mat-expansion-panel class="legForm">
+                <mat-expansion-panel-header>
+                  <mat-panel-title >
+                    Insert the Leg
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <mat-form-field class="add-input1" appearance="outline" class="itineraryForm">
+                  <input matInput placeholder="Name" [(ngModel)]="l.name" [ngModelOptions]="{standalone: true}"/>
+                </mat-form-field>
+
+                <mat-form-field class="add-input2" appearance="outline" class="itineraryForm">
+                  <input matInput placeholder="Address" [(ngModel)]="l.address" [ngModelOptions]="{standalone: true}"/>
+                </mat-form-field>
+
+                <mat-form-field class="add-input3" appearance="outline" class="itineraryForm">
+                  <input matInput placeholder="Country" [(ngModel)]="l.country" [ngModelOptions]="{standalone: true}"/>
+                </mat-form-field>
+
+                <mat-form-field class="add-input4" appearance="outline" class="itineraryForm">
+                  <input matInput placeholder="CountryCode" [(ngModel)]="l.countryCode" [ngModelOptions]="{standalone: true}"/>
+                </mat-form-field>
+
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+           <p class="mat-dialog-title">Remove leg<button mat-raised-button color="primary" (click)="removeLeg()">-</button></p>
+       </div>
+        <br>
+      </div>
+    </div>
+  </div>
+
+  <div class="createRouteButton">
+    <button mat-raised-button type="submit" color="primary" (click)="onSubmit()">Save</button>
+    <button mat-raised-button (click)="onReset()">Reset</button>
+  </div>
+</div>
+

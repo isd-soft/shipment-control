@@ -1,13 +1,16 @@
 package com.isdmoldova.shipmentcontrolbackend.mapper;
 
 import com.isdmoldova.shipmentcontrolbackend.dto.BookingRequestsDTO;
+import com.isdmoldova.shipmentcontrolbackend.dto.RouteDTO;
 import com.isdmoldova.shipmentcontrolbackend.entity.BookingRequest;
+import com.isdmoldova.shipmentcontrolbackend.entity.Route;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
 public class BookingRequestsDtoMapper {
+    private final RouteDtoMapper routeDtoMapper;
 
     public BookingRequestsDTO map(BookingRequest bookingRequest) {
 
@@ -19,6 +22,7 @@ public class BookingRequestsDtoMapper {
         bookingRequestsDTO.setGoodsCompanyName(bookingRequest.getUser().getCompanyName());
         bookingRequestsDTO.setBookingRequestId(bookingRequest.getId());
         bookingRequestsDTO.setRouteDescription(bookingRequest.getRoute().getDetailedRouteDescription());
+
 
         return bookingRequestsDTO;
     }

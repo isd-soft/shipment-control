@@ -1,13 +1,10 @@
 package com.isdmoldova.shipmentcontrolbackend.service;
 
 import com.isdmoldova.shipmentcontrolbackend.dto.*;
-import com.isdmoldova.shipmentcontrolbackend.entity.*;
-import com.isdmoldova.shipmentcontrolbackend.entity.enums.CargoStatus;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.CargoCommand;
-import com.isdmoldova.shipmentcontrolbackend.payload.request.RouteCommand;
 
+import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 
 public interface CargoService {
 
@@ -17,7 +14,13 @@ public interface CargoService {
 
     CargoDTO findById(Long id);
 
+
     CargoDTO update(CargoCommand cargoCommand, Long id,String username);
 
+
     void delete(Long id, String username);
+
+    String sendWhenCargoApproved(Principal principal, Long id);
+
+    String sendWhenCargoRejected(Principal principal, Long id);
 }
