@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {LoginCommand} from "./LoginCommand";
 import {TokenResponse} from "./TokenResponse";
-import {JwtHelperService, JWT_OPTIONS} from "@auth0/angular-jwt";
+ import {JwtHelperService, JWT_OPTIONS} from "@auth0/angular-jwt";
 
 const AUTH_API = 'http://localhost:8080/api/auth/';
 const httpOptions = {

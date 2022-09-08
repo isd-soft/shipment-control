@@ -158,7 +158,7 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
 
       },
       error: () => {
-        this.snackbar.open("Error while fetching the record!!", 'Error', {duration: 2000});
+        this.snackbar.open("No events logged!", 'Ok', {duration: 2000});
       }
     });
   }

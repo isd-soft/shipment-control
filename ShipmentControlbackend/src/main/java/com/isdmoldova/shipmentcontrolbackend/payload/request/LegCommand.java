@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
 
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -23,6 +24,5 @@ public class LegCommand {
     @NotEmpty(message = "Please enter the name")
     private String name;
 
-    @NotEmpty(message = "Please enter the price")
     private Double price;
 }

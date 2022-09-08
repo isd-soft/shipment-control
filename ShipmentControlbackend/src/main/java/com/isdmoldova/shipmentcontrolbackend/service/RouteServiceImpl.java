@@ -51,6 +51,7 @@ public class RouteServiceImpl implements RouteService {
 
         Double maxWeight = routeCommand.getMaxLoadWeight();
         Double maxVolume = routeCommand.getMaxLoadVolume();
+
         List<AvailableDaysRent> availableDaysRentList = routeCommand.getAvailableDaysRentList();
 
         List<Transport> transportList = routeCommand.getTransportIdList()

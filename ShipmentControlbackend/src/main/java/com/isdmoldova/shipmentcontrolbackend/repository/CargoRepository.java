@@ -12,6 +12,9 @@ import java.util.Optional;
 @Repository
 public interface CargoRepository extends JpaRepository<Cargo, Long> {
     List<Cargo> findAllByUser(User user);
+
+    List<Cargo> findAllByProvider(User user);
+
     Optional<Cargo> findByTrackingNumber(String trackingNumber);
 
 
