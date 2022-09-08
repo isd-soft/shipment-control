@@ -17,5 +17,6 @@ public class CargoCommand {
     //private CargoStatus cargoStatus;
     private ItineraryCommand itineraryCommand;
     private LocalDate bookingDate;
+    private Long routeId;
 
 }

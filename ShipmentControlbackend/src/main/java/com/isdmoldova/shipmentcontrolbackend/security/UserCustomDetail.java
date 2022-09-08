@@ -20,7 +20,10 @@ public class UserCustomDetail implements UserDetails {
 
     private static final String ROLE_PREFIX = "ROLE_";
 
+    private final Long id;
     private final String username;
+    private final String email;
+
 
     @JsonIgnore
     private final String password;
@@ -30,8 +33,8 @@ public class UserCustomDetail implements UserDetails {
 
 
     public static UserCustomDetail from(User user) {
-        UserCustomDetail userCustomDetail = new UserCustomDetail(user.getUsername(),
-                user.getPassword());
+        UserCustomDetail userCustomDetail = new UserCustomDetail(user.getId(),user.getUsername(),
+                user.getEmail(), user.getPassword());
         final List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(ROLE_PREFIX + user.getRole().name()));
         userCustomDetail.setAuthorities(authorities);
@@ -41,6 +44,14 @@ public class UserCustomDetail implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.unmodifiableList(authorities);
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     @Override

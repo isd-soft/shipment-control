@@ -12,6 +12,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {BookingRequestService} from "../../services/BookingRequest.service";
 import {BookingRequestCommand} from "../../services/BookingRequestCommand";
 import {DatePipe} from "@angular/common";
+import decode from "jwt-decode";
 
 export interface RouteDetails {
   name: string;
@@ -27,7 +28,7 @@ export class RouteDisplayDetailsComponent implements OnInit {
 
   transportDisplayedColumns: string[] = ['transportName', 'transportType', 'cargoTypes'];
   routeDetailsDisplayedColumns: string[] = ['name', 'content'];
-  legDisplayedColumns: string [] = ['name', 'address', 'country', 'countryCode'];
+  legDisplayedColumns: string [] = ['name', 'address', 'country', 'countryCode', 'price'];
   dataSource: RouteDto;
   transportDataSource: MatTableDataSource<TransportDto>;
   legDataSource: MatTableDataSource<LegDto>;
@@ -40,7 +41,9 @@ export class RouteDisplayDetailsComponent implements OnInit {
   dateForm!: FormGroup;
   daysCalendar: string[] = [];
   finalArr: (undefined | number)[] = [];
-
+  itineraryExecutionTime: number;
+  // @ts-ignore
+  userRole = decode(localStorage.getItem('token')).sub;
 
   constructor(
     private routeService: RouteService,
@@ -93,6 +96,7 @@ export class RouteDisplayDetailsComponent implements OnInit {
           this.transportDataSource = new MatTableDataSource<TransportDto>(res.transportDTOList);
           this.transportDataSource.sort = this.transportSort;
           this.transportDataSource.paginator = this.transportPaginator;
+          this.itineraryExecutionTime = res.itineraryDTO.executionTime;
           this.routeDetails = [
             {name: "Route Description", content: this.dataSource.routeDescription},
             {name: "Available days", content: this.getAvailableDays(this.dataSource)},
@@ -141,6 +145,7 @@ export class RouteDisplayDetailsComponent implements OnInit {
       && day !== this.finalArr[6]
   }
 
+
   onSubmit() {
     console.log(this.dateForm.value);
     const date = this.dateForm.controls['pickedDate'].value;
@@ -166,6 +171,10 @@ export class RouteDisplayDetailsComponent implements OnInit {
   bookRoute(): void {
     this.router.navigate(['/dashboard/book'],
       {queryParams: {routeId: this.currentRouteId['routeId']}});
+  }
+
+  show(): boolean {
+    return this.userRole === '[ROLE_GOODS_COMPANY]';
   }
 }
 

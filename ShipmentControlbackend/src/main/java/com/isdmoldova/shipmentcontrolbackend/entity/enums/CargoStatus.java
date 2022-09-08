@@ -9,9 +9,10 @@ public enum CargoStatus {
     PREPARING("preparing") ,
     DELIVERED("delivered"),
     IN_ROUTE("in-route"),
+    ARRIVED("arrived"),
     UNLOADED_DESTINATION("unloaded_at_destination");
 
-    private String label;
+    private final String label;
 
     CargoStatus(String label) {
         this.label = label;

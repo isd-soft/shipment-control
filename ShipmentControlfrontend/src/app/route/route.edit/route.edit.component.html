@@ -71,6 +71,11 @@
                                        [ngModelOptions]="{standalone: true}"/>
                             </mat-form-field>
 
+                            <mat-form-field class="add-input5" appearance="outline" class="itineraryForm">
+                                <input matInput placeholder="Price" [(ngModel)]="l.price"
+                                       [ngModelOptions]="{standalone: true}"/>
+                            </mat-form-field>
+
                             <button class="deleteLeg" mat-icon-button color="warn" (click)="clearField(i)">
                                 <mat-icon>delete</mat-icon>
                             </button>

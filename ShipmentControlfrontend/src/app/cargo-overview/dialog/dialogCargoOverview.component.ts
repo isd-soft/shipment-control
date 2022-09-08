@@ -3,7 +3,6 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {FormGroup, FormBuilder, Validators, FormControl} from "@angular/forms";
 import {MatDialogRef,MAT_DIALOG_DATA} from '@angular/material/dialog'
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {CargoOverviewCommand} from "../../services/CargoOverviewCommand";
 
 
 @Component({

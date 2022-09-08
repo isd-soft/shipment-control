@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {MatAccordion} from '@angular/material/expansion';
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -7,13 +7,14 @@ import {RouteCommand} from "../../services/RouteCommand";
 import {LegCommand} from "../../services/LegCommand";
 import {ItineraryCommand} from "../../services/ItineraryCommand";
 import {TransportsService} from "../../services/transports.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-route.add',
   templateUrl: './route.add.component.html',
   styleUrls: ['./route.add.component.css']
 })
-export class RouteAddComponent implements OnInit  {
+export class RouteAddComponent implements OnInit {
   @ViewChild(MatAccordion) accordion: MatAccordion;
 
   legs: LegCommand[] = [];
@@ -22,42 +23,44 @@ export class RouteAddComponent implements OnInit  {
 
   transport: any;
   SelectedValue: any;
+
   ChangeTransport(value) {
     console.log(value);
-    this.SelectedValue=value;
+    this.SelectedValue = value;
   }
 
   constructor(private formBuilder: FormBuilder,
               private routeService: RouteService,
               private snackBar: MatSnackBar,
+              private route: Router,
               private transportService: TransportsService
-              ) {
-      this.routeForm = formBuilder.group({
-        description: new FormControl('', [Validators.required]),
-        maxWeight: new FormControl('', [Validators.required]),
-        maxVolume: new FormControl('', [Validators.required]),
-        availableDaysRent: new FormControl('', [Validators.required]),
-        transportIdList: new FormControl('', [Validators.required]),
-        estimatedDays: new FormControl('', [Validators.required])
+  ) {
+    this.routeForm = formBuilder.group({
+      description: new FormControl('', [Validators.required]),
+      maxWeight: new FormControl('', [Validators.required]),
+      maxVolume: new FormControl('', [Validators.required]),
+      availableDaysRent: new FormControl('', [Validators.required]),
+      transportIdList: new FormControl('', [Validators.required]),
+      estimatedDays: new FormControl('', [Validators.required])
     });
   }
 
   ngOnInit(): void {
-    this.legs.push({name: '', address: '', country: '', countryCode: ''});
-    this.legs.push({name: '', address: '', country: '', countryCode: ''});
+    this.legs.push({name: '', address: '', country: '', countryCode: '', price: 0});
+    this.legs.push({name: '', address: '', country: '', countryCode: '', price: 0});
 
 
-    this.transportService.getTransports().subscribe((data:any)=>{
-      this.transport=data;
+    this.transportService.getTransports().subscribe((data: any) => {
+      this.transport = data;
     })
 
   }
 
-  add(){
-    this.legs.push({name: '', address: '', country: '', countryCode: ''});
+  add() {
+    this.legs.push({name: '', address: '', country: '', countryCode: '', price: 0});
   }
 
-  clearField(legIndex: number){
+  clearField(legIndex: number) {
     this.legs.splice(legIndex, 1);
   }
 
@@ -83,14 +86,12 @@ export class RouteAddComponent implements OnInit  {
 
     this.routeService.createRoute(routeCommand).subscribe(
       response => {
-        console.log("Hurray!");
-        this.snackBar.open("Successfully added", 'OK',{duration:6000});
+        this.snackBar.open("Successfully added", 'OK', {duration: 6000});
+        this.route.navigateByUrl('/dashboard/route');
 
-  },
+      },
       error => {
-        console.log(error);
-        console.log("Unsuccessful");
-        this.snackBar.open("Unsuccessfully added route", 'OK',{duration:6000});
+        this.snackBar.open("Unsuccessfully added route", 'OK', {duration: 6000});
 
       }
     );

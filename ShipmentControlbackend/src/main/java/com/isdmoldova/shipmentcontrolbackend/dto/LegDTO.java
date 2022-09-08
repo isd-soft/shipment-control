@@ -13,5 +13,6 @@ public class LegDTO {
     private String address;
     private String country;
     private String countryCode;
+    private Double price;
 
 }

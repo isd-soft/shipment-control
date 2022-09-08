@@ -9,6 +9,7 @@ import com.isdmoldova.shipmentcontrolbackend.repository.RouteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
 @Service
@@ -27,7 +28,8 @@ public class ItineraryServiceImpl implements ItineraryService {
     @Override
     public ItineraryDTO findByRouteId(Long routeId) {
         final var route = routeRepository.findById(routeId)
-                .orElseThrow();
+                .orElseThrow(()->
+                        new EntityNotFoundException("Route with routId "+ routeId + "not found"));
         return itineraryRepository.findByRoute(route)
                 .map(itineraryDtoMapper::map)
                 .orElseThrow();

@@ -14,6 +14,8 @@ import {
   CargoOverviewDisplayDetailsComponent
 } from "./cargo-overview/cargo-overview.display.details/cargo-overview.display.details.component";
 import {BookingRouteComponent} from "./booking-route/booking-route.component";
+import {BookingRequestComponent} from "./booking.request/booking.request.component";
+import {AuthGuard} from "./guards/auth.guard";
 
 
 const routes: Routes = [
@@ -21,18 +23,83 @@ const routes: Routes = [
   {path: 'login', component: LoginPageComponent},
   {
 
-    path: 'dashboard', component: DashboardComponent,
+    path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard],
+    data: {
+      expectedRole: ['[ROLE_SHIPMENT_COMPANY]', '[ROLE_GOODS_COMPANY]']
+    },
     children: [
-      {path: 'transports', component: TransportsComponent},
-      {path: 'route/details', component: RouteDisplayDetailsComponent},
-      {path: 'cargo/details', component: CargoOverviewDisplayDetailsComponent},
-      {path: 'route/add', component: RouteAddComponent},
-      {path: 'route/edit/:id', component: RouteEditComponent},
-      {path: 'add', component: RouteAddComponent},
-      {path: 'cargoType', component: CargoTypeComponent},
-      {path: 'route', component: RouteComponent},
-      {path: 'cargo', component: CargoOverviewComponent},
-      {path: 'book', component: BookingRouteComponent}
+      {
+        path: 'transports', component: TransportsComponent, canActivate: [AuthGuard],
+        data: {
+          expectedRole: '[ROLE_SHIPMENT_COMPANY]'
+        },
+      },
+      {
+        path: 'booking-requests', component: BookingRequestComponent, canActivate: [AuthGuard],
+        data: {
+          expectedRole: '[ROLE_SHIPMENT_COMPANY]'
+        },
+      },
+      {
+        path: 'route/details', component: RouteDisplayDetailsComponent, canActivate: [AuthGuard],
+        data: {
+          expectedRole: ['[ROLE_SHIPMENT_COMPANY]', '[ROLE_GOODS_COMPANY]']
+        }
+      },
+      {
+        path: 'cargo/details', component: CargoOverviewDisplayDetailsComponent, canActivate: [AuthGuard],
+        data: {
+          expectedRole: ['[ROLE_SHIPMENT_COMPANY]', '[ROLE_GOODS_COMPANY]']
+        }
+      },
+      {
+        path: 'cargo/details/:id', component: CargoOverviewDisplayDetailsComponent, canActivate: [AuthGuard],
+        data: {
+          expectedRole: ['[ROLE_SHIPMENT_COMPANY]', '[ROLE_GOODS_COMPANY]']
+        }
+      },
+      {
+        path: 'route/add', component: RouteAddComponent, canActivate: [AuthGuard],
+        data: {
+          expectedRole: '[ROLE_SHIPMENT_COMPANY]'
+        },
+      },
+      {
+        path: 'route/edit/:id', component: RouteEditComponent, canActivate: [AuthGuard],
+        data: {
+          expectedRole: '[ROLE_SHIPMENT_COMPANY]'
+        },
+      },
+      {
+        path: 'add', component: RouteAddComponent, canActivate: [AuthGuard],
+        data: {
+          expectedRole: ['[ROLE_SHIPMENT_COMPANY]']
+        },
+      },
+      {
+        path: 'cargoType', component: CargoTypeComponent, canActivate: [AuthGuard],
+        data: {
+          expectedRole: ['[ROLE_SHIPMENT_COMPANY]']
+        },
+      },
+      {
+        path: 'route', component: RouteComponent, canActivate: [AuthGuard],
+        data: {
+          expectedRole: ['[ROLE_SHIPMENT_COMPANY]', '[ROLE_GOODS_COMPANY]']
+        },
+      },
+      {
+        path: 'cargo', component: CargoOverviewComponent, canActivate: [AuthGuard],
+        data: {
+          expectedRole: ['[ROLE_SHIPMENT_COMPANY]', '[ROLE_GOODS_COMPANY]']
+        },
+      },
+      {
+        path: 'book', component: BookingRouteComponent, canActivate: [AuthGuard],
+        data: {
+          expectedRole: ['[ROLE_GOODS_COMPANY]']
+        },
+      }
     ]
 
   },

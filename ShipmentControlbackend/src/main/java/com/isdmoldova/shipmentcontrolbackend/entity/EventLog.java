@@ -22,4 +22,7 @@ public class EventLog extends BaseEntity{
     @Column(name = "cargoStatus")
     private CargoStatus cargoStatus;
 
+    @Column(name = "leg")
+    private String leg;
+
 }

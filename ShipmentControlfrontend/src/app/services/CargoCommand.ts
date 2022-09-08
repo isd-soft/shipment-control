@@ -1,16 +1,17 @@
-import {ItineraryDto} from "./itinerary.dto";
-import {CargoTypeDto} from "./cargoType.dto";
+import {CargoTypeDto} from "../model/cargoType.dto";
+import {ItineraryCommand} from "./ItineraryCommand";
 
-export interface CargoDto{
-    id: number;
+export interface CargoCommand{
+
     trackingNumber: string;
     totalVolume: number;
     totalWeight: number;
     origin: string;
     destination: string;
     cargoStatus: string;
-    itineraryDTO: ItineraryDto;
+    itineraryCommand: ItineraryCommand;
     cargoTypes: CargoTypeDto[];
     bookingDate: string;
+    routeId:number;
 
 }
