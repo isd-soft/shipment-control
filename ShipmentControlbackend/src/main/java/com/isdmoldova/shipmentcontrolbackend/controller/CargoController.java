@@ -34,7 +34,6 @@ public class CargoController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasRole('GOODS_COMPANY')")
     @GetMapping()
     public ResponseEntity<List<CargoDTO>> getAllCargoes(Principal principal) {
         List<CargoDTO> cargoDTOS = cargoService.findAllCargoes(principal.getName());
@@ -47,8 +46,6 @@ public class CargoController {
         CargoDTO cargo = cargoService.findById(id);
         return new ResponseEntity<>(cargo, HttpStatus.OK);
     }
-
-
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateCargo(@RequestBody CargoCommand cargoCommand,

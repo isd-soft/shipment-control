@@ -47,7 +47,7 @@ public class RouteController {
     }
 
 
-    @PreAuthorize("hasRole('SHIPMENT_COMPANY')")
+   // @PreAuthorize("hasRole('SHIPMENT_COMPANY')")
     @GetMapping()
     public ResponseEntity<List<RouteDTO>> getAllRoute(Principal principal) {
         List<RouteDTO> routeDTOS = routeService.findAllRoutes(principal.getName());
