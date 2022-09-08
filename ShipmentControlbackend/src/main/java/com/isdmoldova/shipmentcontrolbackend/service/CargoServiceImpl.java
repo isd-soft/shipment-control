@@ -42,6 +42,8 @@ public class CargoServiceImpl implements CargoService {
     private final CargoRepository cargoRepository;
     private final UserRepository userRepository;
     private final EmailService emailService;
+    private final RouteRepository routeRepository;
+    private final CargoDtoMapper cargoDTOMapper;
     @Value("com.isdmoldova.shipment.control.from.email")
     private String shipmentControlFromEmail;
 
@@ -64,12 +66,16 @@ public class CargoServiceImpl implements CargoService {
         Itinerary itinerary = new Itinerary(estimatedAmountTimeShipment);
         legs.forEach(itinerary::addLeg);
 
+        final Route route = routeRepository.findById(cargoCommand.getRouteId())
+                .orElseThrow();
+
         final Cargo cargo = new Cargo();
         cargo.setUser(user);
         cargoTypes.forEach(cargo::addCargoType);
         cargo.setTotalVolume(cargoCommand.getTotalVolume());
         cargo.setTotalWeight(cargoCommand.getTotalWeight());
         cargo.setBookingDate(cargoCommand.getBookingDate());
+        cargo.setProvider(route.getUser());
 
         cargoRepository.save(cargo);
         cargo.setItinerary(itinerary);

@@ -1,6 +1,7 @@
 package com.isdmoldova.shipmentcontrolbackend.controller;
 
 import com.isdmoldova.shipmentcontrolbackend.dto.CargoOverviewDTO;
+import com.isdmoldova.shipmentcontrolbackend.entity.User;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.CargoOverviewCommand;
 import com.isdmoldova.shipmentcontrolbackend.service.CargoOverviewService;
 import lombok.RequiredArgsConstructor;
