@@ -78,7 +78,6 @@ export class RouteDisplayDetailsComponent implements OnInit {
       this.daysCalendar[i] = name.label;
       i++;
     })
-
     return days;
   }
 

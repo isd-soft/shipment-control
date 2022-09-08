@@ -1,9 +1,6 @@
 package com.isdmoldova.shipmentcontrolbackend.controller;
 
-import com.isdmoldova.shipmentcontrolbackend.dto.AvailableDaysRentDTO;
-import com.isdmoldova.shipmentcontrolbackend.dto.RouteDTO;
-import com.isdmoldova.shipmentcontrolbackend.dto.TransportDTO;
-import com.isdmoldova.shipmentcontrolbackend.dto.TransportTypeDTO;
+import com.isdmoldova.shipmentcontrolbackend.dto.*;
 import com.isdmoldova.shipmentcontrolbackend.email.service.EmailService;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.AvailableDaysRent;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.TransportType;
@@ -82,5 +79,9 @@ public class RouteController {
         return new ResponseEntity<>(availableDaysRentDTOS, HttpStatus.OK);
     }
 
+    @GetMapping("/{id}/legs")
+    public ResponseEntity<List<LegDTO>> getRouteLegs(@PathVariable Long id) {
+        return ResponseEntity.ok(routeService.getLegsForRoute(id));
+    }
 }
 

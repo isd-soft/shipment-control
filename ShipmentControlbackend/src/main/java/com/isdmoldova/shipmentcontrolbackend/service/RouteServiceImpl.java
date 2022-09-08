@@ -1,6 +1,7 @@
 package com.isdmoldova.shipmentcontrolbackend.service;
 
 import com.isdmoldova.shipmentcontrolbackend.dto.AvailableDaysRentDTO;
+import com.isdmoldova.shipmentcontrolbackend.dto.LegDTO;
 import com.isdmoldova.shipmentcontrolbackend.dto.RouteDTO;
 import com.isdmoldova.shipmentcontrolbackend.entity.*;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.AvailableDaysRent;
@@ -153,6 +154,15 @@ public class RouteServiceImpl implements RouteService {
         return daysRent.stream().map(availableDaysRentDtoMapper::map).collect(Collectors.toList());
     }
 
+    @Override
+    public List<LegDTO> getLegsForRoute(Long routeId) {
+        final Route route = routeRepository.findById(routeId).orElseThrow(
+                () -> new EntityNotFoundException("Route not found with id " + routeId));
+
+        return route.getItinerary().getLegs().stream()
+                .map(legDtoMapper::map)
+                .collect(Collectors.toList());
+    }
 }
 
 

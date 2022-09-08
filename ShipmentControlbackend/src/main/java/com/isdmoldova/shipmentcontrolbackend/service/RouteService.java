@@ -1,6 +1,7 @@
 package com.isdmoldova.shipmentcontrolbackend.service;
 
 import com.isdmoldova.shipmentcontrolbackend.dto.AvailableDaysRentDTO;
+import com.isdmoldova.shipmentcontrolbackend.dto.LegDTO;
 import com.isdmoldova.shipmentcontrolbackend.dto.RouteDTO;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.RouteCommand;
 import org.springframework.validation.annotation.Validated;
@@ -22,5 +23,7 @@ public interface RouteService {
     void delete(Long id, String username);
 
     List<AvailableDaysRentDTO> findAvailableDaysRentById(Long routeId);
+
+    List<LegDTO> getLegsForRoute(Long routeId);
 
 }

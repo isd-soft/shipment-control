@@ -1,8 +1,9 @@
+import {ItineraryCommand} from "./ItineraryCommand";
+
 export interface BookingRouteCommand {
-  cargoDescription: String,
-  /*maxLoadWeight: number,
-  maxLoadVolume: number,*/
-  cargoType: String[],
-  weight: number,
-  volume: number
+  totalVolume: number;
+  totalWeight: number;
+  cargoTypeList: number[];
+  itineraryCommand: ItineraryCommand;
+  bookingDate: string|null;
 }
