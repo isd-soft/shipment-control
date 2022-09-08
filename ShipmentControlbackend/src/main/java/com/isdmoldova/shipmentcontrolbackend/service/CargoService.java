@@ -14,10 +14,6 @@ public interface CargoService {
 
     CargoDTO findById(Long id);
 
-
-    CargoDTO update(CargoCommand cargoCommand, Long id,String username);
-
-
     void delete(Long id, String username);
 
     String sendWhenCargoApproved(Principal principal, Long id);

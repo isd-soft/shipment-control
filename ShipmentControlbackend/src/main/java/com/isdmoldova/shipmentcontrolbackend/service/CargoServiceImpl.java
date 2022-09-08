@@ -113,34 +113,6 @@ public class CargoServiceImpl implements CargoService {
                 .orElseThrow(() -> new EntityNotFoundException("Cargo with id " + id + " does not exist!"));
     }
 
-    @Override
-    @Transactional
-    public CargoDTO update(CargoCommand cargoCommand, Long id,String username) {
-        Cargo cargo = cargoRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Cargo entity not found by specified id " + id));
-        if (!cargo.getUser().getUsername().equals(username)) {
-            throw new EntityNotFoundException("User " + username + " is not allowed to update Cargo with id " + id);
-        }
-
-        cargo.setTotalVolume(cargoCommand.getTotalVolume());
-        cargo.setTotalWeight(cargoCommand.getTotalWeight());
-        cargoRepository.save(cargo);
-        return cargoMapper.map(cargo);
-
-
-    }
-
-//    @Override
-//    public void delete(Long id, String username) {
-//        Cargo cargo = cargoRepository.findById(id).orElseThrow(
-//                () -> new EntityNotFoundException("Cargo not found with id " + id));
-//        cargo.getCargoTypes().forEach(cargoType -> cargoType.removeCargo(cargo));
-//        if (!cargo.getUser().getUsername().equals(username)) {
-//            throw new EntityNotFoundException("User " + username + " is not allowed to delete route with id " + id);
-//        }
-//        cargoRepository.delete(cargo);
-//    }
-
 //delete cargo by goodsCompany userId
     @Override
     @Transactional

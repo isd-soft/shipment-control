@@ -5,6 +5,7 @@ import com.isdmoldova.shipmentcontrolbackend.dto.LegDTO;
 import com.isdmoldova.shipmentcontrolbackend.dto.RouteDTO;
 import com.isdmoldova.shipmentcontrolbackend.entity.*;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.AvailableDaysRent;
+import com.isdmoldova.shipmentcontrolbackend.entity.enums.UserRole;
 import com.isdmoldova.shipmentcontrolbackend.mapper.AvailableDaysRentDtoMapper;
 import com.isdmoldova.shipmentcontrolbackend.mapper.ItineraryDtoMapper;
 import com.isdmoldova.shipmentcontrolbackend.mapper.LegDtoMapper;
@@ -81,14 +82,22 @@ public class RouteServiceImpl implements RouteService {
         return routeDtoMapper.map(route);
     }
 
-
     @Override
     @Transactional(readOnly = true)
     public List<RouteDTO> findAllRoutes(String username) {
         User user = userRepository.findUserByUsername(username).orElseThrow(
                 () -> new EntityNotFoundException("Transports for user " + username + " not found"));
-        final List<Route> routes = routeRepository.findAllByUser(user);
-        return routes.stream().map(routeDtoMapper::map).collect(Collectors.toList());
+        if (user.getRole() == UserRole.SHIPMENT_COMPANY)
+            return routeRepository.findAllByUser(user).
+                    stream()
+                    .map(routeDtoMapper::map)
+                    .collect(Collectors.toList());
+        return routeRepository.findAll()
+                .stream()
+                .map(routeDtoMapper::map)
+                .collect(Collectors.toList());
+       /* final List<Route> routes = routeRepository.findAllByUser(user);
+        return routes.stream().map(routeDtoMapper::map).collect(Collectors.toList());*/
     }
 
     @Override

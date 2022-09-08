@@ -1,13 +1,7 @@
 package com.isdmoldova.shipmentcontrolbackend.controller;
 
 import com.isdmoldova.shipmentcontrolbackend.dto.CargoDTO;
-import com.isdmoldova.shipmentcontrolbackend.dto.CargoTypeDTO;
-import com.isdmoldova.shipmentcontrolbackend.dto.RouteDTO;
-import com.isdmoldova.shipmentcontrolbackend.entity.BookingRequest;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.CargoCommand;
-import com.isdmoldova.shipmentcontrolbackend.payload.request.CargoTypeCommand;
-import com.isdmoldova.shipmentcontrolbackend.payload.request.RouteCommand;
-import com.isdmoldova.shipmentcontrolbackend.payload.request.TransportCommand;
 import com.isdmoldova.shipmentcontrolbackend.service.CargoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -34,6 +28,7 @@ public class CargoController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    //TODO: may be need
     @GetMapping()
     public ResponseEntity<List<CargoDTO>> getAllCargoes(Principal principal) {
         List<CargoDTO> cargoDTOS = cargoService.findAllCargoes(principal.getName());
@@ -45,22 +40,6 @@ public class CargoController {
     public ResponseEntity<CargoDTO> getCargoById(@PathVariable("id") Long id) {
         CargoDTO cargo = cargoService.findById(id);
         return new ResponseEntity<>(cargo, HttpStatus.OK);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateCargo(@RequestBody CargoCommand cargoCommand,
-                                             @PathVariable Long id,
-                                             Principal principal) {
-        cargoService.update(cargoCommand, id,principal.getName());
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    // TODO: must to be changed for provider and select ROLE SHIPMENT
-    @PreAuthorize("hasRole('GOODS_COMPANY')")
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteCargo(@PathVariable Long id, Principal principal) {
-        cargoService.delete(id, principal.getName());
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('SHIPMENT_COMPANY')")
