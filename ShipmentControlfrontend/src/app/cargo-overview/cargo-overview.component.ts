@@ -52,23 +52,18 @@ export class CargoOverviewComponent implements OnInit {
   }
 
   getAllCargoOverview() {
-    // @ts-ignore
-    console.log(decode(localStorage.getItem('token')).username);
-    // @ts-ignore
-    // this.api.getCargoOverview(decode(localStorage.getItem('token')))
     this.api.getCargoOverview()
-      .subscribe({
-        next: (res) => {
-          // @ts-ignore
-          this.dataSource = new MatTableDataSource<CargoOverviewDTO>(res);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        },
-        error: () => {
-          this.snackbar.open("Error while fetching the record!!",
-            'Error', {duration: 2000});
-        }
-      })
+        .subscribe({
+          next: (res) => {
+            this.dataSource = new MatTableDataSource<CargoOverviewDTO>(res);
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          },
+          error: () => {
+            this.snackbar.open("Error while fetching the record!!",
+                'Error', {duration: 2000});
+          }
+        })
   }
 
   isUserShipment() {

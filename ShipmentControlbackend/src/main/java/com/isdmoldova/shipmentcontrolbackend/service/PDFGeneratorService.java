@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -136,7 +135,6 @@ public class PDFGeneratorService {
     private void addLogo(Document document) {
         try {
             Image image1 = Image.getInstance(Objects.requireNonNull(Image.class.getResource("/static/logo.jpeg")));
-//            image1.setAlignment(Image.ALIGN_RIGHT);
             image1.setAbsolutePosition(400f, 650f);
             image1.scaleAbsolute(150, 150);
             document.add(image1);

@@ -28,8 +28,4 @@ export class CargoService {
     rejectCargo(id: number){
         return this.http.delete("http://localhost:8080/api/cargo/" + id + "/reject");
     }
-
-    // generatePDF(){
-    //     return this.http.get("http://localhost:8080/api/pdf");
-    // }
 }

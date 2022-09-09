@@ -37,7 +37,6 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
   eventLogDisplayColumns: string [] = ['createdAt', 'eventType', 'cargoStatus', 'leg'];
   legDataSource: MatTableDataSource<LegDto>;
   dataSource: CargoDto;
-  cargoStatusString: string;
   matTableDataSource: MatTableDataSource<CargoDto>;
   eventLogDataSource: MatTableDataSource<EventLogDto>;
   @ViewChild('paginator') paginator: MatPaginator;
@@ -48,8 +47,11 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
   @ViewChild('eventSort') eventSort: MatSort;
   // @ts-ignore
   userRole = decode(localStorage.getItem('token')).sub;
+  cargoStatusString: string;
   cargoStatusANALYZING = "ANALYZING";
   cargoStatusPREPARING = "PREPARING";
+  cargoStatusARRIVED = "ARRIVED";
+
 
   constructor(
     private routeService: RouteService,
@@ -59,7 +61,6 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
     private route: Router,
     private dialog: MatDialog,
     private eventLogService: EventLogService
-    // private cd: ChangeDetectorRef,
   ) {
     this.legDataSource = new MatTableDataSource();
 
@@ -70,10 +71,8 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
 
 
   ngOnInit(): void {
-    // console.log("cargo id = " + this.router.snapshot.params["id"]);
-    console.log("cargo id = " + this.cargoId);
     this.getCargoById();
-
+    // this.cargoStatusString = this.dataSource.cargoStatus.toString();
   }
 
   getCargoTypeNames(element: any): string {
@@ -92,10 +91,8 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
 
   getTrackingNumber() {
     if (this.dataSource.trackingNumber === "" || this.dataSource.trackingNumber === null) {
-      console.log("No tracking number provided");
       this.trackingNumber = "No tracking number provided";
     } else {
-      console.log("there is a tracking number");
       this.trackingNumber = this.dataSource.trackingNumber;
     }
     return this.trackingNumber;
@@ -106,9 +103,6 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.dataSource = res;
-          console.log("cargoDTO");
-          console.log(res);
-          // console.log(this.getCargoTypeNames(this.dataSource.cargoTypes));
           this.cargoDetails = [
             {name: "Cargo Status", content: this.dataSource.cargoStatus.toString()},
             {name: "Tracking Number", content: this.getTrackingNumber()},
@@ -125,7 +119,7 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
           this.legDataSource.sort = this.legSort;
           this.getAllEventTypeLogs(this.dataSource.trackingNumber);
           this.cargoStatusString = this.dataSource.cargoStatus;
-          console.log(res);
+          // console.log(res);
         },
         error: () => {
           this.snackbar.open("Error while fetching the the record!!", 'Error', {duration: 2000});
@@ -175,15 +169,10 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(dialogResult => {
       if (dialogResult) {
-        console.log("analyzing -> preparing1");
-
         this.cargoService.approveCargo(this.cargoId)
           .subscribe({
             next: () => {
               this.snackbar.open("Executed Successfully, the cargo status changed to PREPARING", 'Ok', {duration: 6000})
-
-              // this.cargoService.generatePDF();
-
               this.getAllCargo();
               location.reload();
             },
@@ -203,7 +192,6 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
   }
 
   redirectToReject() {
-    console.log("status Analyzing you clicked Reject");
     const message = `Are you sure you want to Reject?`;
     const dialogData = new RouteConfirmDialogModel("Confirm Action", message);
     const dialogRef = this.dialog.open(RouteConfirmDialogComponent, {
@@ -281,7 +269,6 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
       }
     });
   }
-
 
 }
 

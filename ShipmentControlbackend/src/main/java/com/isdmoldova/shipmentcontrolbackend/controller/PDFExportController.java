@@ -1,8 +1,5 @@
 package com.isdmoldova.shipmentcontrolbackend.controller;
 
-import com.isdmoldova.shipmentcontrolbackend.dto.CargoDTO;
-import com.isdmoldova.shipmentcontrolbackend.entity.User;
-import com.isdmoldova.shipmentcontrolbackend.service.CargoService;
 import com.isdmoldova.shipmentcontrolbackend.service.PDFGeneratorService;
 import com.itextpdf.text.DocumentException;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.security.Principal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -24,13 +20,6 @@ import java.util.Date;
 public class PDFExportController {
 
     private final PDFGeneratorService pdfGeneratorService;
-    private final CargoService cargoService;
-
-
-//    public PDFExportController(PDFGeneratorService pdfGeneratorService, CargoService cargoService) {
-//        this.pdfGeneratorService = pdfGeneratorService;
-//        this.cargoService = cargoService;
-//    }
 
     @GetMapping("/{id}")
     public void generatePDF(HttpServletResponse response, @PathVariable("id") Long id) throws DocumentException, IOException {
@@ -42,9 +31,6 @@ public class PDFExportController {
         String headerValue = "attachment; filename=pdf_" + currentDateTime + ".pdf";
         response.setHeader(headerKey, headerValue);
 
-
-        CargoDTO cargoDTO = cargoService.findById(id);
-//        this.pdfGeneratorService.export(response, cargoDTO.getId(), principal);
         this.pdfGeneratorService.export(response, id);
 
     }

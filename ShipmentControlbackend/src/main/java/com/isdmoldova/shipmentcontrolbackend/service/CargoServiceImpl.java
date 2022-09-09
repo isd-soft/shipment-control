@@ -39,13 +39,11 @@ import java.util.stream.Collectors;
 public class CargoServiceImpl implements CargoService {
 
     private final CargoTypeRepository cargoTypeRepository;
-    private final CargoTypeDtoMapper cargoDtoMapper;
     private final CargoDtoMapper cargoMapper;
     private final CargoRepository cargoRepository;
     private final UserRepository userRepository;
     private final EmailService emailService;
     private final RouteRepository routeRepository;
-    private final CargoDtoMapper cargoDTOMapper;
     @Value("com.isdmoldova.shipment.control.from.email")
     private String shipmentControlFromEmail;
 
@@ -113,7 +111,6 @@ public class CargoServiceImpl implements CargoService {
                 .orElseThrow(() -> new EntityNotFoundException("Cargo with id " + id + " does not exist!"));
     }
 
-//delete cargo by goodsCompany userId
     @Override
     @Transactional
     public void delete(Long id, String username) {
