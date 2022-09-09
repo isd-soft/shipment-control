@@ -1,7 +1,7 @@
 import {LegCommand} from "./LegCommand";
 
 export interface ItineraryCommand {
-  estimatedAmountTimeShipment:number;
+  estimatedAmountTimeShipment:number | null;
   legList:LegCommand[];
 }
 

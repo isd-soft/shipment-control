@@ -30,5 +30,4 @@ public class EventController {
        List<EventLogDTO> eventLogDTOS = eventService.findAllEventsByTrackNumber(trackingNumber);
         return new ResponseEntity<>(eventLogDTOS,HttpStatus.OK);
     }
-
 }

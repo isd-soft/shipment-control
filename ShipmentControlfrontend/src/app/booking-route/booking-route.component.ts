@@ -9,10 +9,14 @@ import {TransportsService} from "../services/transports.service";
 import {ItineraryCommand} from "../services/ItineraryCommand";
 import {RouteCommand} from "../services/RouteCommand";
 import {CargoTypeDto} from "../model/cargoType.dto";
-import {ActivatedRoute, Params} from "@angular/router";
+import {ActivatedRoute, Params, Route, Router} from "@angular/router";
 import {BookingService} from "../services/booking.service";
 import {CargoTypeService} from "../services/cargoType.service";
 import {LegDto} from "../model/leg.dto";
+import {BookingRouteCommand} from "../services/BookingRouteCommand";
+import {DaysOfWeek, RouteDisplayDetailsComponent} from "../route/route.display.details/route.display.details.component";
+import {AvailableDaysRentDto} from "../model/availableDaysRentDto";
+import {DatePipe} from "@angular/common";
 
 
 @Component({
@@ -22,16 +26,19 @@ import {LegDto} from "../model/leg.dto";
 })
 
 export class BookingRouteComponent implements OnInit {
+
   @ViewChild(MatAccordion) accordion: MatAccordion;
 
-  //legs: LegCommand[] = [];
   bookingRouteForm !: FormGroup;
-  element: any;
   cargoTypeDtoList: CargoTypeDto[];
   currentRouteId: Params;
   legs: LegDto[];
-
-
+  dateForm!: FormGroup;
+  d: any;
+  finalArr: (undefined | number)[] = [];
+  daysCalendar: string[] = [];
+  availableDaysRents: AvailableDaysRentDto[];
+  estimatedAmountTimeShipment:number;
   constructor(private formBuilder: FormBuilder,
               private routeService: RouteService,
               private snackBar: MatSnackBar,
@@ -39,9 +46,10 @@ export class BookingRouteComponent implements OnInit {
               private transportService: TransportsService,
               private bookingService: BookingService,
               private cargoTypeService: CargoTypeService,
-              private changeDetectorRef: ChangeDetectorRef
+              private changeDetectorRef: ChangeDetectorRef,
+              private datePipe: DatePipe,
+              private router: Router
   ) {
-
   }
 
   ngOnInit(): void {
@@ -50,18 +58,67 @@ export class BookingRouteComponent implements OnInit {
         this.currentRouteId = params;
       });
     this.bookingRouteForm = this.formBuilder.group({
-      cargoType:new FormControl('',[Validators.required]),
-      description: new FormControl('', [Validators.required]),
+      cargoType: new FormControl('', [Validators.required]),
       maxWeight: new FormControl('', [Validators.required]),
       maxVolume: new FormControl('', [Validators.required]),
+      //pickedDate: new
 
     });
+    this.dateForm = this.formBuilder.group({
+      pickedDate: new FormControl('', [Validators.required])
+    });
     this.getAllCargoTypes();
-    this.getAllLegsForRoute()
+    this.getAllLegsForRoute();
+    this.getAvailableDays();
+  }
 
-    /*for (let leg of this.legs) {
-      console.log(leg.name);
-    }*/
+  getAvailableDays() {
+    this.routeService.getRouteById(this.currentRouteId['routeId'])
+      .subscribe({
+        next: (res) => {
+          this.availableDaysRents = res.availableDaysRentList;
+            this.estimatedAmountTimeShipment=res.estimatedAmountTimeShipment;
+        }
+      })
+  }
+
+
+  conv() {
+    let i = 0;
+    this.availableDaysRents.forEach(name => {
+      this.daysCalendar[i] = name.label;
+      i++;
+    })
+
+    for (let u = 0; u < 7; u++) {
+      for (let j = 0; j < 7; j++) {
+        if (this.daysCalendar[u] === this.weekDays[j].name) {
+          this.weekDays[j].id = undefined;
+        }
+      }
+      this.finalArr[u] = this.weekDays[u].id;
+    }
+
+  }
+
+  weekDays: DaysOfWeek[] = [
+    {name: 'Sunday', id: 0},
+    {name: 'Monday', id: 1},
+    {name: 'Tuesday', id: 2},
+    {name: 'Wednesday', id: 3},
+    {name: 'Thursday', id: 4},
+    {name: 'Friday', id: 5},
+    {name: 'Saturday', id: 6}
+  ]
+
+  filter = (d: Date): boolean => {
+    this.conv();
+    const days = d.getDay();
+
+    return days !== this.finalArr[0] && days !== this.finalArr[1]
+      && days !== this.finalArr[2] && days !== this.finalArr[3]
+      && days !== this.finalArr[4] && days !== this.finalArr[5]
+      && days !== this.finalArr[6]
   }
 
   onSubmit(): void {
@@ -71,25 +128,40 @@ export class BookingRouteComponent implements OnInit {
       //estimatedAmountTimeShipment: this.bookingRouteForm.controls['estimatedDays'].value
     };*/
 
-    const bookingRouteCommand = {
-      cargoDescription: this.bookingRouteForm.controls['cargoType'].value,
-      /*maxLoadWeight: this.bookingRouteForm.controls['maxWeight'].value,
-      maxLoadVolume: this.bookingRouteForm.controls['maxVolume'].value,*/
-      cargoType: this.bookingRouteForm.controls['cargoTypeDtoList'].value,
-      weight: this.bookingRouteForm.controls['weight'].value,
-      volume: this.bookingRouteForm.controls['volume'].value
+    const date = this.dateForm.controls['pickedDate'].value;
+
+    const legCommands: LegCommand[] = this.legs.map(leg => ({
+      country: leg.country,
+      countryCode: leg.countryCode,
+      name: leg.name,
+      address: leg.address,
+      price: leg.price
+    }));
+
+    const itineraryCommand: ItineraryCommand = {
+      legList: legCommands,
+      estimatedAmountTimeShipment: this.estimatedAmountTimeShipment,
     }
 
+    const bookingRouteCommand: BookingRouteCommand = {
+
+      totalWeight: this.bookingRouteForm.controls['maxWeight'].value,
+      totalVolume: this.bookingRouteForm.controls['maxVolume'].value,
+      cargoTypeList: this.bookingRouteForm.controls['cargoType'].value,
+      itineraryCommand: itineraryCommand,
+      bookingDate: this.datePipe.transform(date, "yyyy-MM-dd"),
+      routeId:this.currentRouteId['routeId'],
+    }
+    console.log(bookingRouteCommand);
     this.bookingService.createBookingRoute(bookingRouteCommand).subscribe(
       response => {
-        console.log("Hurray!");
-        this.snackBar.open("Successfully added", 'OK',{duration:6000});
-
+        this.snackBar.open("Successfully added", 'OK', {duration: 6000});
+        this.router.navigate(['dashboard', 'cargo']);
       },
       error => {
         console.log(error);
         console.log("Unsuccessful");
-        this.snackBar.open("Unsuccessfully added route", 'OK',{duration:6000});
+        this.snackBar.open("Unsuccessfully added route", 'OK', {duration: 6000});
 
       }
     );
@@ -115,9 +187,13 @@ export class BookingRouteComponent implements OnInit {
     });
   }
 
-  removeLeg() : void {
-    if (this.legs.length > 3) {
+  // @ts-ignore
+  removeLeg(): void {
+    if (this.legs.length > 2) {
       this.legs.pop();
+    } else {
+      //@ts-ignore
+      document.querySelector('.remove-leg').disable = true;
+      }
     }
-  }
 }

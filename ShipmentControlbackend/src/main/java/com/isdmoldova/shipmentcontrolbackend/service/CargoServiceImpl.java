@@ -27,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.security.Principal;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
@@ -59,10 +60,11 @@ public class CargoServiceImpl implements CargoService {
                         () -> new EntityNotFoundException("Cargo type with id " + cargoTypeId + " not found")))
                 .collect(Collectors.toList());
 
-        Route route = routeRepository.findById(cargoCommand.getRouteId()).orElseThrow(
-                () -> new EntityNotFoundException("Route with this " + cargoCommand.getRouteId() + " does not found!"));
-
-
+        final Route route = routeRepository.findById(cargoCommand.getRouteId())
+                .orElseThrow(()->new EntityNotFoundException("Route not found"));
+        Double maxWeight = cargoCommand.getTotalWeight();
+        Double maxVolume = cargoCommand.getTotalVolume();
+        LocalDate bookingDate = cargoCommand.getBookingDate();
 
         List<LegCommand> legCommandList = cargoCommand.getItineraryCommand().getLegList();
         List<Leg> legs = legCommandList.stream()
@@ -79,9 +81,11 @@ public class CargoServiceImpl implements CargoService {
         cargo.setTotalWeight(cargoCommand.getTotalWeight());
         cargo.setBookingDate(cargoCommand.getBookingDate());
         cargo.setProvider(route.getUser());
+        cargo.setCargoStatus(CargoStatus.ANALYZING);
+        cargo.setItinerary(itinerary);
 
         cargoRepository.save(cargo);
-        cargo.setItinerary(itinerary);
+
         return cargoMapper.map(cargo);
 
     }
@@ -102,52 +106,12 @@ public class CargoServiceImpl implements CargoService {
                 .collect(Collectors.toList());
     }
 
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<CargoDTO> findAllCargoesByProvider(String username) {
-        User provider = userRepository.findUserByUsername(username).orElseThrow(
-                () -> new EntityNotFoundException("Cargoes for provider " + username + " not found"));
-        final List<Cargo> cargos = cargoRepository.findAllByUser(provider);
-        return cargos.stream().map(cargoMapper::map).collect(Collectors.toList());
-    }
-
-
-
     @Override
     @Transactional(readOnly = true)
     public CargoDTO findById(Long id) {
         return cargoRepository.findById(id).map(cargoMapper::map)
                 .orElseThrow(() -> new EntityNotFoundException("Cargo with id " + id + " does not exist!"));
     }
-
-    @Override
-    @Transactional
-    public CargoDTO update(CargoCommand cargoCommand, Long id,String username) {
-        Cargo cargo = cargoRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Cargo entity not found by specified id " + id));
-        if (!cargo.getUser().getUsername().equals(username)) {
-            throw new EntityNotFoundException("User " + username + " is not allowed to update Cargo with id " + id);
-        }
-
-        cargo.setTotalVolume(cargoCommand.getTotalVolume());
-        cargo.setTotalWeight(cargoCommand.getTotalWeight());
-        cargoRepository.save(cargo);
-        return cargoMapper.map(cargo);
-
-
-    }
-
-//    @Override
-//    public void delete(Long id, String username) {
-//        Cargo cargo = cargoRepository.findById(id).orElseThrow(
-//                () -> new EntityNotFoundException("Cargo not found with id " + id));
-//        cargo.getCargoTypes().forEach(cargoType -> cargoType.removeCargo(cargo));
-//        if (!cargo.getUser().getUsername().equals(username)) {
-//            throw new EntityNotFoundException("User " + username + " is not allowed to delete route with id " + id);
-//        }
-//        cargoRepository.delete(cargo);
-//    }
 
 //delete cargo by goodsCompany userId
     @Override
