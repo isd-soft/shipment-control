@@ -43,6 +43,7 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
   chatDisplayedColumns: string[] = ['companyName', 'messageText', 'createdAt', 'star'];
   dataSource: CargoDto;
   cargoStatusString: string;
+  matTableDataSource: MatTableDataSource<CargoDto>;
   chatLogDataSource: CargoChatMessageLogDto[];
   eventLogDataSource: MatTableDataSource<EventLogDto>;
   @ViewChild('paginator') paginator: MatPaginator;
@@ -51,8 +52,6 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
   @ViewChild('legSort') legSort = new MatSort();
   @ViewChild('eventPaginator') eventPaginator: MatPaginator;
   @ViewChild('eventSort') eventSort: MatSort;
-  @ViewChild('chatPaginator') chatPaginator: MatPaginator;
-  @ViewChild('chatSort') chatSort: MatSort;
   // @ts-ignore
   userRole = decode(localStorage.getItem('token')).sub;
   cargoStatusANALYZING = "ANALYZING";
@@ -96,14 +95,6 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
     })
     return cargoTypes;
   }
-
-  /*  chatApplyFilter(event:Event) {
-      const filterValue = (event.target as HTMLInputElement).value;
-
-      this.chatLogDataSource.filter = filterValue.trim().toLowerCase();
-
-    }*/
-
 
   show(): boolean {
     return this.userRole === '[ROLE_SHIPMENT_COMPANY]'
@@ -153,7 +144,6 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
         }
       })
   }
-
   getCargoChatMessageLogsById() {
     this.cargoChatMessageLogService.getCargoChatLogs(this.cargoId).subscribe({
       next: (chat) => {
@@ -161,6 +151,20 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
       },
       error: () => {
         this.snackbar.open("No chat logged!", 'Ok', {duration: 2000});
+      }
+    });
+  }
+
+  getAllCargo() {
+    return this.cargoService.getCargo().subscribe({
+      next: (data) => {
+
+        this.matTableDataSource = new MatTableDataSource<CargoDto>(data);
+        this.matTableDataSource.paginator = this.paginator;
+        this.matTableDataSource.sort = this.sort;
+      },
+      error: () => {
+        this.snackbar.open("Error while fetching the record!!", 'Error', {duration: 2000});
       }
     });
   }
@@ -198,6 +202,10 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
           .subscribe({
             next: () => {
               this.snackbar.open("Executed Successfully, the cargo status changed to PREPARING", 'Ok', {duration: 6000})
+
+              // this.cargoService.generatePDF();
+
+              this.getAllCargo();
               location.reload();
             },
             error: () => {
@@ -236,6 +244,33 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
             next: () => {
               this.snackbar.open("Executed Successfully, the cargo was rejected", 'Ok', {duration: 6000})
               this.redirectToCargoOverview();
+
+            },
+            error: () => {
+              this.snackbar.open("Error while executing", 'Error', {duration: 2000});
+            }
+          })
+      }
+    });
+  }
+
+  redirectToDeploy() {
+    const message = `Are you sure you want to Deploy?`;
+
+    const dialogData = new RouteConfirmDialogModel("Confirm Action", message);
+
+    const dialogRef = this.dialog.open(RouteConfirmDialogComponent, {
+      maxWidth: "400px",
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (dialogResult) {
+        this.cargoService.rejectCargo(this.cargoId)
+          .subscribe({
+            next: () => {
+              this.snackbar.open("Executed Successfully", 'Ok', {duration: 2000})
+              this.getAllCargo();
             },
             error: () => {
               this.snackbar.open("Error while executing", 'Error', {duration: 2000});
@@ -246,14 +281,11 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
   }
 
 
+  redirectToCancel() {
+    const message = `Are you sure you want to Cancel?`;
 
-  editMessageLog(chatId: number) {
-
-  }
-
-  deleteMessageLog(chatId: number) {
-    const message = `Are you sure you want to DELETE?`;
     const dialogData = new RouteConfirmDialogModel("Confirm Action", message);
+
     const dialogRef = this.dialog.open(RouteConfirmDialogComponent, {
       maxWidth: "400px",
       data: dialogData
@@ -261,20 +293,18 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(dialogResult => {
       if (dialogResult) {
-        this.cargoChatMessageLogService.deleteCargoChatLogs(chatId)
+        this.cargoService.rejectCargo(this.cargoId)
           .subscribe({
             next: () => {
-              this.snackbar.open("Executed Successfully", 'Ok', {duration: 4000})
-              window.location.reload();
+              this.snackbar.open("Executed Successfully", 'Ok', {duration: 2000})
+              this.getAllCargo();
             },
             error: () => {
-              this.snackbar.open("You can't delete that!", 'Forbidden', {duration: 6000});
-
+              this.snackbar.open("Error while executing", 'Error', {duration: 2000});
             }
           })
       }
     });
-
   }
 
   openToAddMessage() {
@@ -296,5 +326,35 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
       }
     })
   }
+
+editMessageLog(chatId: number) {
+
+}
+
+deleteMessageLog(chatId: number) {
+  const message = `Are you sure you want to DELETE?`;
+  const dialogData = new RouteConfirmDialogModel("Confirm Action", message);
+  const dialogRef = this.dialog.open(RouteConfirmDialogComponent, {
+    maxWidth: "400px",
+    data: dialogData
+  });
+
+  dialogRef.afterClosed().subscribe(dialogResult => {
+    if (dialogResult) {
+      this.cargoChatMessageLogService.deleteCargoChatLogs(chatId)
+        .subscribe({
+          next: () => {
+            this.snackbar.open("Executed Successfully", 'Ok', {duration: 4000})
+            window.location.reload();
+          },
+          error: () => {
+            this.snackbar.open("You can't delete that!", 'Forbidden', {duration: 6000});
+
+          }
+        })
+    }
+  });
+
+}
 }
 

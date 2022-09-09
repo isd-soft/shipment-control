@@ -2,10 +2,14 @@ package com.isdmoldova.shipmentcontrolbackend.payload.request;
 
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.AvailableDaysRent;
 
+import com.isdmoldova.shipmentcontrolbackend.entity.enums.CurrencyEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -36,6 +40,8 @@ public class RouteCommand {
 
     @NotNull(message = "Please enter the maximum load volume")
     private Double maxLoadVolume;
+
+    private CurrencyEnum currency;
 
 
 }

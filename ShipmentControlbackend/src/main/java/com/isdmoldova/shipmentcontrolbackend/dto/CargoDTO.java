@@ -22,5 +22,7 @@ public class CargoDTO {
     private ItineraryDTO itineraryDTO;
     private List<CargoTypeDTO> cargoTypes;
     private LocalDate bookingDate;
+    private String user;
+    private String provider;
 
 }

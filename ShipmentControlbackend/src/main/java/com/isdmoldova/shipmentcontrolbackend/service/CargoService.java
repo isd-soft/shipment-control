@@ -11,16 +11,14 @@ public interface CargoService {
     CargoDTO add(CargoCommand cargoCommand, String username);
 
     List<CargoDTO> findAllCargoes(String username);
+    List<CargoDTO> findAllCargoesByProvider(String username);
 
     CargoDTO findById(Long id);
-
-
-    CargoDTO update(CargoCommand cargoCommand, Long id,String username);
-
 
     void delete(Long id, String username);
 
     String sendWhenCargoApproved(Principal principal, Long id);
 
     String sendWhenCargoRejected(Principal principal, Long id);
+
 }

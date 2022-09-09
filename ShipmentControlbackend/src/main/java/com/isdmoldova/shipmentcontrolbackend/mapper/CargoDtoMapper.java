@@ -28,6 +28,8 @@ public class CargoDtoMapper {
       //  cargoDTO.setCurrentLegId(cargo.getCurrentLeg().getId());
         cargoDTO.setTotalWeight(cargo.getTotalWeight());
         cargoDTO.setBookingDate(cargo.getBookingDate());
+        cargoDTO.setProvider(cargo.getProvider().getUsername());
+        cargoDTO.setUser(cargo.getUser().getUsername());
         return cargoDTO;
     }
 }
