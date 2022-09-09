@@ -63,6 +63,7 @@ import { CargoOverviewDisplayDetailsComponent } from './cargo-overview/cargo-ove
 import {BookingRouteComponent} from "./booking-route/booking-route.component";
 import {BookingRequestComponent} from "./booking.request/booking.request.component";
 import {JWT_OPTIONS, JwtHelperService} from "@auth0/angular-jwt";
+import { ChatMessageAddDialogComponent } from './cargo-overview/cargo-overview.display.details/chat.message.add.dialog/chat.message.add.dialog.component';
 
 @NgModule({
   declarations: [
@@ -87,7 +88,8 @@ import {JWT_OPTIONS, JwtHelperService} from "@auth0/angular-jwt";
     RouteEditComponent,
     CargoOverviewDisplayDetailsComponent,
     BookingRouteComponent,
-    BookingRequestComponent
+    BookingRequestComponent,
+    ChatMessageAddDialogComponent
 
   ],
   imports: [

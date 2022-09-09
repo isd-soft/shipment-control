@@ -22,7 +22,8 @@ public class CargoChatMessageLog extends BaseEntity {
     @Column(name = "message_text")
     private String messageText;
 
-    @Column(name = "message_sender")
-    private String messageSender;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "message_sender_id")
+    private User user;
 
 }

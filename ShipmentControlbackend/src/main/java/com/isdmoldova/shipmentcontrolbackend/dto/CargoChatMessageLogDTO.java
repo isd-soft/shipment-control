@@ -8,10 +8,9 @@ import java.time.LocalDateTime;
 public class CargoChatMessageLogDTO {
     private Long chatId;
     private String messageText;
-    private String goodsCompanyName;
-    private String shipmentCompanyName;
     private LocalDateTime createdAt;
     private String messageFrom;
+    private String senderRole;
 
 
 }

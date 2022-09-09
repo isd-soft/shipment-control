@@ -2,6 +2,7 @@ package com.isdmoldova.shipmentcontrolbackend.service;
 
 import com.isdmoldova.shipmentcontrolbackend.dto.CargoChatMessageLogDTO;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.CargoChatMessageLogCommand;
+import org.springframework.http.HttpStatus;
 
 import java.security.Principal;
 import java.util.List;
@@ -12,9 +13,9 @@ public interface CargoChatMessageLogService {
 
     void addCargoChatLog(CargoChatMessageLogCommand cargoChatMessageLogCommand, Principal principal);
 
-    void deleteCargoChatLog(Long id, Principal principal);
+    HttpStatus deleteCargoChatLog(Long id, Principal principal);
 
-    void updateCargoChatLog(CargoChatMessageLogCommand cargoChatMessageLogCommand,Principal principal);
+    HttpStatus updateCargoChatLog(Long id, CargoChatMessageLogCommand cargoChatMessageLogCommand,Principal principal);
 
 
 }

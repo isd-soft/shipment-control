@@ -8,6 +8,8 @@ import lombok.Setter;
 public class CargoChatMessageLogCommand {
 
     private Long cargoId;
+    private String messageFrom;
     private String messageText;
+    private String senderRole;
 
 }

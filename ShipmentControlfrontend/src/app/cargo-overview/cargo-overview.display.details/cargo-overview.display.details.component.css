@@ -39,7 +39,31 @@ section {
   width: 490px;
 
 }
+.add-chat-button{
+  margin-top: 5px;
+  margin-left:88%;
+  alignment: right;
+}
 
 .example-button-row .mat-button-base {
   margin: 8px 8px 8px 0;
+}
+
+.example-card-goods {
+  max-width: 450px;
+  margin-top:5px;
+  margin-left: 2%;
+
+}
+
+.example-card-shipment {
+  max-width: 450px;
+  margin-top: 5px;
+  margin-left: 50%;
+}
+
+
+.example-header-image {
+  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-size: cover;
 }
