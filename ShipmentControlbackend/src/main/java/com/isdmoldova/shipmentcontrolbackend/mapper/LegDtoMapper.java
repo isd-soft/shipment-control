@@ -16,6 +16,7 @@ public class LegDtoMapper {
         legDTO.setCountry(leg.getCountry());
         legDTO.setCountryCode(leg.getCountryCode());
         legDTO.setPrice(leg.getPrice());
+        legDTO.setCurrency(leg.getCurrency());
 
         return legDTO;
     }

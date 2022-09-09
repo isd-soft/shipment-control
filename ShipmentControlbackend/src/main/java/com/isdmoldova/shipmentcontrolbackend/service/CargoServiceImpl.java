@@ -44,6 +44,8 @@ public class CargoServiceImpl implements CargoService {
     private final CargoRepository cargoRepository;
     private final UserRepository userRepository;
     private final EmailService emailService;
+    private final RouteRepository routeRepository;
+    private final CargoDtoMapper cargoDTOMapper;
     @Value("com.isdmoldova.shipment.control.from.email")
     private String shipmentControlFromEmail;
 
@@ -58,13 +60,15 @@ public class CargoServiceImpl implements CargoService {
                         () -> new EntityNotFoundException("Cargo type with id " + cargoTypeId + " not found")))
                 .collect(Collectors.toList());
 
+        final Route route = routeRepository.findById(cargoCommand.getRouteId())
+                .orElseThrow(()->new EntityNotFoundException("Route not found"));
         Double maxWeight = cargoCommand.getTotalWeight();
         Double maxVolume = cargoCommand.getTotalVolume();
         LocalDate bookingDate = cargoCommand.getBookingDate();
 
         List<LegCommand> legCommandList = cargoCommand.getItineraryCommand().getLegList();
         List<Leg> legs = legCommandList.stream()
-                .map(leg -> new Leg(leg.getCountry(), leg.getCountryCode(), leg.getAddress(), leg.getName(), leg.getPrice()))
+                .map(leg -> new Leg(leg.getCountry(), leg.getCountryCode(), leg.getAddress(), leg.getName(), leg.getPrice(), route.getCurrency()))
                 .collect(Collectors.toList());
         Long estimatedAmountTimeShipment = cargoCommand.getItineraryCommand().getEstimatedAmountTimeShipment();
         Itinerary itinerary = new Itinerary(estimatedAmountTimeShipment);
@@ -76,9 +80,12 @@ public class CargoServiceImpl implements CargoService {
         cargo.setTotalVolume(cargoCommand.getTotalVolume());
         cargo.setTotalWeight(cargoCommand.getTotalWeight());
         cargo.setBookingDate(cargoCommand.getBookingDate());
+        cargo.setProvider(route.getUser());
+        cargo.setCargoStatus(CargoStatus.ANALYZING);
+        cargo.setItinerary(itinerary);
 
         cargoRepository.save(cargo);
-        cargo.setItinerary(itinerary);
+
         return cargoMapper.map(cargo);
 
     }
@@ -105,34 +112,6 @@ public class CargoServiceImpl implements CargoService {
         return cargoRepository.findById(id).map(cargoMapper::map)
                 .orElseThrow(() -> new EntityNotFoundException("Cargo with id " + id + " does not exist!"));
     }
-
-    @Override
-    @Transactional
-    public CargoDTO update(CargoCommand cargoCommand, Long id,String username) {
-        Cargo cargo = cargoRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Cargo entity not found by specified id " + id));
-        if (!cargo.getUser().getUsername().equals(username)) {
-            throw new EntityNotFoundException("User " + username + " is not allowed to update Cargo with id " + id);
-        }
-
-        cargo.setTotalVolume(cargoCommand.getTotalVolume());
-        cargo.setTotalWeight(cargoCommand.getTotalWeight());
-        cargoRepository.save(cargo);
-        return cargoMapper.map(cargo);
-
-
-    }
-
-//    @Override
-//    public void delete(Long id, String username) {
-//        Cargo cargo = cargoRepository.findById(id).orElseThrow(
-//                () -> new EntityNotFoundException("Cargo not found with id " + id));
-//        cargo.getCargoTypes().forEach(cargoType -> cargoType.removeCargo(cargo));
-//        if (!cargo.getUser().getUsername().equals(username)) {
-//            throw new EntityNotFoundException("User " + username + " is not allowed to delete route with id " + id);
-//        }
-//        cargoRepository.delete(cargo);
-//    }
 
 //delete cargo by goodsCompany userId
     @Override

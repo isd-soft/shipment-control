@@ -1,11 +1,12 @@
 package com.isdmoldova.shipmentcontrolbackend.payload.request;
 
+import com.isdmoldova.shipmentcontrolbackend.entity.enums.CurrencyEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
-
+import javax.validation.constraints.NotNull;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,5 +25,8 @@ public class LegCommand {
     @NotEmpty(message = "Please enter the name")
     private String name;
 
+   // @NotEmpty(message = "Please enter the price")
     private Double price;
+
+    private CurrencyEnum currency;
 }

@@ -2,7 +2,7 @@
   <h1 mat-dialog-title class="general-title"> Booking Route Form</h1>
 
   <div mat-dialog-content>
-    <div [formGroup]="bookingRouteForm" ><!--(ngSubmit)="onSubmit()"-->
+    <div [formGroup]="bookingRouteForm" >
       <mat-label class="form-title">Select your cargo type</mat-label>
       <div class="form-content">
         <div class="form-group">
@@ -13,12 +13,6 @@
                 {{cargoTypeDto.name}}
               </mat-option>
             </mat-select>
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field appearance="outline">
-            <mat-label>Cargo description</mat-label>
-            <textarea formControlName="description" matInput placeholder="Cargo description"></textarea>
           </mat-form-field>
         </div>
         <div class="form-group">
@@ -40,36 +34,47 @@
               <mat-expansion-panel class="legForm">
                 <mat-expansion-panel-header>
                   <mat-panel-title >
-                    Insert the Leg
+                    Leg
                   </mat-panel-title>
                 </mat-expansion-panel-header>
 
                 <mat-form-field class="add-input1" appearance="outline" class="itineraryForm">
-                  <input matInput placeholder="Name" [(ngModel)]="l.name" [ngModelOptions]="{standalone: true}"/>
+                  <input matInput placeholder="Name" [(ngModel)]="l.name" [ngModelOptions]="{standalone: true}" readonly/>
                 </mat-form-field>
 
                 <mat-form-field class="add-input2" appearance="outline" class="itineraryForm">
-                  <input matInput placeholder="Address" [(ngModel)]="l.address" [ngModelOptions]="{standalone: true}"/>
+                  <input matInput placeholder="Address" [(ngModel)]="l.address" [ngModelOptions]="{standalone: true}" readonly/>
                 </mat-form-field>
 
                 <mat-form-field class="add-input3" appearance="outline" class="itineraryForm">
-                  <input matInput placeholder="Country" [(ngModel)]="l.country" [ngModelOptions]="{standalone: true}"/>
+                  <input matInput placeholder="Country" [(ngModel)]="l.country" [ngModelOptions]="{standalone: true}" readonly/>
                 </mat-form-field>
 
                 <mat-form-field class="add-input4" appearance="outline" class="itineraryForm">
-                  <input matInput placeholder="CountryCode" [(ngModel)]="l.countryCode" [ngModelOptions]="{standalone: true}"/>
+                  <input matInput placeholder="CountryCode" [(ngModel)]="l.countryCode" [ngModelOptions]="{standalone: true}" readonly/>
                 </mat-form-field>
 
               </mat-expansion-panel>
             </mat-accordion>
           </div>
-           <p class="mat-dialog-title">Remove leg<button mat-raised-button color="primary" (click)="removeLeg()">-</button></p>
+           <p class="mat-dialog-title remove-leg">Remove latest leg<button mat-raised-button color="primary" (click)="removeLeg()">-</button></p>
        </div>
         <br>
       </div>
+      <div>
+        <form class="mat-form-date-picker" [formGroup]="dateForm">
+          <mat-form-field (click)="picker.open()">
+            <input matInput formControlName="pickedDate" [matDatepickerFilter]="filter" [matDatepicker]="picker" readonly>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <div class="btn-submit">
+          </div>
+        </form>
+
     </div>
   </div>
-
+  </div>
   <div class="createRouteButton">
     <button mat-raised-button type="submit" color="primary" (click)="onSubmit()">Save</button>
     <button mat-raised-button (click)="onReset()">Reset</button>

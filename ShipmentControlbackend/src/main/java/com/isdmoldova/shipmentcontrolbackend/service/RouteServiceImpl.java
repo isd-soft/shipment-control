@@ -1,9 +1,11 @@
 package com.isdmoldova.shipmentcontrolbackend.service;
 
 import com.isdmoldova.shipmentcontrolbackend.dto.AvailableDaysRentDTO;
+import com.isdmoldova.shipmentcontrolbackend.dto.LegDTO;
 import com.isdmoldova.shipmentcontrolbackend.dto.RouteDTO;
 import com.isdmoldova.shipmentcontrolbackend.entity.*;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.AvailableDaysRent;
+import com.isdmoldova.shipmentcontrolbackend.entity.enums.UserRole;
 import com.isdmoldova.shipmentcontrolbackend.mapper.AvailableDaysRentDtoMapper;
 import com.isdmoldova.shipmentcontrolbackend.mapper.ItineraryDtoMapper;
 import com.isdmoldova.shipmentcontrolbackend.mapper.LegDtoMapper;
@@ -60,7 +62,7 @@ public class RouteServiceImpl implements RouteService {
 
         List<LegCommand> legCommandList = routeCommand.getItineraryCommand().getLegList();
         List<Leg> legs = legCommandList.stream()
-                .map(leg -> new Leg(leg.getCountry(), leg.getCountryCode(), leg.getAddress(), leg.getName(), leg.getPrice()))
+                .map(leg -> new Leg(leg.getCountry(), leg.getCountryCode(), leg.getAddress(), leg.getName(), leg.getPrice(), routeCommand.getCurrency()))
                 .collect(Collectors.toList());
 
         Long estimatedAmountTimeShipment = routeCommand.getItineraryCommand().getEstimatedAmountTimeShipment();
@@ -80,14 +82,22 @@ public class RouteServiceImpl implements RouteService {
         return routeDtoMapper.map(route);
     }
 
-
     @Override
     @Transactional(readOnly = true)
     public List<RouteDTO> findAllRoutes(String username) {
         User user = userRepository.findUserByUsername(username).orElseThrow(
                 () -> new EntityNotFoundException("Transports for user " + username + " not found"));
-        final List<Route> routes = routeRepository.findAllByUser(user);
-        return routes.stream().map(routeDtoMapper::map).collect(Collectors.toList());
+        if (user.getRole() == UserRole.SHIPMENT_COMPANY)
+            return routeRepository.findAllByUser(user).
+                    stream()
+                    .map(routeDtoMapper::map)
+                    .collect(Collectors.toList());
+        return routeRepository.findAll()
+                .stream()
+                .map(routeDtoMapper::map)
+                .collect(Collectors.toList());
+       /* final List<Route> routes = routeRepository.findAllByUser(user);
+        return routes.stream().map(routeDtoMapper::map).collect(Collectors.toList());*/
     }
 
     @Override
@@ -118,7 +128,7 @@ public class RouteServiceImpl implements RouteService {
         itinerary.clearLegs();
 
         List<Leg> legs = command.getItineraryCommand().getLegList().stream()
-                .map(leg -> new Leg(leg.getCountry(), leg.getCountryCode(), leg.getAddress(), leg.getName(), leg.getPrice()))
+                .map(leg -> new Leg(leg.getCountry(), leg.getCountryCode(), leg.getAddress(), leg.getName(), leg.getPrice(),route.getCurrency()))
                 .collect(Collectors.toList());
         legs.forEach(itinerary::addLeg);
         itinerary.setDaysOfExecution(command.getItineraryCommand().getEstimatedAmountTimeShipment());
@@ -154,6 +164,15 @@ public class RouteServiceImpl implements RouteService {
         return daysRent.stream().map(availableDaysRentDtoMapper::map).collect(Collectors.toList());
     }
 
+    @Override
+    public List<LegDTO> getLegsForRoute(Long routeId) {
+        final Route route = routeRepository.findById(routeId).orElseThrow(
+                () -> new EntityNotFoundException("Route not found with id " + routeId));
+
+        return route.getItinerary().getLegs().stream()
+                .map(legDtoMapper::map)
+                .collect(Collectors.toList());
+    }
 }
 
 
