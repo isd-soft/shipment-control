@@ -37,7 +37,7 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
 
   cargoDetails: CargoDetails[];
   cargoDetailsDisplayedColumns: string[] = ['name', 'content'];
-  legDisplayedColumns: string [] = ['name', 'address', 'country', 'countryCode', 'price'];
+  legDisplayedColumns: string [] = ['name', 'address', 'country', 'countryCode', 'price', 'currency'];
   eventLogDisplayColumns: string [] = ['createdAt', 'eventType', 'cargoStatus', 'leg'];
   legDataSource: MatTableDataSource<LegDto>;
   chatDisplayedColumns: string[] = ['companyName', 'messageText', 'createdAt', 'star'];
@@ -126,6 +126,7 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
             {name: "Destination", content: this.dataSource.destination},
             {name: "Estimate time for delivering", content: res.itineraryDTO.executionTime.toString()}
           ];
+          console.log(res.itineraryDTO.legDTOS)
           this.legDataSource = new MatTableDataSource<LegDto>(res.itineraryDTO.legDTOS);
           this.legDataSource.paginator = this.legPaginator;
           this.legDataSource.sort = this.legSort;
