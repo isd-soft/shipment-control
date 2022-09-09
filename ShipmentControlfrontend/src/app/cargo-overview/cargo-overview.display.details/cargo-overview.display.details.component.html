@@ -97,9 +97,64 @@
         <mat-paginator #eventPaginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
       </div>
     </mat-tab>
-    <mat-tab>
 
+    <mat-tab label="Message Logs">
+      <button class="add-chat-button" mat-raised-button color="primary" (click)="openToAddMessage()">Add Message</button>
+        <div  class="example-card" *ngFor="let msg of chatLogDataSource">
+
+
+          <mat-card class="example-card-goods"  *ngIf="msg.senderRole===goodsRole">
+            <mat-card-header>
+              <div mat-card-avatar class="example-header-image"></div>
+              <mat-card-title><h3>{{msg.messageFrom}}</h3></mat-card-title>
+              <mat-card-subtitle>{{msg.createdAt | date:"yyyy-MM-dd hh-mm"}}</mat-card-subtitle>
+              <mat-card-content>
+                {{msg.messageText}}
+              </mat-card-content>
+
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="openToEditMessage()">
+                <mat-icon>open_in_new</mat-icon>
+                <span>Edit message</span>
+              </button>
+              <button mat-menu-item (click)="deleteMessageLog(msg.chatId)">
+                <mat-icon>delete</mat-icon>
+                <span>Delete message</span>
+              </button>
+            </mat-menu>
+            </mat-card-header>
+          </mat-card>
+
+          <mat-card class="example-card-shipment" *ngIf="msg.senderRole===shipmentRole">
+            <mat-card-header>
+              <div mat-card-avatar class="example-header-image"></div>
+              <mat-card-title><h3>{{msg.messageFrom}}</h3></mat-card-title>
+              <mat-card-subtitle>{{msg.createdAt| date:"yyyy-MM-dd hh-mm"}}</mat-card-subtitle>
+              <mat-card-content>
+                {{msg.messageText}}
+              </mat-card-content>
+              <button mat-icon-button [matMenuTriggerFor]="menu2">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+            <mat-menu #menu2="matMenu">
+              <button mat-menu-item (click)="editMessageLog(msg.chatId)">
+                <mat-icon>open_in_new</mat-icon>
+                <span>Edit message</span>
+              </button>
+              <button mat-menu-item (click)="deleteMessageLog(msg.chatId)">
+                <mat-icon>delete</mat-icon>
+                <span>Delete message</span>
+              </button>
+            </mat-menu>
+            </mat-card-header>
+          </mat-card>
+
+      </div>
 
     </mat-tab>
   </mat-tab-group>
 </div>
+

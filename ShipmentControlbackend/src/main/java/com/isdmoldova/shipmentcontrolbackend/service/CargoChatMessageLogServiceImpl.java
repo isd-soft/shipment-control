@@ -10,6 +10,7 @@ import com.isdmoldova.shipmentcontrolbackend.repository.CargoChatMessageLogRepos
 import com.isdmoldova.shipmentcontrolbackend.repository.CargoRepository;
 import com.isdmoldova.shipmentcontrolbackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -48,7 +49,7 @@ public class CargoChatMessageLogServiceImpl implements CargoChatMessageLogServic
         final CargoChatMessageLog cargoChatMessageLog = new CargoChatMessageLog();
         cargoChatMessageLog.setMessageText(cargoChatMessageLogCommand.getMessageText());
         cargoChatMessageLog.setCargo(cargo);
-        cargoChatMessageLog.setMessageSender(user.getCompanyName());
+        cargoChatMessageLog.setUser(user);
 
 
         cargoChatMessageLogRepository.save(cargoChatMessageLog);
@@ -56,7 +57,7 @@ public class CargoChatMessageLogServiceImpl implements CargoChatMessageLogServic
     }
 
     @Override
-    public void deleteCargoChatLog(Long id, Principal principal) {
+    public HttpStatus deleteCargoChatLog(Long id, Principal principal) {
 
         final User user = userRepository.findUserByUsername(principal.getName())
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
@@ -64,25 +65,31 @@ public class CargoChatMessageLogServiceImpl implements CargoChatMessageLogServic
         final CargoChatMessageLog cargoChatMessageLog = cargoChatMessageLogRepository
                 .findById(id).orElseThrow(() -> new EntityNotFoundException("Cargo Chat log not found"));
 
-        if (cargoChatMessageLog.getMessageSender().equals(user.getCompanyName())) {
+        if (cargoChatMessageLog.getUser().getId().equals(user.getId())) {
             cargoChatMessageLogRepository.delete(cargoChatMessageLog);
+            return HttpStatus.ACCEPTED;
         }
+
+        return HttpStatus.FORBIDDEN;
     }
 
     @Override
-    public void updateCargoChatLog(CargoChatMessageLogCommand cargoChatMessageLogCommand,
+    public HttpStatus updateCargoChatLog(Long id, CargoChatMessageLogCommand cargoChatMessageLogCommand,
                                    Principal principal) {
         final User user = userRepository.findUserByUsername(principal.getName())
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
         final CargoChatMessageLog cargoChatMessageLog = cargoChatMessageLogRepository
-                .findById(cargoChatMessageLogCommand.getCargoId())
+                .findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Cargo Chat log not found"));
 
-        if (cargoChatMessageLog.getMessageSender().equals(user.getCompanyName())) {
+        if (cargoChatMessageLog.getUser().getId().equals(user.getId())) {
             cargoChatMessageLog.setMessageText(cargoChatMessageLogCommand.getMessageText());
             cargoChatMessageLogRepository.save(cargoChatMessageLog);
+            return HttpStatus.ACCEPTED;
         }
+
+        return HttpStatus.FORBIDDEN;
 
     }
 

@@ -16,9 +16,8 @@ public class CargoChatMessageLogDtoMapper {
         cargoChatMessageLogDTO.setChatId(cargoChatMessageLog.getId());
         cargoChatMessageLogDTO.setMessageText(cargoChatMessageLog.getMessageText());
         cargoChatMessageLogDTO.setCreatedAt(cargoChatMessageLog.getCreatedAt());
-        cargoChatMessageLogDTO.setGoodsCompanyName(cargoChatMessageLog.getCargo().getUser().getCompanyName());
-        cargoChatMessageLogDTO.setShipmentCompanyName(cargoChatMessageLog.getCargo().getProvider().getCompanyName());
-        cargoChatMessageLogDTO.setMessageFrom(cargoChatMessageLog.getMessageSender());
+        cargoChatMessageLogDTO.setMessageFrom(cargoChatMessageLog.getUser().getCompanyName());
+        cargoChatMessageLogDTO.setSenderRole(cargoChatMessageLog.getUser().getRole().name());
 
         return cargoChatMessageLogDTO;
     }
