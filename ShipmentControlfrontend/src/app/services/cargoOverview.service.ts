@@ -12,12 +12,8 @@ export class CargoOverviewService {
   constructor(private http: HttpClient) {
   }
 
-  // getCargoOverview(provider: string): Observable<ArrayBuffer> {
-  //   // @ts-ignore
-  //   return this.http.get<CargoOverviewDTO[]>("http://localhost:8080/api/cargoOverview/provider", provider)
-  // }
-
-  getCargoOverview(): Observable<CargoOverviewDTO[]> {
-    return this.http.get<CargoOverviewDTO[]>("http://localhost:8080/api/cargoOverview")
+  getCargoOverview(): Observable<ArrayBuffer> {
+    // @ts-ignore
+    return this.http.get<CargoDTO[]>("http://localhost:8080/api/cargo/")
   }
 }

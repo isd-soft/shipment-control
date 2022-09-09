@@ -1,6 +1,7 @@
 package com.isdmoldova.shipmentcontrolbackend.entity;
 
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.AvailableDaysRent;
+import com.isdmoldova.shipmentcontrolbackend.entity.enums.CurrencyEnum;
 import lombok.*;
 
 import javax.persistence.*;
@@ -44,6 +45,10 @@ public class Route extends BaseEntity {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "route")
     private List<BookingRequest> bookingRequests = new ArrayList<>();
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "currency")
+    private CurrencyEnum currency;
 
     public Route(String detailedRouteDescription,
                  User user,

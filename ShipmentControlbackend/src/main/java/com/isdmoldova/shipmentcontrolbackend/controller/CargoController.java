@@ -1,13 +1,7 @@
 package com.isdmoldova.shipmentcontrolbackend.controller;
 
 import com.isdmoldova.shipmentcontrolbackend.dto.CargoDTO;
-import com.isdmoldova.shipmentcontrolbackend.dto.CargoTypeDTO;
-import com.isdmoldova.shipmentcontrolbackend.dto.RouteDTO;
-import com.isdmoldova.shipmentcontrolbackend.entity.BookingRequest;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.CargoCommand;
-import com.isdmoldova.shipmentcontrolbackend.payload.request.CargoTypeCommand;
-import com.isdmoldova.shipmentcontrolbackend.payload.request.RouteCommand;
-import com.isdmoldova.shipmentcontrolbackend.payload.request.TransportCommand;
 import com.isdmoldova.shipmentcontrolbackend.service.CargoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -34,7 +28,6 @@ public class CargoController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasRole('GOODS_COMPANY')")
     @GetMapping()
     public ResponseEntity<List<CargoDTO>> getAllCargoes(Principal principal) {
         List<CargoDTO> cargoDTOS = cargoService.findAllCargoes(principal.getName());

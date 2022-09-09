@@ -181,6 +181,9 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
           .subscribe({
             next: () => {
               this.snackbar.open("Executed Successfully, the cargo status changed to PREPARING", 'Ok', {duration: 6000})
+
+              // this.cargoService.generatePDF();
+
               this.getAllCargo();
               location.reload();
             },
@@ -216,6 +219,7 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
               this.snackbar.open("Executed Successfully, the cargo was rejected", 'Ok', {duration: 6000})
               this.getAllCargo();
               this.redirectToCargoOverview();
+
             },
             error: () => {
               this.snackbar.open("Error while executing", 'Error', {duration: 2000});

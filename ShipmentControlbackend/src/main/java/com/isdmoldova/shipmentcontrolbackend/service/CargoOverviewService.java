@@ -7,6 +7,7 @@ import java.util.List;
 public interface CargoOverviewService {
 
     List<CargoOverviewDTO> findAll();
+    List<CargoOverviewDTO> findAllCargoes(String username);
 
     CargoOverviewDTO add(CargoOverviewCommand command);
 

@@ -57,9 +57,11 @@ public class RouteServiceImpl implements RouteService {
                         () -> new EntityNotFoundException("Transport with id " + transportId + " not found")))
                 .collect(Collectors.toList());
 
+
+
         List<LegCommand> legCommandList = routeCommand.getItineraryCommand().getLegList();
         List<Leg> legs = legCommandList.stream()
-                .map(leg -> new Leg(leg.getCountry(), leg.getCountryCode(), leg.getAddress(), leg.getName(), leg.getPrice()))
+                .map(leg -> new Leg(leg.getCountry(), leg.getCountryCode(), leg.getAddress(), leg.getName(), leg.getPrice(), routeCommand.getCurrency()))
                 .collect(Collectors.toList());
 
         Long estimatedAmountTimeShipment = routeCommand.getItineraryCommand().getEstimatedAmountTimeShipment();
@@ -84,7 +86,7 @@ public class RouteServiceImpl implements RouteService {
     @Transactional(readOnly = true)
     public List<RouteDTO> findAllRoutes(String username) {
         User user = userRepository.findUserByUsername(username).orElseThrow(
-                () -> new EntityNotFoundException("Transports for user " + username + " not found"));
+                () -> new EntityNotFoundException("Routes for user " + username + " not found"));
         final List<Route> routes = routeRepository.findAllByUser(user);
         return routes.stream().map(routeDtoMapper::map).collect(Collectors.toList());
     }
@@ -117,7 +119,7 @@ public class RouteServiceImpl implements RouteService {
         itinerary.clearLegs();
 
         List<Leg> legs = command.getItineraryCommand().getLegList().stream()
-                .map(leg -> new Leg(leg.getCountry(), leg.getCountryCode(), leg.getAddress(), leg.getName(), leg.getPrice()))
+                .map(leg -> new Leg(leg.getCountry(), leg.getCountryCode(), leg.getAddress(), leg.getName(), leg.getPrice(),route.getCurrency()))
                 .collect(Collectors.toList());
         legs.forEach(itinerary::addLeg);
         itinerary.setDaysOfExecution(command.getItineraryCommand().getEstimatedAmountTimeShipment());

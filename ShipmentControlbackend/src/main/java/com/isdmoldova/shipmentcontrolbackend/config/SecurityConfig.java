@@ -5,6 +5,7 @@ import com.isdmoldova.shipmentcontrolbackend.security.jwt.JwtAuthenticationEntry
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -22,7 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
     private final JwtAuthenticationEntryPoint authenticationEntryPoint;
     @Bean
-    protected SecurityFilterChain filterChain (HttpSecurity http) throws Exception {
+    protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
                 .and()
@@ -30,6 +31,7 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
+                .antMatchers(HttpMethod.GET,"/api/pdf/{id}/**").permitAll()
                 .antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/events/**").permitAll()
                 .anyRequest().authenticated();

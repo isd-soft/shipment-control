@@ -55,7 +55,7 @@ export class CargoOverviewComponent implements OnInit {
     // @ts-ignore
     console.log(decode(localStorage.getItem('token')).username);
     // @ts-ignore
-    // this.api.getCargoOverview(decode(localStorage.getItem('token')).username)
+    // this.api.getCargoOverview(decode(localStorage.getItem('token')))
     this.api.getCargoOverview()
       .subscribe({
         next: (res) => {

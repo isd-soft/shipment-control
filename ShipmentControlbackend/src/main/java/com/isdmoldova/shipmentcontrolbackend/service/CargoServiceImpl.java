@@ -8,6 +8,7 @@ import com.isdmoldova.shipmentcontrolbackend.dto.*;
 import com.isdmoldova.shipmentcontrolbackend.entity.*;
 
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.CargoStatus;
+import com.isdmoldova.shipmentcontrolbackend.entity.enums.UserRole;
 import com.isdmoldova.shipmentcontrolbackend.mapper.CargoDtoMapper;
 import com.isdmoldova.shipmentcontrolbackend.mapper.CargoTypeDtoMapper;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.CargoCommand;
@@ -58,16 +59,18 @@ public class CargoServiceImpl implements CargoService {
                         () -> new EntityNotFoundException("Cargo type with id " + cargoTypeId + " not found")))
                 .collect(Collectors.toList());
 
+        Route route = routeRepository.findById(cargoCommand.getRouteId()).orElseThrow(
+                () -> new EntityNotFoundException("Route with this " + cargoCommand.getRouteId() + " does not found!"));
+
+
+
         List<LegCommand> legCommandList = cargoCommand.getItineraryCommand().getLegList();
         List<Leg> legs = legCommandList.stream()
-                .map(leg -> new Leg(leg.getCountry(), leg.getCountryCode(), leg.getAddress(), leg.getName(), leg.getPrice()))
+                .map(leg -> new Leg(leg.getCountry(), leg.getCountryCode(), leg.getAddress(), leg.getName(), leg.getPrice(), route.getCurrency()))
                 .collect(Collectors.toList());
         Long estimatedAmountTimeShipment = cargoCommand.getItineraryCommand().getEstimatedAmountTimeShipment();
         Itinerary itinerary = new Itinerary(estimatedAmountTimeShipment);
         legs.forEach(itinerary::addLeg);
-
-        final Route route = routeRepository.findById(cargoCommand.getRouteId())
-                .orElseThrow();
 
         final Cargo cargo = new Cargo();
         cargo.setUser(user);
@@ -88,9 +91,27 @@ public class CargoServiceImpl implements CargoService {
     public List<CargoDTO> findAllCargoes(String username) {
         User user = userRepository.findUserByUsername(username).orElseThrow(
                 () -> new EntityNotFoundException("Cargoes for user " + username + " not found"));
-        final List<Cargo> cargos = cargoRepository.findAllByUser(user);
+        if (user.getRole() == UserRole.GOODS_COMPANY)
+            return cargoRepository.findAllByUser(user).
+                    stream()
+                    .map(cargoMapper::map)
+                    .collect(Collectors.toList());
+        return cargoRepository.findAllByProvider(user)
+                .stream()
+                .map(cargoMapper::map)
+                .collect(Collectors.toList());
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<CargoDTO> findAllCargoesByProvider(String username) {
+        User provider = userRepository.findUserByUsername(username).orElseThrow(
+                () -> new EntityNotFoundException("Cargoes for provider " + username + " not found"));
+        final List<Cargo> cargos = cargoRepository.findAllByUser(provider);
         return cargos.stream().map(cargoMapper::map).collect(Collectors.toList());
     }
+
 
 
     @Override
