@@ -37,12 +37,11 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
 
   cargoDetails: CargoDetails[];
   cargoDetailsDisplayedColumns: string[] = ['name', 'content'];
-  legDisplayedColumns: string [] = ['name', 'address', 'country', 'countryCode', 'price'];
+  legDisplayedColumns: string [] = ['name', 'address', 'country', 'countryCode', 'price', 'currency'];
   eventLogDisplayColumns: string [] = ['createdAt', 'eventType', 'cargoStatus', 'leg'];
   legDataSource: MatTableDataSource<LegDto>;
   chatDisplayedColumns: string[] = ['companyName', 'messageText', 'createdAt', 'star'];
   dataSource: CargoDto;
-  cargoStatusString: string;
   matTableDataSource: MatTableDataSource<CargoDto>;
   chatLogDataSource: CargoChatMessageLogDto[];
   eventLogDataSource: MatTableDataSource<EventLogDto>;
@@ -54,7 +53,11 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
   @ViewChild('eventSort') eventSort: MatSort;
   // @ts-ignore
   userRole = decode(localStorage.getItem('token')).sub;
+  cargoStatusString: string;
   cargoStatusANALYZING = "ANALYZING";
+  cargoStatusPREPARING = "PREPARING";
+  cargoStatusARRIVED = "ARRIVED";
+
   shipmentRole = "SHIPMENT_COMPANY";
   goodsRole = "GOODS_COMPANY";
 
@@ -68,7 +71,6 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
     private dialog2: MatDialog,
     private cargoChatMessageLogService: CargoChatMessageLogService,
     private eventLogService: EventLogService
-    // private cd: ChangeDetectorRef,
   ) {
     this.legDataSource = new MatTableDataSource();
 
@@ -79,8 +81,6 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
 
 
   ngOnInit(): void {
-    // console.log("cargo id = " + this.router.snapshot.params["id"]);
-    console.log("cargo id = " + this.cargoId);
     this.getCargoById();
     this.getCargoChatMessageLogsById();
     console.log(this.chatLogDataSource);
@@ -103,10 +103,8 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
 
   getTrackingNumber() {
     if (this.dataSource.trackingNumber === "" || this.dataSource.trackingNumber === null) {
-      console.log("No tracking number provided");
       this.trackingNumber = "No tracking number provided";
     } else {
-      console.log("there is a tracking number");
       this.trackingNumber = this.dataSource.trackingNumber;
     }
     return this.trackingNumber;
@@ -117,9 +115,6 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.dataSource = res;
-          console.log("cargoDTO");
-          console.log(res);
-          // console.log(this.getCargoTypeNames(this.dataSource.cargoTypes));
           this.cargoDetails = [
             {name: "Cargo Status", content: this.dataSource.cargoStatus.toString()},
             {name: "Tracking Number", content: this.getTrackingNumber()},
@@ -131,12 +126,13 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
             {name: "Destination", content: this.dataSource.destination},
             {name: "Estimate time for delivering", content: res.itineraryDTO.executionTime.toString()}
           ];
+          console.log(res.itineraryDTO.legDTOS)
           this.legDataSource = new MatTableDataSource<LegDto>(res.itineraryDTO.legDTOS);
           this.legDataSource.paginator = this.legPaginator;
           this.legDataSource.sort = this.legSort;
           this.getAllEventTypeLogs(this.dataSource.trackingNumber);
           this.cargoStatusString = this.dataSource.cargoStatus;
-          console.log(res);
+          // console.log(res);
         },
         error: () => {
           this.snackbar.open("Error while fetching the the record!!", 'Error', {duration: 2000});
@@ -196,15 +192,10 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(dialogResult => {
       if (dialogResult) {
-        console.log("analyzing -> preparing1");
-
         this.cargoService.approveCargo(this.cargoId)
           .subscribe({
             next: () => {
               this.snackbar.open("Executed Successfully, the cargo status changed to PREPARING", 'Ok', {duration: 6000})
-
-              // this.cargoService.generatePDF();
-
               this.getAllCargo();
               location.reload();
             },
@@ -229,7 +220,6 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
 
 
   redirectToReject() {
-    console.log("status Analyzing you clicked Reject");
     const message = `Are you sure you want to Reject?`;
     const dialogData = new RouteConfirmDialogModel("Confirm Action", message);
     const dialogRef = this.dialog.open(RouteConfirmDialogComponent, {

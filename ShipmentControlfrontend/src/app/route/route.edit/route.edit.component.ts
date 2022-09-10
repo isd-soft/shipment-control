@@ -49,6 +49,7 @@ export class RouteEditComponent implements OnInit {
             availableDaysRentList: new FormControl('', [Validators.required]),
             transportDTOList: new FormControl('', [Validators.required]),
             estimatedAmountTimeShipment: new FormControl('', [Validators.required]),
+            currency: new FormControl('', [Validators.required])
         });
     }
 
@@ -63,7 +64,7 @@ export class RouteEditComponent implements OnInit {
                     address: l.address,
                     country: l.country,
                     countryCode: l.countryCode,
-                  price:l.price
+                    price:l.price,
                 }))
 
                 this.route = result;
@@ -75,7 +76,8 @@ export class RouteEditComponent implements OnInit {
                     maxLoadVolume: new FormControl(result['maxLoadVolume']),
                     availableDaysRentList: new FormControl(result['availableDaysRentList']),
                     transportDTOList: new FormControl(result['transportDTOList']),
-                    estimatedAmountTimeShipment: new FormControl(result['estimatedAmountTimeShipment'])
+                    estimatedAmountTimeShipment: new FormControl(result['estimatedAmountTimeShipment']),
+                    currency: new FormControl(result['currency'])
                 });
                 this.cd.detectChanges();
             });
@@ -83,7 +85,7 @@ export class RouteEditComponent implements OnInit {
     }
 
     add() {
-        this.legs.splice(this.legs.length - 1, 0, {name: '', address: '', country: '', countryCode: '', price:0 });
+        this.legs.splice(this.legs.length - 1, 0, {name: '', address: '', country: '', countryCode: '', price: 0 });
     }
 
     clearField(legIndex: number) {
@@ -107,6 +109,7 @@ export class RouteEditComponent implements OnInit {
             maxLoadVolume: this.routeEditForm.controls['maxLoadVolume'].value,
             availableDaysRentList: this.routeEditForm.controls['availableDaysRentList'].value,
             transportIdList: this.routeEditForm.controls['transportDTOList'].value,
+            currency: this.routeEditForm.controls['currency'].value,
             itineraryCommand: itinerary,
         }
         this.routeService.putRoute(routeCommand, this.router.snapshot.params["id"]).subscribe(

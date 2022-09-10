@@ -4,4 +4,5 @@ export interface LegDto{
   country:string;
   countryCode:string;
   price:number;
+  currency: string;
 }

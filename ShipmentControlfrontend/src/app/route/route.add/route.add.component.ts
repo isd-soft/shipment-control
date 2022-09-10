@@ -41,7 +41,8 @@ export class RouteAddComponent implements OnInit {
       maxVolume: new FormControl('', [Validators.required]),
       availableDaysRent: new FormControl('', [Validators.required]),
       transportIdList: new FormControl('', [Validators.required]),
-      estimatedDays: new FormControl('', [Validators.required])
+      estimatedDays: new FormControl('', [Validators.required]),
+      currency: new FormControl('', [Validators.required])
     });
   }
 
@@ -80,6 +81,7 @@ export class RouteAddComponent implements OnInit {
       maxLoadVolume: this.routeForm.controls['maxVolume'].value,
       availableDaysRentList: this.routeForm.controls['availableDaysRent'].value,
       transportIdList: this.routeForm.controls['transportIdList'].value,
+      currency: this.routeForm.controls['currency'].value,
       itineraryCommand: itinerary,
     }
     console.log(routeCommand);
