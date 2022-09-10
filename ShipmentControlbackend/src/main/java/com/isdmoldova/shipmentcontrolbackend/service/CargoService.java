@@ -11,7 +11,6 @@ public interface CargoService {
     CargoDTO add(CargoCommand cargoCommand, String username);
 
     List<CargoDTO> findAllCargoes(String username);
-    List<CargoDTO> findAllCargoesByProvider(String username);
 
     CargoDTO findById(Long id);
 

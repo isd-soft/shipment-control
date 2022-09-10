@@ -17,10 +17,10 @@ import com.isdmoldova.shipmentcontrolbackend.repository.CargoRepository;
 import com.isdmoldova.shipmentcontrolbackend.repository.CargoTypeRepository;
 import com.isdmoldova.shipmentcontrolbackend.repository.RouteRepository;
 import com.isdmoldova.shipmentcontrolbackend.repository.UserRepository;
-import lombok.AllArgsConstructor;
 
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
+
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +30,7 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
+
 import java.util.stream.Collectors;
 
 @Service
@@ -106,6 +106,7 @@ public class CargoServiceImpl implements CargoService {
                 .collect(Collectors.toList());
     }
 
+
     @Override
     @Transactional(readOnly = true)
     public CargoDTO findById(Long id) {
@@ -167,6 +168,7 @@ public class CargoServiceImpl implements CargoService {
 
         return emailService.sendEmail(shipmentControlFromEmail, goodsCompanyEmail, subject, content);
     }
+
 
 }
 

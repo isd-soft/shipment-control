@@ -26,12 +26,6 @@ public class PDFExportController {
     private final PDFGeneratorService pdfGeneratorService;
     private final CargoService cargoService;
 
-
-//    public PDFExportController(PDFGeneratorService pdfGeneratorService, CargoService cargoService) {
-//        this.pdfGeneratorService = pdfGeneratorService;
-//        this.cargoService = cargoService;
-//    }
-
     @GetMapping("/{id}")
     public void generatePDF(HttpServletResponse response, @PathVariable("id") Long id) throws DocumentException, IOException {
         response.setContentType("application/pdf");

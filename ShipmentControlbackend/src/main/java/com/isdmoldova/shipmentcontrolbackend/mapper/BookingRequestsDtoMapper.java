@@ -1,9 +1,6 @@
 package com.isdmoldova.shipmentcontrolbackend.mapper;
-
 import com.isdmoldova.shipmentcontrolbackend.dto.BookingRequestsDTO;
-import com.isdmoldova.shipmentcontrolbackend.dto.RouteDTO;
 import com.isdmoldova.shipmentcontrolbackend.entity.BookingRequest;
-import com.isdmoldova.shipmentcontrolbackend.entity.Route;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

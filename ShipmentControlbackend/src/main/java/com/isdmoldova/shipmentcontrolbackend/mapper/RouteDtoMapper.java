@@ -1,16 +1,11 @@
 package com.isdmoldova.shipmentcontrolbackend.mapper;
 
-import com.isdmoldova.shipmentcontrolbackend.dto.ItineraryDTO;
 import com.isdmoldova.shipmentcontrolbackend.dto.RouteDTO;
-import com.isdmoldova.shipmentcontrolbackend.dto.TransportDTO;
-import com.isdmoldova.shipmentcontrolbackend.entity.Itinerary;
 import com.isdmoldova.shipmentcontrolbackend.entity.Route;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
 
 @Component
 @RequiredArgsConstructor
