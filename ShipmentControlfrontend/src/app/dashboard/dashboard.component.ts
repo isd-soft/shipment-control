@@ -34,15 +34,9 @@ export class DashboardComponent implements OnInit {
 
       this.myMenu = [
         {
-          title: 'Routes',
-          icon: 'directions',
-          link: './route',
-          color: '#ff7f0e',
-        },
-        {
-          title: 'Booking Requests',
-          icon: 'poll',
-          link: './booking-requests',
+          title: 'Cargo Type',
+          icon: 'category',
+          link: './cargoType',
           color: '#ff7f0e',
         },
         {
@@ -53,9 +47,15 @@ export class DashboardComponent implements OnInit {
           color: '#ff7f0e',
         },
         {
-          title: 'Cargo Type',
-          icon: 'category',
-          link: './cargoType',
+          title: 'Routes',
+          icon: 'directions',
+          link: './route',
+          color: '#ff7f0e',
+        },
+        {
+          title: 'Booking Requests',
+          icon: 'poll',
+          link: './booking-requests',
           color: '#ff7f0e',
         },
         {
