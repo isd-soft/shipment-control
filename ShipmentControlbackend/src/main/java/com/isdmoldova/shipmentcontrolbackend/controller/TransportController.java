@@ -2,23 +2,16 @@ package com.isdmoldova.shipmentcontrolbackend.controller;
 
 import com.isdmoldova.shipmentcontrolbackend.dto.TransportDTO;
 import com.isdmoldova.shipmentcontrolbackend.dto.TransportTypeDTO;
-import com.isdmoldova.shipmentcontrolbackend.dto.UserDTO;
-import com.isdmoldova.shipmentcontrolbackend.entity.User;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.TransportType;
 import com.isdmoldova.shipmentcontrolbackend.mapper.TransportTypeDtoMapper;
 import com.isdmoldova.shipmentcontrolbackend.payload.request.TransportCommand;
 import com.isdmoldova.shipmentcontrolbackend.service.TransportService;
-import com.isdmoldova.shipmentcontrolbackend.service.UserService;
-import com.isdmoldova.shipmentcontrolbackend.util.ExceptionResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;

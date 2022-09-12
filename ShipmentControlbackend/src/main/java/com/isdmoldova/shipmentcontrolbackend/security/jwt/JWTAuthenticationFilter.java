@@ -55,6 +55,11 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         if (StringUtils.hasText(bearToken)) {
             return bearToken;
         }
+        /*
+         if (StringUtils.hasText(bearToken) && bearToken.startsWith("Bearer ")) {
+            return bearToken.substring(7,bearToken.length());
+        }
+        * */
         return null;
     }
 }

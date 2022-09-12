@@ -28,5 +28,4 @@ public class LegCommand {
    // @NotEmpty(message = "Please enter the price")
     private Double price;
 
-    private CurrencyEnum currency;
 }

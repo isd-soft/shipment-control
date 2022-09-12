@@ -16,6 +16,10 @@ import {MatDialog} from "@angular/material/dialog";
 import {EventLogDto} from "../../model/eventLog.Dto";
 import {EventLogService} from "../../services/eventLog.service";
 import decode from "jwt-decode";
+import {CargoChatMessageLogDto} from "../../model/cargoChatMessageLogDto";
+import {CargoChatMessageLogService} from "../../services/cargoChatMessageLog.service";
+import {DialogCargoTypeComponent} from "../../cargoType/dialog/dialogCargoType.component";
+import {ChatMessageAddDialogComponent} from "./chat.message.add.dialog/chat.message.add.dialog.component";
 
 
 export interface CargoDetails {
@@ -33,12 +37,13 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
 
   cargoDetails: CargoDetails[];
   cargoDetailsDisplayedColumns: string[] = ['name', 'content'];
-  legDisplayedColumns: string [] = ['name', 'address', 'country', 'countryCode', 'price'];
+  legDisplayedColumns: string [] = ['name', 'address', 'country', 'countryCode', 'price', 'currency'];
   eventLogDisplayColumns: string [] = ['createdAt', 'eventType', 'cargoStatus', 'leg'];
   legDataSource: MatTableDataSource<LegDto>;
+  chatDisplayedColumns: string[] = ['companyName', 'messageText', 'createdAt', 'star'];
   dataSource: CargoDto;
-  cargoStatusString: string;
   matTableDataSource: MatTableDataSource<CargoDto>;
+  chatLogDataSource: CargoChatMessageLogDto[];
   eventLogDataSource: MatTableDataSource<EventLogDto>;
   @ViewChild('paginator') paginator: MatPaginator;
   @ViewChild('empTbSort') sort = new MatSort();
@@ -48,8 +53,13 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
   @ViewChild('eventSort') eventSort: MatSort;
   // @ts-ignore
   userRole = decode(localStorage.getItem('token')).sub;
+  cargoStatusString: string;
   cargoStatusANALYZING = "ANALYZING";
   cargoStatusPREPARING = "PREPARING";
+  cargoStatusARRIVED = "ARRIVED";
+
+  shipmentRole = "SHIPMENT_COMPANY";
+  goodsRole = "GOODS_COMPANY";
 
   constructor(
     private routeService: RouteService,
@@ -58,8 +68,9 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
     private router: ActivatedRoute,
     private route: Router,
     private dialog: MatDialog,
+    private dialog2: MatDialog,
+    private cargoChatMessageLogService: CargoChatMessageLogService,
     private eventLogService: EventLogService
-    // private cd: ChangeDetectorRef,
   ) {
     this.legDataSource = new MatTableDataSource();
 
@@ -70,9 +81,9 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
 
 
   ngOnInit(): void {
-    // console.log("cargo id = " + this.router.snapshot.params["id"]);
-    console.log("cargo id = " + this.cargoId);
     this.getCargoById();
+    this.getCargoChatMessageLogsById();
+    console.log(this.chatLogDataSource);
 
   }
 
@@ -92,10 +103,8 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
 
   getTrackingNumber() {
     if (this.dataSource.trackingNumber === "" || this.dataSource.trackingNumber === null) {
-      console.log("No tracking number provided");
       this.trackingNumber = "No tracking number provided";
     } else {
-      console.log("there is a tracking number");
       this.trackingNumber = this.dataSource.trackingNumber;
     }
     return this.trackingNumber;
@@ -106,9 +115,6 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.dataSource = res;
-          console.log("cargoDTO");
-          console.log(res);
-          // console.log(this.getCargoTypeNames(this.dataSource.cargoTypes));
           this.cargoDetails = [
             {name: "Cargo Status", content: this.dataSource.cargoStatus.toString()},
             {name: "Tracking Number", content: this.getTrackingNumber()},
@@ -120,18 +126,29 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
             {name: "Destination", content: this.dataSource.destination},
             {name: "Estimate time for delivering", content: res.itineraryDTO.executionTime.toString()}
           ];
+          console.log(res.itineraryDTO.legDTOS)
           this.legDataSource = new MatTableDataSource<LegDto>(res.itineraryDTO.legDTOS);
           this.legDataSource.paginator = this.legPaginator;
           this.legDataSource.sort = this.legSort;
           this.getAllEventTypeLogs(this.dataSource.trackingNumber);
           this.cargoStatusString = this.dataSource.cargoStatus;
-          console.log(res);
+          // console.log(res);
         },
         error: () => {
           this.snackbar.open("Error while fetching the the record!!", 'Error', {duration: 2000});
 
         }
       })
+  }
+  getCargoChatMessageLogsById() {
+    this.cargoChatMessageLogService.getCargoChatLogs(this.cargoId).subscribe({
+      next: (chat) => {
+        this.chatLogDataSource = chat;
+      },
+      error: () => {
+        this.snackbar.open("No chat logged!", 'Ok', {duration: 2000});
+      }
+    });
   }
 
   getAllCargo() {
@@ -175,15 +192,10 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(dialogResult => {
       if (dialogResult) {
-        console.log("analyzing -> preparing1");
-
         this.cargoService.approveCargo(this.cargoId)
           .subscribe({
             next: () => {
               this.snackbar.open("Executed Successfully, the cargo status changed to PREPARING", 'Ok', {duration: 6000})
-
-              // this.cargoService.generatePDF();
-
               this.getAllCargo();
               location.reload();
             },
@@ -202,8 +214,12 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
     this.route.navigate(['dashboard', 'cargo']);
   }
 
+  redirectToCargoOverviewDetails() {
+    this.route.navigate(['dashboard','cargo'+this.cargoId]);
+  }
+
+
   redirectToReject() {
-    console.log("status Analyzing you clicked Reject");
     const message = `Are you sure you want to Reject?`;
     const dialogData = new RouteConfirmDialogModel("Confirm Action", message);
     const dialogRef = this.dialog.open(RouteConfirmDialogComponent, {
@@ -217,7 +233,6 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
           .subscribe({
             next: () => {
               this.snackbar.open("Executed Successfully, the cargo was rejected", 'Ok', {duration: 6000})
-              this.getAllCargo();
               this.redirectToCargoOverview();
 
             },
@@ -282,6 +297,54 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
     });
   }
 
+  openToAddMessage() {
+    this.dialog2.open(ChatMessageAddDialogComponent, {
+      width: '30%'
+    }).afterClosed().subscribe(value => {
+      if (value === 'save') {
+        this.getCargoChatMessageLogsById();
+      }
+    })
+  }
 
+  openToEditMessage() {
+    this.dialog2.open(ChatMessageAddDialogComponent, {
+      width: '30%'
+    }).afterClosed().subscribe(value => {
+      if (value === 'save') {
+        this.getCargoChatMessageLogsById();
+      }
+    })
+  }
+
+editMessageLog(chatId: number) {
+
+}
+
+deleteMessageLog(chatId: number) {
+  const message = `Are you sure you want to DELETE?`;
+  const dialogData = new RouteConfirmDialogModel("Confirm Action", message);
+  const dialogRef = this.dialog.open(RouteConfirmDialogComponent, {
+    maxWidth: "400px",
+    data: dialogData
+  });
+
+  dialogRef.afterClosed().subscribe(dialogResult => {
+    if (dialogResult) {
+      this.cargoChatMessageLogService.deleteCargoChatLogs(chatId)
+        .subscribe({
+          next: () => {
+            this.snackbar.open("Executed Successfully", 'Ok', {duration: 4000})
+            window.location.reload();
+          },
+          error: () => {
+            this.snackbar.open("You can't delete that!", 'Forbidden', {duration: 6000});
+
+          }
+        })
+    }
+  });
+
+}
 }
 

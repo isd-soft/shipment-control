@@ -32,6 +32,9 @@ public class User extends BaseEntity  {
     @Column(name = "password", length = 3000)
     private String password;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private List<CargoChatMessageLog> cargoChatMessageLogs=new ArrayList<>();
+
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "user",
             orphanRemoval = true)

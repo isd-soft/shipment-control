@@ -8,6 +8,7 @@ import com.isdmoldova.shipmentcontrolbackend.dto.*;
 import com.isdmoldova.shipmentcontrolbackend.entity.*;
 
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.CargoStatus;
+import com.isdmoldova.shipmentcontrolbackend.entity.enums.CurrencyEnum;
 import com.isdmoldova.shipmentcontrolbackend.entity.enums.UserRole;
 import com.isdmoldova.shipmentcontrolbackend.mapper.CargoDtoMapper;
 import com.isdmoldova.shipmentcontrolbackend.mapper.CargoTypeDtoMapper;
@@ -17,10 +18,10 @@ import com.isdmoldova.shipmentcontrolbackend.repository.CargoRepository;
 import com.isdmoldova.shipmentcontrolbackend.repository.CargoTypeRepository;
 import com.isdmoldova.shipmentcontrolbackend.repository.RouteRepository;
 import com.isdmoldova.shipmentcontrolbackend.repository.UserRepository;
-import lombok.AllArgsConstructor;
 
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
+
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +31,7 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
+
 import java.util.stream.Collectors;
 
 @Service
@@ -39,13 +40,11 @@ import java.util.stream.Collectors;
 public class CargoServiceImpl implements CargoService {
 
     private final CargoTypeRepository cargoTypeRepository;
-    private final CargoTypeDtoMapper cargoDtoMapper;
     private final CargoDtoMapper cargoMapper;
     private final CargoRepository cargoRepository;
     private final UserRepository userRepository;
     private final EmailService emailService;
     private final RouteRepository routeRepository;
-    private final CargoDtoMapper cargoDTOMapper;
     @Value("com.isdmoldova.shipment.control.from.email")
     private String shipmentControlFromEmail;
 
@@ -62,13 +61,11 @@ public class CargoServiceImpl implements CargoService {
 
         final Route route = routeRepository.findById(cargoCommand.getRouteId())
                 .orElseThrow(()->new EntityNotFoundException("Route not found"));
-        Double maxWeight = cargoCommand.getTotalWeight();
-        Double maxVolume = cargoCommand.getTotalVolume();
-        LocalDate bookingDate = cargoCommand.getBookingDate();
 
+        final CurrencyEnum currency = route.getItinerary().getOrigin().getCurrency();
         List<LegCommand> legCommandList = cargoCommand.getItineraryCommand().getLegList();
         List<Leg> legs = legCommandList.stream()
-                .map(leg -> new Leg(leg.getCountry(), leg.getCountryCode(), leg.getAddress(), leg.getName(), leg.getPrice(), route.getCurrency()))
+                .map(leg -> new Leg(leg.getCountry(), leg.getCountryCode(), leg.getAddress(), leg.getName(), leg.getPrice(), currency))
                 .collect(Collectors.toList());
         Long estimatedAmountTimeShipment = cargoCommand.getItineraryCommand().getEstimatedAmountTimeShipment();
         Itinerary itinerary = new Itinerary(estimatedAmountTimeShipment);
@@ -106,6 +103,7 @@ public class CargoServiceImpl implements CargoService {
                 .collect(Collectors.toList());
     }
 
+
     @Override
     @Transactional(readOnly = true)
     public CargoDTO findById(Long id) {
@@ -113,7 +111,6 @@ public class CargoServiceImpl implements CargoService {
                 .orElseThrow(() -> new EntityNotFoundException("Cargo with id " + id + " does not exist!"));
     }
 
-//delete cargo by goodsCompany userId
     @Override
     @Transactional
     public void delete(Long id, String username) {
@@ -167,6 +164,7 @@ public class CargoServiceImpl implements CargoService {
 
         return emailService.sendEmail(shipmentControlFromEmail, goodsCompanyEmail, subject, content);
     }
+
 
 }
 

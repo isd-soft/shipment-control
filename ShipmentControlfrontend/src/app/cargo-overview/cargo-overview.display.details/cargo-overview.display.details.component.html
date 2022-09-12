@@ -2,7 +2,9 @@
   <h1 mat-dialog-title>Cargo details</h1>
   <section>
     <div class="example-button-row">
-      <h3> The cargo status is {{cargoStatusString}} </h3>
+      <h3 *ngIf="cargoStatusString===cargoStatusARRIVED"> The cargo has arrived
+        <p>Get the billing invoice from <a [href]="'http://localhost:8080/api/pdf/' + cargoId">here</a></p>
+      </h3>
       <p *ngIf="show()">Please select your action
         <button *ngIf="show()" mat-raised-button color="primary" (click)="redirectToApprove()">Approve</button>
         <button *ngIf="show()" mat-raised-button color="warn" (click)="redirectToReject()">Reject</button>
@@ -26,7 +28,9 @@
           </ng-container>
           <tr mat-header-row *matHeaderRowDef="cargoDetailsDisplayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: cargoDetailsDisplayedColumns;"></tr>
-
+<!--      <div *ngIf="cargoStatusString===cargoStatusARRIVED">-->
+<!--        <p>You can download the invoice bill here</p>-->
+<!--      </div>-->
         </table>
       </div>
     </mat-tab>
@@ -59,6 +63,11 @@
           <ng-container matColumnDef="price">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Price for Leg</th>
             <td mat-cell *matCellDef="let element">{{element.price}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="currency">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Currency</th>
+            <td mat-cell *matCellDef="let element">{{element.currency}}</td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="legDisplayedColumns; sticky:true"></tr>
@@ -97,9 +106,64 @@
         <mat-paginator #eventPaginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
       </div>
     </mat-tab>
-    <mat-tab>
 
+    <mat-tab label="Message Logs">
+      <button class="add-chat-button" mat-raised-button color="primary" (click)="openToAddMessage()">Add Message</button>
+        <div  class="example-card" *ngFor="let msg of chatLogDataSource">
+
+
+          <mat-card class="example-card-goods"  *ngIf="msg.senderRole===goodsRole">
+            <mat-card-header>
+              <div mat-card-avatar class="example-header-image"></div>
+              <mat-card-title><h3>{{msg.messageFrom}}</h3></mat-card-title>
+              <mat-card-subtitle>{{msg.createdAt | date:"yyyy-MM-dd hh-mm"}}</mat-card-subtitle>
+              <mat-card-content>
+                {{msg.messageText}}
+              </mat-card-content>
+
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="openToEditMessage()">
+                <mat-icon>open_in_new</mat-icon>
+                <span>Edit message</span>
+              </button>
+              <button mat-menu-item (click)="deleteMessageLog(msg.chatId)">
+                <mat-icon>delete</mat-icon>
+                <span>Delete message</span>
+              </button>
+            </mat-menu>
+            </mat-card-header>
+          </mat-card>
+
+          <mat-card class="example-card-shipment" *ngIf="msg.senderRole===shipmentRole">
+            <mat-card-header>
+              <div mat-card-avatar class="example-header-image"></div>
+              <mat-card-title><h3>{{msg.messageFrom}}</h3></mat-card-title>
+              <mat-card-subtitle>{{msg.createdAt| date:"yyyy-MM-dd hh-mm"}}</mat-card-subtitle>
+              <mat-card-content>
+                {{msg.messageText}}
+              </mat-card-content>
+              <button mat-icon-button [matMenuTriggerFor]="menu2">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+            <mat-menu #menu2="matMenu">
+              <button mat-menu-item (click)="editMessageLog(msg.chatId)">
+                <mat-icon>open_in_new</mat-icon>
+                <span>Edit message</span>
+              </button>
+              <button mat-menu-item (click)="deleteMessageLog(msg.chatId)">
+                <mat-icon>delete</mat-icon>
+                <span>Delete message</span>
+              </button>
+            </mat-menu>
+            </mat-card-header>
+          </mat-card>
+
+      </div>
 
     </mat-tab>
   </mat-tab-group>
 </div>
+

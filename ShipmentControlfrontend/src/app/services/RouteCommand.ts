@@ -7,4 +7,5 @@ export interface RouteCommand {
   availableDaysRentList :string[];
   maxLoadWeight :string;
   maxLoadVolume :string;
+  currency: string;
 }

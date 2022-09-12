@@ -1,11 +1,9 @@
 package com.isdmoldova.shipmentcontrolbackend.mapper;
 
 import com.isdmoldova.shipmentcontrolbackend.dto.TransportDTO;
-import com.isdmoldova.shipmentcontrolbackend.entity.CargoType;
 import com.isdmoldova.shipmentcontrolbackend.entity.Transport;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
 import java.util.stream.Collectors;
 
 @Component

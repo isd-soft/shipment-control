@@ -39,20 +39,21 @@ public class CargoChatMessageLogController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteCargoChatLog(@PathVariable Long id, Principal principal){
+    public ResponseEntity<?> deleteCargoChatLog(@PathVariable("id") Long id, Principal principal) {
 
-        cargoChatMessageLogService.deleteCargoChatLog(id, principal);
+        HttpStatus deleteStatus =
+                cargoChatMessageLogService.deleteCargoChatLog(id, principal);
 
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(deleteStatus);
     }
 
-    @PutMapping
-    public ResponseEntity<?> updateCargoChatLog(
-            @RequestBody CargoChatMessageLogCommand cargoChatMessageLogCommand, Principal principal){
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateCargoChatLog(@PathVariable("id") Long id,
+                                                     @RequestBody CargoChatMessageLogCommand cargoChatMessageLogCommand, Principal principal) {
+        HttpStatus updateStatus =
+        cargoChatMessageLogService.updateCargoChatLog(id, cargoChatMessageLogCommand, principal);
 
-        cargoChatMessageLogService.updateCargoChatLog(cargoChatMessageLogCommand, principal);
-
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(updateStatus);
     }
 
 }
