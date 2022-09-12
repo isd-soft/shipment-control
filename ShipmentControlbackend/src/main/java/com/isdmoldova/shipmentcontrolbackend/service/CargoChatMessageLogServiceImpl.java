@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.security.Principal;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,7 +34,7 @@ public class CargoChatMessageLogServiceImpl implements CargoChatMessageLogServic
 
         final Cargo cargo = cargoRepository.findById(cargoId)
                 .orElseThrow(() -> new EntityNotFoundException("Cargo not found"));
-        final List<CargoChatMessageLog> cargoChatMessageLogs = cargoChatMessageLogRepository.findByCargo(cargo);
+        final List<CargoChatMessageLog> cargoChatMessageLogs = cargoChatMessageLogRepository.findByCargoOrderByCreatedAtAsc(cargo);
 
         return cargoChatMessageLogs.stream().map(cargoChatMessageLogDtoMapper::map).collect(Collectors.toList());
     }
@@ -92,5 +94,4 @@ public class CargoChatMessageLogServiceImpl implements CargoChatMessageLogServic
         return HttpStatus.FORBIDDEN;
 
     }
-
 }

@@ -1,9 +1,11 @@
 table {
   width: 100%;
 }
+
 .mat-column-select {
   width: 38px;
 }
+
 .example-container {
   max-width: 1100px;
   margin: 0 auto;
@@ -14,15 +16,17 @@ table {
   width: 100%;
 }
 
-.mat-dialog-title{
+.mat-dialog-title {
   margin-left: 40px;
 }
-.btn-request{
+
+.btn-request {
   position: fixed;
   bottom: 60px;
   right: 220px;
 }
-.mat-form-date-picker{
+
+.mat-form-date-picker {
   position: fixed;
   width: 120px;
   bottom: 10px;
@@ -39,9 +43,10 @@ section {
   width: 490px;
 
 }
-.add-chat-button{
+
+.add-chat-button {
   margin-top: 5px;
-  margin-left:88%;
+  margin-left: 88%;
   alignment: right;
 }
 
@@ -51,19 +56,51 @@ section {
 
 .example-card-goods {
   max-width: 450px;
-  margin-top:5px;
+  margin-top: 5px;
   margin-left: 2%;
-
+  height: 2%;
+  background-color: #848484;
 }
 
 .example-card-shipment {
   max-width: 450px;
   margin-top: 5px;
   margin-left: 50%;
+  height: 2%;
+  background-color: #848484;
 }
 
 
-.example-header-image {
-  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+.example-shipment-avatar {
+  background-image: url('https://www.freeiconspng.com/thumbs/logistic-icon-png/transportation-and-logistics-icon-png-18.png');
   background-size: cover;
+
+}
+
+.example-goods-avatar {
+  background-image: url('https://www.freeiconspng.com/thumbs/customers-icon/customers-icon-12.png');
+  background-size: cover;
+}
+
+.content-card {
+  margin-bottom: 40px;
+}
+
+mat-card-subtitle {
+  margin-top: 10px;
+}
+
+.mat-card-header-text {
+  margin-right: 200px;
+}
+
+.mat-card-header2 {
+  width: 450px;
+}
+
+.mat-card > :first-child, .mat-card-content > :first-child {
+  width: 450px;
+  display: inline-flex;
+  justify-content: space-between;
+
 }

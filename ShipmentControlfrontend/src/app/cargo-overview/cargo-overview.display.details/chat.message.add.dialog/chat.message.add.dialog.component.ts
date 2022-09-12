@@ -80,6 +80,4 @@ export class ChatMessageAddDialogComponent implements OnInit {
         })
     }
   }
-
-
 }
