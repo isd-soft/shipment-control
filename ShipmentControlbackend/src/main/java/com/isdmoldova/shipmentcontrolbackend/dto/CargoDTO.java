@@ -21,5 +21,7 @@ public class CargoDTO {
     private LocalDate bookingDate;
     private String user;
     private String provider;
+    private String userCompanyName;
+    private String providerCompanyName;
 
 }
