@@ -125,7 +125,7 @@
               <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
-              <button mat-menu-item (click)="openToEditMessage()">
+              <button mat-menu-item (click)="openToEditMessage(msg)">
                 <mat-icon>open_in_new</mat-icon>
                 <span>Edit message</span>
               </button>
@@ -149,7 +149,7 @@
                 <mat-icon>more_vert</mat-icon>
               </button>
             <mat-menu #menu2="matMenu">
-              <button mat-menu-item (click)="editMessageLog(msg.chatId)">
+              <button mat-menu-item (click)="openToEditMessage(msg)">
                 <mat-icon>open_in_new</mat-icon>
                 <span>Edit message</span>
               </button>

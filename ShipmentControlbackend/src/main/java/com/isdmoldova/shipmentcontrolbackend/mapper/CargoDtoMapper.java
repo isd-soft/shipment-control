@@ -30,6 +30,8 @@ public class CargoDtoMapper {
         cargoDTO.setBookingDate(cargo.getBookingDate());
         cargoDTO.setProvider(cargo.getProvider().getUsername());
         cargoDTO.setUser(cargo.getUser().getUsername());
+        cargoDTO.setUserCompanyName(cargo.getUser().getCompanyName());
+        cargoDTO.setProviderCompanyName(cargo.getProvider().getCompanyName());
         return cargoDTO;
     }
 }
