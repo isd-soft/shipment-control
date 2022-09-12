@@ -32,7 +32,7 @@ public class BookingRequestsServiceImpl implements BookingRequestsService {
 
     private final EmailService emailService;
 
-    @Value("com.isdmoldova.shipment.control.from.email")
+    @Value("${com.isdmoldova.shipment.control.from.email}")
     private String shipmentControlFromEmail;
 
     public BookingRequestsDTO findRequestById(Long id) {

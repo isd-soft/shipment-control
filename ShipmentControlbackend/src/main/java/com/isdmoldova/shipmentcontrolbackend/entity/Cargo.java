@@ -37,7 +37,9 @@ public class Cargo extends BaseEntity {
     @Column(name = "total_weight")
     private Double totalWeight;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "cargo")
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "cargo")
     List<CargoChatMessageLog> cargoChatMessageLogs=new ArrayList<>();
 
     @ManyToMany(mappedBy = "cargos", cascade = {CascadeType.MERGE})

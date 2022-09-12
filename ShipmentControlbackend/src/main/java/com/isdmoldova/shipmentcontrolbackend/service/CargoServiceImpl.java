@@ -45,7 +45,7 @@ public class CargoServiceImpl implements CargoService {
     private final UserRepository userRepository;
     private final EmailService emailService;
     private final RouteRepository routeRepository;
-    @Value("com.isdmoldova.shipment.control.from.email")
+    @Value("${com.isdmoldova.shipment.control.from.email}")
     private String shipmentControlFromEmail;
 
     @Override
@@ -117,7 +117,7 @@ public class CargoServiceImpl implements CargoService {
         Cargo cargo = cargoRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Cargo not found with id " + id));
         cargo.getCargoTypes().forEach(cargoType -> cargoType.removeCargo(cargo));
-        if (!cargo.getUser().getUsername().equals(username)) {
+        if (!cargo.getProvider().getUsername().equals(username)) {
             throw new EntityNotFoundException("User " + username + " is not allowed to delete route with id " + id);
         }
        cargoRepository.delete(cargo);

@@ -22,6 +22,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "cargo_type")
 public class CargoType extends BaseEntity {
+
     @Column(name = "cargo_type_name")
     private String name;
 

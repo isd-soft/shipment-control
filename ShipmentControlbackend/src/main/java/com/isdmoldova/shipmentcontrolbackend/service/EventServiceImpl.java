@@ -28,7 +28,7 @@ class EventServiceImpl implements EventService {
 
     private final EventLogDtoMapper eventLogDtoMapper;
     private final List<EventProcessorStrategy> strategies;
-    @Value("com.isdmoldova.shipment.control.from.email")
+    @Value("${com.isdmoldova.shipment.control.from.email}")
     private String shipmentControlFromEmail;
 
     @Override
