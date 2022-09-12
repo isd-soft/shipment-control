@@ -101,6 +101,14 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
       && this.cargoStatusANALYZING === this.cargoStatusString;
   }
 
+  messageFromInit(): string {
+    if (this.userRole === '[ROLE_SHIPMENT_COMPANY]') {
+      return this.shipmentRole;
+    }
+    return this.goodsRole;
+
+  }
+
   getTrackingNumber() {
     if (this.dataSource.trackingNumber === "" || this.dataSource.trackingNumber === null) {
       this.trackingNumber = "No tracking number provided";
@@ -140,6 +148,7 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
         }
       })
   }
+
   getCargoChatMessageLogsById() {
     this.cargoChatMessageLogService.getCargoChatLogs(this.cargoId).subscribe({
       next: (chat) => {
@@ -215,7 +224,7 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
   }
 
   redirectToCargoOverviewDetails() {
-    this.route.navigate(['dashboard','cargo'+this.cargoId]);
+    this.route.navigate(['dashboard', 'cargo' + this.cargoId]);
   }
 
 
@@ -299,7 +308,12 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
 
   openToAddMessage() {
     this.dialog2.open(ChatMessageAddDialogComponent, {
-      width: '30%'
+      width: '50%',
+      data: {
+        cargoId: this.cargoId,
+        messageFrom: this.messageFromInit(),
+        senderRole: this.userRole
+      }
     }).afterClosed().subscribe(value => {
       if (value === 'save') {
         this.getCargoChatMessageLogsById();
@@ -307,9 +321,14 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
     })
   }
 
-  openToEditMessage() {
+  openToEditMessage(msg:any) {
     this.dialog2.open(ChatMessageAddDialogComponent, {
-      width: '30%'
+      width: '50%',
+      data: {
+        chatId:msg.chatId,
+        cargoId: this.cargoId,
+        messageText:msg.messageText,
+      }
     }).afterClosed().subscribe(value => {
       if (value === 'save') {
         this.getCargoChatMessageLogsById();
@@ -317,34 +336,30 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
     })
   }
 
-editMessageLog(chatId: number) {
+  deleteMessageLog(chatId: number) {
+    const message = `Are you sure you want to DELETE?`;
+    const dialogData = new RouteConfirmDialogModel("Confirm Action", message);
+    const dialogRef = this.dialog.open(RouteConfirmDialogComponent, {
+      maxWidth: "400px",
+      data: dialogData
+    });
 
-}
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (dialogResult) {
+        this.cargoChatMessageLogService.deleteCargoChatLogs(chatId)
+          .subscribe({
+            next: () => {
+              this.snackbar.open("Executed Successfully", 'Ok', {duration: 4000})
+              window.location.reload();
+            },
+            error: () => {
+              this.snackbar.open("You can't delete that!", 'Forbidden', {duration: 6000});
 
-deleteMessageLog(chatId: number) {
-  const message = `Are you sure you want to DELETE?`;
-  const dialogData = new RouteConfirmDialogModel("Confirm Action", message);
-  const dialogRef = this.dialog.open(RouteConfirmDialogComponent, {
-    maxWidth: "400px",
-    data: dialogData
-  });
+            }
+          })
+      }
+    });
 
-  dialogRef.afterClosed().subscribe(dialogResult => {
-    if (dialogResult) {
-      this.cargoChatMessageLogService.deleteCargoChatLogs(chatId)
-        .subscribe({
-          next: () => {
-            this.snackbar.open("Executed Successfully", 'Ok', {duration: 4000})
-            window.location.reload();
-          },
-          error: () => {
-            this.snackbar.open("You can't delete that!", 'Forbidden', {duration: 6000});
-
-          }
-        })
-    }
-  });
-
-}
+  }
 }
 

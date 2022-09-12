@@ -144,8 +144,8 @@ public class CargoServiceImpl implements CargoService {
     }
 
     private String generateTrackingNumber(Cargo cargo) {
-        return cargo.getId().toString() + cargo.getUser().getUsername()
-                + cargo.getBookingDate().format(DateTimeFormatter.ofPattern("ddMMMyy"));
+        return "ISD" + cargo.getId().toString() + cargo.getItinerary().getId().toString()
+                + cargo.getBookingDate().format(DateTimeFormatter.ofPattern("ddMyy"));
     }
 
     @Override

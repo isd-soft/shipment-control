@@ -12,5 +12,7 @@ export interface CargoDto{
     itineraryDTO: ItineraryDto;
     cargoTypes: CargoTypeDto[];
     bookingDate: string;
+    userCompanyName:string;
+    providerCompanyName:string;
 
 }

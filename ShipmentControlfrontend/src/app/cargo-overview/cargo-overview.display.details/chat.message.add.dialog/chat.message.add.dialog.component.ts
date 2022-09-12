@@ -15,43 +15,42 @@ export class ChatMessageAddDialogComponent implements OnInit {
   actionBtn: string = "Save";
 
   constructor(
-    private cargoChatMessageLogService:CargoChatMessageLogService,
+    private cargoChatMessageLogService: CargoChatMessageLogService,
     private formBuilder: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public editData: any,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<ChatMessageAddDialogComponent>,
     private snackBar: MatSnackBar
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.chatMessageForm = this.formBuilder.group({
       messageText: new FormControl('', [Validators.required])
 
     });
-
-    if (this.editData) {
+    if (this.data.messageText) {
       this.actionBtn = "Update";
-      this.chatMessageForm.controls['messageText'].setValue(this.editData.messageText);
+      this.chatMessageForm.controls['messageText'].setValue(this.data.messageText);
     }
   }
 
   addChatMessageLog() {
-    if (!this.editData) {
+    if (!this.data.messageText) {
       if (this.chatMessageForm.valid) {
         const data: CargoChatMessageLogCommand = {
           messageText: this.chatMessageForm.controls['messageText'].value,
-          messageFrom:"test",
-          senderRole:"test",
-          cargoId:1
+          cargoId: this.data.cargoId
         }
         this.cargoChatMessageLogService.addCargoChatLogs(data)
           .subscribe({
             next: () => {
-              this.snackBar.open("Created Successfully", 'Ok', {duration: 2000});
+              this.snackBar.open("Message added, reloading...", 'Ok', {duration: 2000});
               this.chatMessageForm.reset();
               this.dialogRef.close('save');
+              window.location.reload();
             },
             error: () => {
-              this.snackBar.open("Error while adding the product", 'Error', {duration: 2000});
+              this.snackBar.open("Error while adding", 'Error', {duration: 2000});
             }
           })
       }
@@ -59,23 +58,27 @@ export class ChatMessageAddDialogComponent implements OnInit {
       this.updateMessage();
     }
 
-
-
-
   }
 
-  private updateMessage() {
-    this.cargoChatMessageLogService.updateCargoChatLogs(this.editData.cargoId,this.chatMessageForm.value )
-      .subscribe({
-        next: () => {
-          this.snackBar.open("Updated Successfully", 'Ok', {duration: 2000});
-          this.chatMessageForm.reset();
-          this.dialogRef.close('update');
-        },
-        error: () => {
-          this.snackBar.open("Error while updating", 'Error', {duration: 2000});
-        }
-      })
+  updateMessage() {
+    if (this.chatMessageForm.valid) {
+      const data: CargoChatMessageLogCommand = {
+        messageText: this.chatMessageForm.controls['messageText'].value,
+        cargoId: this.data.cargoId
+      }
+      this.cargoChatMessageLogService.updateCargoChatLogs(this.data.chatId, data)
+        .subscribe({
+          next: () => {
+            this.snackBar.open("Message updated, reloading...", 'Ok', {duration: 2000});
+            this.chatMessageForm.reset();
+            this.dialogRef.close('update');
+            window.location.reload();
+          },
+          error: () => {
+            this.snackBar.open("Error while updating", 'Error', {duration: 2000});
+          }
+        })
+    }
   }
 
 
