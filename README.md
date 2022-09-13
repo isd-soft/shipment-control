@@ -20,7 +20,7 @@ The platform that serves as a system for finding transportation for your product
 
 In nowadays market, there are lots of similar services, but this application was designed to be user friendly and exactly:
 <li> to ease the search of a shipment company with it's routes
-<li> to have a real time monitoring of clients cargo through the route via email
+<li> to have a real time monitoring of client's cargo through the route via email
 <li> to provide an exchange of messages that can impact delivery experience
 <li> to give a platform to shipment companies where they can gain popularity and a name for themselves
 
