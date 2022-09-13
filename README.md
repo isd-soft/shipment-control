@@ -27,6 +27,7 @@ In nowadays market, there are lots of similar services, but this application was
 
 ### Content
 * Intro
+* Is Shipment Control a real deal? 
 * See the [Functional Requirements](https://github.com/isd-soft/shipment-control/wiki/Functional-Requirements)
 * See the [Non-Functional Requirements](https://github.com/isd-soft/shipment-control/wiki/Non-Functional-Requirements)
 * See the [Viewpoint catalogue](https://github.com/isd-soft/shipment-control/wiki/ViewPoints-Catalogue)
