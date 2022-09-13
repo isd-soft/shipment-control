@@ -18,7 +18,7 @@ The platform that serves as a system for finding transportation for your product
 
 ### Is Shipment Control a real deal?
 
-In nowadays market, there are lots of similar services, but this application was designed to be user friendly and exactly:
+Nowadays, on the market are lots of similar services, but this application was designed to be user friendly and exactly:
 <li> to ease the search of a shipment company with it's routes
 <li> to have a real time monitoring of client's cargo through the route via email
 <li> to provide an exchange of messages that can impact delivery experience
