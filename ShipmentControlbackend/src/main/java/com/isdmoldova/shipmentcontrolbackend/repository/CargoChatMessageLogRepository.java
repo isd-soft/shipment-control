@@ -12,5 +12,5 @@ import java.util.Optional;
 public interface CargoChatMessageLogRepository extends JpaRepository<CargoChatMessageLog,Long> {
 
 
-    List<CargoChatMessageLog> findByCargo(Cargo cargo);
+    List<CargoChatMessageLog> findByCargoOrderByCreatedAtAsc(Cargo cargo);
 }

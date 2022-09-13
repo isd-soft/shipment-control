@@ -1,10 +1,10 @@
-import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {MatTableDataSource} from "@angular/material/table";
 import {LegDto} from "../../model/leg.dto";
 import {CargoDto} from "../../model/cargo.dto";
 import {MatPaginator} from "@angular/material/paginator";
-import {MatSort, MatSortable} from "@angular/material/sort";
+import {MatSort,} from "@angular/material/sort";
 import {RouteService} from "../../services/route.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {CargoService} from "../../services/cargoService";
@@ -18,7 +18,6 @@ import {EventLogService} from "../../services/eventLog.service";
 import decode from "jwt-decode";
 import {CargoChatMessageLogDto} from "../../model/cargoChatMessageLogDto";
 import {CargoChatMessageLogService} from "../../services/cargoChatMessageLog.service";
-import {DialogCargoTypeComponent} from "../../cargoType/dialog/dialogCargoType.component";
 import {ChatMessageAddDialogComponent} from "./chat.message.add.dialog/chat.message.add.dialog.component";
 
 
@@ -40,7 +39,6 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
   legDisplayedColumns: string [] = ['name', 'address', 'country', 'countryCode', 'price', 'currency'];
   eventLogDisplayColumns: string [] = ['createdAt', 'eventType', 'cargoStatus', 'leg'];
   legDataSource: MatTableDataSource<LegDto>;
-  chatDisplayedColumns: string[] = ['companyName', 'messageText', 'createdAt', 'star'];
   dataSource: CargoDto;
   matTableDataSource: MatTableDataSource<CargoDto>;
   chatLogDataSource: CargoChatMessageLogDto[];
@@ -51,15 +49,16 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
   @ViewChild('legSort') legSort = new MatSort();
   @ViewChild('eventPaginator') eventPaginator: MatPaginator;
   @ViewChild('eventSort') eventSort: MatSort;
+  @ViewChild('chatPaginator') chatPaginator: MatPaginator;
   // @ts-ignore
   userRole = decode(localStorage.getItem('token')).sub;
   cargoStatusString: string;
   cargoStatusANALYZING = "ANALYZING";
-  cargoStatusPREPARING = "PREPARING";
   cargoStatusARRIVED = "ARRIVED";
 
   shipmentRole = "SHIPMENT_COMPANY";
   goodsRole = "GOODS_COMPANY";
+  currentChatItemsToShow: CargoChatMessageLogDto[];
 
   constructor(
     private routeService: RouteService,
@@ -83,7 +82,6 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.getCargoById();
     this.getCargoChatMessageLogsById();
-    console.log(this.chatLogDataSource);
 
   }
 
@@ -153,6 +151,7 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
     this.cargoChatMessageLogService.getCargoChatLogs(this.cargoId).subscribe({
       next: (chat) => {
         this.chatLogDataSource = chat;
+        this.currentChatItemsToShow = this.chatLogDataSource;
       },
       error: () => {
         this.snackbar.open("No chat logged!", 'Ok', {duration: 2000});
@@ -252,60 +251,6 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
       }
     });
   }
-
-  redirectToDeploy() {
-    const message = `Are you sure you want to Deploy?`;
-
-    const dialogData = new RouteConfirmDialogModel("Confirm Action", message);
-
-    const dialogRef = this.dialog.open(RouteConfirmDialogComponent, {
-      maxWidth: "400px",
-      data: dialogData
-    });
-
-    dialogRef.afterClosed().subscribe(dialogResult => {
-      if (dialogResult) {
-        this.cargoService.rejectCargo(this.cargoId)
-          .subscribe({
-            next: () => {
-              this.snackbar.open("Executed Successfully", 'Ok', {duration: 2000})
-              this.getAllCargo();
-            },
-            error: () => {
-              this.snackbar.open("Error while executing", 'Error', {duration: 2000});
-            }
-          })
-      }
-    });
-  }
-
-
-  redirectToCancel() {
-    const message = `Are you sure you want to Cancel?`;
-
-    const dialogData = new RouteConfirmDialogModel("Confirm Action", message);
-
-    const dialogRef = this.dialog.open(RouteConfirmDialogComponent, {
-      maxWidth: "400px",
-      data: dialogData
-    });
-
-    dialogRef.afterClosed().subscribe(dialogResult => {
-      if (dialogResult) {
-        this.cargoService.rejectCargo(this.cargoId)
-          .subscribe({
-            next: () => {
-              this.snackbar.open("Executed Successfully", 'Ok', {duration: 2000})
-              this.getAllCargo();
-            },
-            error: () => {
-              this.snackbar.open("Error while executing", 'Error', {duration: 2000});
-            }
-          })
-      }
-    });
-  }
-
   openToAddMessage() {
     this.dialog2.open(ChatMessageAddDialogComponent, {
       width: '50%',
@@ -315,24 +260,22 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
         senderRole: this.userRole
       }
     }).afterClosed().subscribe(value => {
-      if (value === 'save') {
-        this.getCargoChatMessageLogsById();
-      }
+
+      this.getCargoChatMessageLogsById();
     })
   }
 
-  openToEditMessage(msg:any) {
+  openToEditMessage(msg: any) {
     this.dialog2.open(ChatMessageAddDialogComponent, {
       width: '50%',
       data: {
-        chatId:msg.chatId,
+        chatId: msg.chatId,
         cargoId: this.cargoId,
-        messageText:msg.messageText,
+        messageText: msg.messageText,
       }
     }).afterClosed().subscribe(value => {
-      if (value === 'save') {
-        this.getCargoChatMessageLogsById();
-      }
+      this.getCargoChatMessageLogsById();
+
     })
   }
 
@@ -361,5 +304,12 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
     });
 
   }
+
+  onPageChange($event) {
+    this.currentChatItemsToShow = this.chatLogDataSource.slice($event.pageIndex * $event.pageSize,
+      $event.pageIndex * $event.pageSize + $event.pageSize);
+  }
+
+
 }
 
