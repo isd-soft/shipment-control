@@ -1,8 +1,7 @@
 # Shipment Control
 
-[
-![logo](https://github.com/isd-soft/shipment-control/blob/main/ShipmentControlfrontend/src/assets/shipment-controlll.png?raw=true)
-](url)
+![—Pngtree—big isolated vehicle vector colorful_7255140](https://user-images.githubusercontent.com/105589952/189924172-f43d19c1-c332-4ddb-b336-1053b2f252fe.png)
+
 
 
 
