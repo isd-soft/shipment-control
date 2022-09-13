@@ -99,7 +99,7 @@ export class TransportsComponent implements OnInit, AfterViewInit {
     let cargoTypes = "";
 
     element.cargoTypes.forEach(name => {
-      cargoTypes += name.name + ", ";
+      cargoTypes += name.name + " ; ";
     })
     return cargoTypes;
   }
