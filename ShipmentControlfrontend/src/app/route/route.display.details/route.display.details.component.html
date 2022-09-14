@@ -84,7 +84,7 @@
             <tr mat-header-row *matHeaderRowDef="legDisplayedColumns; sticky:true"></tr>
             <tr mat-row *matRowDef="let row; columns: legDisplayedColumns;"></tr>
           </table>
-          <mat-paginator #legPaginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
+          <mat-paginator #legPaginator [pageSizeOptions]="[3, 5, 10, 15]" showFirstLastButtons></mat-paginator>
         </section>
         <tr>
           <td class="first-column" style=""><h2>Itinerary Execution time:</h2></td>

@@ -34,8 +34,8 @@ export class RouteDisplayDetailsComponent implements OnInit {
   legDataSource: MatTableDataSource<LegDto>;
   currentRouteId: Params;
   routeDetails: RouteDetails[];
-  @ViewChild('transportPaginator') transportPaginator: MatPaginator;
-  @ViewChild('legPaginator') legPaginator: MatPaginator;
+  @ViewChild('transportPaginator') transportPaginator!: MatPaginator;
+  @ViewChild('legPaginator') legPaginator!: MatPaginator;
   @ViewChild('transportSort') transportSort = new MatSort();
   @ViewChild('legSort') legSort = new MatSort();
   dateForm!: FormGroup;
