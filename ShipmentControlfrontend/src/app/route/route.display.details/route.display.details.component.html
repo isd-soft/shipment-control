@@ -1,4 +1,4 @@
-<div class="container">
+<div class="mat-tab-container">
   <h1 mat-dialog-title>Route details</h1>
   <mat-tab-group dynamicHeight>
     <mat-tab label="General Route Information">
@@ -20,7 +20,7 @@
     </mat-tab>
     <mat-tab label="Transports Information">
       <div class="example-large-box mat-elevation-z4">
-        <section class="example-container" tabindex="0">
+        <section class="mat-elevation-z8" tabindex="0">
 
           <table mat-table [dataSource]="transportDataSource" matSort #transportSort="matSort">
             <!-- transportName Column -->
@@ -48,7 +48,7 @@
     </mat-tab>
     <mat-tab label="Itinerary Information">
       <div class="example-large-box mat-elevation-z4">
-        <section class="example-container" tabindex="0">
+        <section class="mat-elevation-z8" tabindex="0">
 
           <tr><h3>Leg information:</h3>
           </tr>
@@ -84,7 +84,7 @@
             <tr mat-header-row *matHeaderRowDef="legDisplayedColumns; sticky:true"></tr>
             <tr mat-row *matRowDef="let row; columns: legDisplayedColumns;"></tr>
           </table>
-          <mat-paginator #legPaginator [pageSizeOptions]="[3, 5, 10, 15]" showFirstLastButtons></mat-paginator>
+          <mat-paginator #legPaginator [pageSizeOptions]="[3, 5,]" showFirstLastButtons></mat-paginator>
         </section>
         <tr>
           <td class="first-column" style=""><h2>Itinerary Execution time:</h2></td>
@@ -95,15 +95,11 @@
   </mat-tab-group>
 </div>
 <div *ngIf="show()">
-  <form class="mat-form-date-picker" [formGroup]="dateForm" (ngSubmit)="onSubmit()">
-    <mat-form-field (click)="picker.open()">
-      <input matInput formControlName="pickedDate" [matDatepickerFilter]="dateFilter" [matDatepicker]="picker">
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-    <button mat-raised-button color="primary" type="submit">
-      Request the day
-    </button>
-  </form>
-  <button class="book-route-btn" mat-raised-button color="primary" (click)="bookRoute()">Book route</button>
+  <button class="button-date-picker" mat-raised-button color="primary" (click)="openDialogDatePicker()">
+    Request the day
+  </button>
+  <button class="book-route-btn" mat-raised-button color="primary" (click)="bookRoute()">
+    Book route
+  </button>
 </div>
+

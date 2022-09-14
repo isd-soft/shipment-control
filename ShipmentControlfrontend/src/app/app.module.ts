@@ -64,6 +64,7 @@ import {BookingRouteComponent} from "./booking-route/booking-route.component";
 import {BookingRequestComponent} from "./booking.request/booking.request.component";
 import {JWT_OPTIONS, JwtHelperService} from "@auth0/angular-jwt";
 import { ChatMessageAddDialogComponent } from './cargo-overview/cargo-overview.display.details/chat.message.add.dialog/chat.message.add.dialog.component';
+import { DatePickerComponent } from './route/route.display.details/date.picker/date.picker.component';
 
 @NgModule({
   declarations: [
@@ -89,7 +90,8 @@ import { ChatMessageAddDialogComponent } from './cargo-overview/cargo-overview.d
     CargoOverviewDisplayDetailsComponent,
     BookingRouteComponent,
     BookingRequestComponent,
-    ChatMessageAddDialogComponent
+    ChatMessageAddDialogComponent,
+    DatePickerComponent
 
   ],
   imports: [

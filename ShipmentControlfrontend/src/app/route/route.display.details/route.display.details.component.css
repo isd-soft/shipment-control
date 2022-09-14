@@ -1,34 +1,39 @@
 table {
   width: 100%;
 }
+
 .mat-column-select {
   width: 38px;
 }
+
 .example-container {
   max-width: 1100px;
   margin: 0 auto;
 }
+
 .mat-form-field {
   font-size: 14px;
   width: 100%;
 }
-.mat-dialog-title{
+
+.mat-dialog-title {
   margin-left: 40px;
 }
-.btn-request{
+
+.btn-request {
   position: fixed;
   bottom: 60px;
   right: 220px;
 }
-.mat-form-date-picker{
-  position: fixed;
-  width: 120px;
-  bottom: 10px;
 
+.button-date-picker {
+  position: fixed;
+  width: 130px;
+  bottom: 10px;
 }
 
 .book-route-btn {
   position: fixed;
-  right: 0px;
-  bottom: 0px;
+  right: 0;
+  bottom: 10px;
 }

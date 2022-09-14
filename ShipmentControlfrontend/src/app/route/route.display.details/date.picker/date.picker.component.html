@@ -1,0 +1,11 @@
+<div mat-dialog-content>
+  <form class="mat-form-date-picker" [formGroup]="dateForm">
+    <mat-form-field (click)="picker.open()">
+      <input matInput formControlName="pickedDate" [matDatepickerFilter]="dateFilter" [matDatepicker]="picker" disabled>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker disabled="false"></mat-datepicker>
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="addDateRequest()">Request the day</button>
+    <button mat-raised-button color="warn" mat-dialog-close="">Close</button>
+  </form>
+</div>

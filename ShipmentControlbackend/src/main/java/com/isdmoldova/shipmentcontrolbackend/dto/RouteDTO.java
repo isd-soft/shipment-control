@@ -17,5 +17,6 @@ public class RouteDTO {
     private Double maxLoadVolume;
     private Long estimatedAmountTimeShipment;
     private String routeDescription;
+    private String providerCompany;
 
 }

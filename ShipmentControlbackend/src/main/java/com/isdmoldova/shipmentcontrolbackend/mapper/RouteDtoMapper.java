@@ -28,6 +28,7 @@ public class RouteDtoMapper {
         routeDTO.setAvailableDaysRentList(route.getAvailableDaysRent()
                 .stream().map(availableDaysRentDtoMapper::map).collect(Collectors.toList()));
         routeDTO.setMaxLoadVolume(route.getMaxLoadVolume());
+        routeDTO.setProviderCompany(route.getUser().getCompanyName());
         routeDTO.setRouteDescription(route.getDetailedRouteDescription());
         routeDTO.setMaximalLoadWeight(route.getMaximalLoadValue());
         routeDTO.setEstimatedAmountTimeShipment(route.getItinerary().getDaysOfExecution());

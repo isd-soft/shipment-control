@@ -8,11 +8,9 @@ import {TransportDto} from "../../model/transport.dto";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {LegDto} from "../../model/leg.dto";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {BookingRequestService} from "../../services/BookingRequest.service";
-import {BookingRequestCommand} from "../../services/BookingRequestCommand";
-import {DatePipe} from "@angular/common";
 import decode from "jwt-decode";
+import {DatePickerComponent} from "./date.picker/date.picker.component";
+import {MatDialog} from "@angular/material/dialog";
 
 export interface RouteDetails {
   name: string;
@@ -38,7 +36,6 @@ export class RouteDisplayDetailsComponent implements OnInit {
   @ViewChild('legPaginator') legPaginator!: MatPaginator;
   @ViewChild('transportSort') transportSort = new MatSort();
   @ViewChild('legSort') legSort = new MatSort();
-  dateForm!: FormGroup;
   daysCalendar: string[] = [];
   finalArr: (undefined | number)[] = [];
   itineraryExecutionTime: number;
@@ -49,19 +46,14 @@ export class RouteDisplayDetailsComponent implements OnInit {
     private routeService: RouteService,
     private snackbar: MatSnackBar,
     private router: Router,
-    private route: ActivatedRoute,
-    private bookingRequestService: BookingRequestService,
-    private formBuilder: FormBuilder,
-    private datePipe: DatePipe) {
+    private dialog: MatDialog,
+    private route: ActivatedRoute) {
     this.transportDataSource = new MatTableDataSource();
     this.legDataSource = new MatTableDataSource();
   }
 
   ngOnInit(): void {
     this.getRouteById();
-    this.dateForm = this.formBuilder.group({
-      pickedDate: new FormControl('', [Validators.required])
-    });
   }
 
   getCargoTypeNames(element: any): string {
@@ -99,6 +91,7 @@ export class RouteDisplayDetailsComponent implements OnInit {
           this.itineraryExecutionTime = res.itineraryDTO.executionTime;
           this.routeDetails = [
             {name: "Route Description", content: this.dataSource.routeDescription},
+            {name: "Shipment Company", content: this.dataSource.providerCompany},
             {name: "Available days", content: this.getAvailableDays(this.dataSource)},
             {name: "Maximum load weight", content: this.dataSource.maximalLoadWeight.toString()},
             {name: "Estimate time for delivering", content: this.dataSource.estimatedAmountTimeShipment.toString()}
@@ -106,7 +99,7 @@ export class RouteDisplayDetailsComponent implements OnInit {
           this.legDataSource = new MatTableDataSource<LegDto>(res.itineraryDTO.legDTOS);
           this.legDataSource.paginator = this.legPaginator;
           this.legDataSource.sort = this.legSort;
-
+          this.convert();
         },
         error: () => {
           this.snackbar.open("Error while fetching the the record!!", 'Error', {duration: 2000});
@@ -136,36 +129,18 @@ export class RouteDisplayDetailsComponent implements OnInit {
     {name: 'Saturday', id: 6}
   ]
 
-  dateFilter = (d: Date): boolean => {
-    this.convert();
-    const day = d.getDay();
-    return day !== this.finalArr[0] && day !== this.finalArr[1]
-      && day !== this.finalArr[2] && day !== this.finalArr[3]
-      && day !== this.finalArr[4] && day !== this.finalArr[5]
-      && day !== this.finalArr[6]
-  }
-
-
-  onSubmit() {
-    console.log(this.dateForm.value);
-    const date = this.dateForm.controls['pickedDate'].value;
-    if (date != '') {
-      const data: BookingRequestCommand = {
+  openDialogDatePicker() {
+    this.dialog.open(DatePickerComponent, {
+      width: '30%',
+      data: {
+        finalArr: this.finalArr,
         routeId: this.currentRouteId['routeId'],
-        localDateRequested: this.datePipe.transform(date, "yyyy-MM-dd"),
       }
-      this.bookingRequestService.addBookingRequest(data)
-        .subscribe({
-          next: () => {
-            this.snackbar.open("The request was sent successfully!", 'Ok', {duration: 2000});
-          },
-          error: () => {
-            this.snackbar.open("Error while requesting the day", 'Error', {duration: 2000});
-          }
-        })
-    } else {
-      this.snackbar.open("Please provide a valid day!", 'Error', {duration: 2000});
-    }
+    }).afterClosed().subscribe(value => {
+      if (value === 'ok') {
+        this.getRouteById();
+      }
+    })
   }
 
   bookRoute(): void {

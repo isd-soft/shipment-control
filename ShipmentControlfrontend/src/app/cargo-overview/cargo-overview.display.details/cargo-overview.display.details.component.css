@@ -26,12 +26,12 @@ table {
   right: 220px;
 }
 
-.mat-form-date-picker {
+/*.mat-form-date-picker {
   position: fixed;
   width: 120px;
   bottom: 10px;
 
-}
+}*/
 
 section {
   display: table;
