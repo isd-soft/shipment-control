@@ -25,7 +25,8 @@ import decode from "jwt-decode";
   styleUrls: ['./route.component.css']
 })
 export class RouteComponent implements OnInit {
-  displayedColumns: string[] = ['routeDescription', 'availableDaysRent', 'origin', 'destination', 'details', 'edit', 'delete'];
+  displayedColumnsForShipment: string[] = ['routeDescription', 'availableDaysRent', 'origin', 'destination', 'details', 'edit', 'delete'];
+  displayedColumnsForGoods: string[] = ['routeDescription', 'availableDaysRent', 'origin', 'destination', 'details'];
   dataSource: MatTableDataSource<RouteDto>;
   selection = new SelectionModel<RouteDto>(true, []);
   @ViewChild('paginator') paginator: MatPaginator;
@@ -59,8 +60,11 @@ export class RouteComponent implements OnInit {
     this.getAllRoutes();
   }
 
-  show(): boolean {
-    return this.userRole === '[ROLE_SHIPMENT_COMPANY]';
+  showDisplayedColumn(): string[] {
+    if(this.userRole === '[ROLE_SHIPMENT_COMPANY]')
+    {return this.displayedColumnsForShipment}
+
+    return this.displayedColumnsForGoods;
   }
 
   getOrigin(element: ItineraryDto): string {
