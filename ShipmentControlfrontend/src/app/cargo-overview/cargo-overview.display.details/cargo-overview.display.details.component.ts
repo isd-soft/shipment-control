@@ -77,6 +77,7 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
 
   cargoId = this.router.snapshot.params["id"];
   trackingNumber: string;
+  chatLogLength: number;
 
 
   ngOnInit(): void {
@@ -152,6 +153,7 @@ export class CargoOverviewDisplayDetailsComponent implements OnInit {
       next: (chat) => {
         this.chatLogDataSource = chat;
         this.currentChatItemsToShow = this.chatLogDataSource;
+        this.chatLogLength=chat.length;
       },
       error: () => {
         this.snackbar.open("No chat logged!", 'Ok', {duration: 2000});

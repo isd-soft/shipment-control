@@ -68,7 +68,7 @@ class EventServiceImpl implements EventService {
         final String subject = "The Cargo has ARRIVED at the next LEG.";
         final String textToGoods = "Hello dear " + goodsName + ",\n\nThe cargo with Tracking Number: "
                 + cargo.getTrackingNumber() + ", booked on date: " + cargo.getBookingDate()
-                + ",\nHas ARRIVED at the leg: " + cargo.getCurrentLeg().getAddress()
+                + ",\nHas ARRIVED at the leg: " + cargo.getCurrentLeg().getAddress()+" - "
                 + cargo.getCurrentLeg().getCountry()
                 + ".\n\nPlease make sure to check the status and follow based on the information provided."
                 + "\n\n\n\nBest regards, \nShipment Control Service Tech Team.";

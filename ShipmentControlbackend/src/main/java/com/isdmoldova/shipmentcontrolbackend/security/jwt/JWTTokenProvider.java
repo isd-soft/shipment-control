@@ -23,7 +23,7 @@ import java.util.Map;
 public class JWTTokenProvider {
     @Value("${jwt.secret}")
     public String secret;
-    private static final long EXPIRATION_TIME = 6_000_000; // 10 min
+    private static final long EXPIRATION_TIME = 12_000_000; // 2 hours
 
 
     public String generateToken(Authentication authentication) {
