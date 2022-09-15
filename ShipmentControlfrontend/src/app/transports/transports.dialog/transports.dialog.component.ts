@@ -38,10 +38,11 @@ export class TransportsDialogComponent implements OnInit {
     if (this.editData) {
       this.actionBtn = "Update";
       this.transportTypeForm.controls['transportName'].setValue(this.editData.transportName);
-      /*let selectedType = this.transportTypeDtoList.find(value => value.label==this.editData.transportType);
-      this.transportTypeForm.controls['transportType'].setValue(selectedType);
-    this.transportTypeForm.controls['cargoTypes'].setValue(this.editData.cargoTypes);*/
+      //let selectedType = this.transportTypeDtoList.find(value => value.label==this.editData.transportType);
+     // this.transportTypeForm.controls['transportType'].setValue(this.editData.transportType);
+   // this.transportTypeForm.controls['cargoTypes'].setValue(this.editData.cargoTypes);
     }
+
 
     this.getAllCargoTypes();
     this.getAllTransportTypes();

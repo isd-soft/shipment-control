@@ -36,9 +36,6 @@ public class PDFExportController {
         String headerValue = "attachment; filename=pdf_" + currentDateTime + ".pdf";
         response.setHeader(headerKey, headerValue);
 
-
-        CargoDTO cargoDTO = cargoService.findById(id);
-//        this.pdfGeneratorService.export(response, cargoDTO.getId(), principal);
         this.pdfGeneratorService.export(response, id);
 
     }

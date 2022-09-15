@@ -47,7 +47,7 @@ public class PDFGeneratorService {
         Paragraph paragraph2 = new Paragraph(
                 "TO: " + cargoDTO.getUser()
                         + "\nSENT BY: " + cargoDTO.getProvider()
-                        + "\nNo. " + cargoDTO.getBookingDate().format(DateTimeFormatter.ofPattern("ddMMMyy"))
+                        + "\nNo. " + cargoDTO.getTrackingNumber()
                         + "\nDATE: " + date
                         + "\nBank Details & Payment Information"
                         + "\nIBAN MD90AG000000022591234567"
