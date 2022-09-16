@@ -32,7 +32,7 @@ export class RegistrationPageComponent implements OnInit {
       email: fb.control('', [Validators.email]),
       userName: fb.control('', [Validators.required]),
       companyName: fb.control('', [Validators.required]),
-      telephoneNumber: fb.control('', [Validators.required, Validators.pattern("^[0-9]*$"),  Validators.maxLength(10)]),
+      telephoneNumber: fb.control('', [Validators.required, Validators.pattern("^[0-9]*$"),  Validators.maxLength(15)]),
       password: fb.control('', [Validators.required]),
       confirmPassword: fb.control('', [Validators.required]),
 
